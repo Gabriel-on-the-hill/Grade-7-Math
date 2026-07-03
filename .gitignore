@@ -1,0 +1,16 @@
+# Third-party / copyrighted source material — NEVER publish
+*.pdf
+Curriculum/
+MCAP RELEASES PER TOPIC/
+Textbooks/
+
+# Private student data — do not publish
+Fareedah/
+Class Summaries for February
+
+# Engine backups / scratch / junk
+*.v1bak
+*.log
+outputs/
+.DS_Store
+_gicheck_tmp/

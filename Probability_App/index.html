@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability Quest: Monster Evolution</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- Header & Top Stats -->
+        <header>
+            <div class="logo">
+                <span class="monster-char">🐲</span>
+                <h1>PROBABILITY QUEST</h1>
+            </div>
+            <div class="stats">
+                <p id="evolution-label">Incubation Stage</p>
+                <div class="progress-bar-container">
+                    <div id="xp-bar" class="progress-bar"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Menu Screen -->
+        <section id="menu-screen" class="active">
+            <div class="monster-stage">
+                <img id="current-monster-img" src="assets/monster_egg.png" alt="Your Monster">
+            </div>
+            <div class="tier-grid">
+                <button class="tier-card" id="tier-1-btn">
+                    <span class="tier-icon">🥚</span>
+                    <div class="tier-info">
+                        <h3>Tier 1: Simple Events</h3>
+                        <p id="tier-1-status">Start Quest!</p>
+                    </div>
+                </button>
+                <button class="tier-card locked" id="tier-2-btn" disabled>
+                    <span class="tier-icon">🐣</span>
+                    <div class="tier-info">
+                        <h3>Tier 2: Predictions</h3>
+                        <p id="tier-2-status">Locked</p>
+                    </div>
+                </button>
+                <button class="tier-card locked" id="tier-3-btn" disabled>
+                    <span class="tier-icon">🐉</span>
+                    <div class="tier-info">
+                        <h3>Tier 3: Compound</h3>
+                        <p id="tier-3-status">Locked</p>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Question Screen -->
+        <section id="question-screen">
+            <div class="question-header">
+                <p id="question-index">Question 1/12</p>
+                <button id="back-to-menu" class="secondary-btn">Exit Quest</button>
+            </div>
+            <div id="question-text">Loading question...</div>
+            <div id="question-visuals" class="visual-container hidden"></div>
+            <div id="options-container" class="options-grid"></div>
+            <div id="feedback-area" class="feedback-box hidden">
+                <span id="feedback-icon"></span>
+                <p id="feedback-message"></p>
+            </div>
+            <button id="next-question-btn" class="primary-btn hidden"
+                style="margin-top:20px; align-self: flex-end;">Next Question →</button>
+        </section>
+
+        <!-- Result/Congratulatory Screen -->
+        <section id="result-screen">
+            <div class="evolution-animation">
+                <h2 id="congrats-title">WELL DONE!</h2>
+                <div class="monster-stage">
+                    <img id="evo-monster-img" src="assets/monster_egg.png" style="width: 200px;">
+                    <div class="evo-flash"></div>
+                </div>
+                <div class="score-circle" id="final-score">0/0</div>
+                <p id="submission-text" style="font-weight:bold; color:var(--primary); margin: 10px 0;"></p>
+                <button id="copy-summary-btn" class="secondary-btn">Copy Result for Teacher</button>
+            </div>
+            <div id="solutions-list"
+                style="margin-top:20px; text-align:left; overflow-y:auto; flex-grow:1; max-height: 250px; background: #fdfdfd; padding: 15px; border-radius: 10px;">
+                <!-- Filled by JS -->
+            </div>
+            <button id="finish-tier-btn" class="primary-btn" style="margin-top:20px;">Return to Backpack</button>
+        </section>
+
+        <div id="toast" class="hidden">Message here</div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
