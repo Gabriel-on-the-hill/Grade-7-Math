@@ -10,6 +10,9 @@ Class Summaries for February
 
 # Engine backups / scratch / junk
 *.v1bak
+*.v*bak
+node_modules/
+tests/package*.json
 *.log
 outputs/
 .DS_Store

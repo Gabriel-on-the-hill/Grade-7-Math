@@ -102,6 +102,19 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
 .mc-feedback.correct{color:var(--ok)} .mc-feedback.wrong{color:var(--bad)}
 .mc-option.cooldown{pointer-events:none;opacity:.7}
 .step.locked .ans-input,.step.locked button,.step.locked .mc-option,.step.locked .ms-option{opacity:.5}
+/* v1.4.2 anti-cheat: question text not selectable/copyable (typing areas stay editable) */
+.qcard{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+.qcard input,.qcard textarea{-webkit-user-select:text;-moz-user-select:text;user-select:text}
+/* v1.4.3 section report card (student-facing per-section progress) */
+.sec-report{background:#fff;border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;margin-bottom:1.2rem}
+.sec-report h3{margin:0 0 .5rem;font-size:.95rem;color:var(--pitch-green)}
+.sec-row{display:flex;align-items:center;gap:.6rem;margin:.3rem 0;font-size:.85rem}
+.sec-row a{flex:none;width:220px;max-width:44%;color:var(--navy);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sec-row a:hover{color:var(--pitch-green)}
+.sec-row .bar{flex:1;height:7px;background:#EDEBE2;border-radius:99px;overflow:hidden}
+.sec-row .bar>span{display:block;height:100%;background:var(--gold);border-radius:99px}
+.sec-row.full .bar>span{background:var(--ok)}
+.sec-row .val{flex:none;width:96px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -187,12 +200,12 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
   <div class="qcard" data-qid="r1-2"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Unit rates with fractions</span></div><div class="qbody">
     <div class="step"><div class="step-label">Q3 &middot; <span class="math">3/4</span> mile in <span class="math">1/2</span> hour = miles per hour</div>
       <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:MS41" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
-      <button class="hint-btn">Hint</button><div class="hint-content"><span class="math">3/4 &divide; 1/2 = 3/4 &times; 2 = 3/2 = 1.5</span>.</div></div>
+      <button class="hint-btn">Hint</button><div class="hint-content">Dividing by <span class="math">1/2</span> is the same as multiplying by 2.</div></div>
   </div></div>
   <div class="qcard" data-qid="r1-3"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Better buy</span></div><div class="qbody">
     <div class="step"><div class="step-label">Q4 &middot; Which is the better buy?</div>
-      <div class="mc-group"><button class="mc-option" data-k="k1:MHwx">$3 for 5 ($0.60 each)</button><button class="mc-option" data-k="k1:MXww">$5 for 8 ($0.625 each)</button></div>
-      <div class="mc-feedback">Compare unit prices: $0.60 &lt; $0.625.</div></div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MHwx">$3 for 5 markers</button><button class="mc-option" data-k="k1:MXww">$5 for 8 markers</button></div>
+      <div class="mc-feedback">Compare unit prices: $3 &divide; 5 = $0.60 each, but $5 &divide; 8 = $0.625 each — so $3 for 5 is the better buy.</div></div>
   </div></div>
   </section>
 
@@ -229,8 +242,7 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
   </div>
   <div class="qcard" data-qid="r3-1" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; constant of proportionality</span></div><div class="qbody">
     <div class="step"><div class="step-label">MCAP item &middot; A proportional relationship passes through (2, 6) and (3, 9). What is the constant of proportionality?</div>
-      <div class="input-row"><span class="lbl">k =</span><input type="number" class="ans-input" data-answer="k1:Mw==" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button>
-      <button class="hint-btn">Hint</button><div class="hint-content"><span class="math">6/2 = 3</span> and <span class="math">9/3 = 3</span>.</div></div>
+      <div class="input-row"><span class="lbl">k =</span><input type="number" class="ans-input" data-answer="k1:Mw==" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
   </div></div>
   <div class="qcard" data-qid="r3-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Unit rate from a point</span></div><div class="qbody">
     <div class="step"><div class="step-label">Q &middot; A proportional line passes through (4, 10). What is the unit rate r (value at x = 1)?</div>
@@ -247,7 +259,7 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
   <div class="qcard" data-qid="r4-1"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Solve the proportion</span></div><div class="qbody">
     <div class="step"><div class="step-label">Q1 &middot; <span class="math">5/8 = 15/x</span>, x =</div>
       <div class="input-row"><input type="number" class="ans-input" data-answer="k1:MjQ=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button>
-      <button class="hint-btn">Hint</button><div class="hint-content"><span class="math">5x = 8&times;15 = 120</span>, so <span class="math">x = 24</span>.</div></div>
+      <button class="hint-btn">Hint</button><div class="hint-content">Cross-multiply: <span class="math">5x = 8 &times; 15</span>, then divide both sides by 5.</div></div>
   </div></div>
   <div class="qcard" data-qid="r4-2"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Scale drawing &amp; recipe</span></div><div class="qbody">
     <div class="step"><div class="step-label">Q2 &middot; On a map, 1 inch = 50 miles. How many miles is 3.5 inches?</div>
@@ -291,7 +303,7 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
       <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:NjA=" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
     <div class="step locked"><div class="step-label">Step 3 &middot; Simple interest on $500 at 4% for 3 years ($)</div>
       <div class="input-row"><span class="lbl">I =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:NjA=" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
-      <button class="hint-btn">Hint</button><div class="hint-content"><span class="math">I = 500 &times; 0.04 &times; 3 = 60</span>.</div></div>
+      <button class="hint-btn">Hint</button><div class="hint-content">Use <span class="math">I = p &times; r &times; t</span> with the rate written as a decimal.</div></div>
   </div></div>
   <div class="qcard" data-qid="r6-ex" data-exam="1"><div class="qhead"><span class="qtag exam">Exam &middot; select all</span><span class="qtitle">MCAP &middot; meal with 15% tip</span></div><div class="qbody">
     <p>A meal costs <span class="math">p</span> dollars. A 15% tip is added. Which expressions give the <strong>total cost</strong>? Select all that apply.</p>
@@ -303,8 +315,7 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
         <button class="ms-option" data-k="k1:MTB8MQ=="><span class="box"></span><span class="math">p + 0.15p</span></button>
         <button class="ms-option" data-k="k1:MTF8MA=="><span class="box"></span><span class="math">p + 1.15p</span></button>
       </div>
-      <button class="check-btn ms-check">Check</button>
-      <button class="hint-btn">Hint</button><div class="hint-content">Total = price + 15% of price = <span class="math">p + 0.15p = 1.15p</span>.</div></div>
+      <button class="check-btn ms-check">Check</button></div>
   </div></div>
   </section>
 
@@ -318,14 +329,13 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
       <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:NjM=" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
     <div class="step locked"><div class="step-label">Step 2 &middot; final price with 8% tax ($)</div>
       <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:NjguMDQ=" data-tol="0.01"/><span class="feedback"></span></div><button class="check-btn">Check</button>
-      <button class="hint-btn">Hint</button><div class="hint-content"><span class="math">63 &times; 1.08 = 68.04</span>.</div></div>
+      <button class="hint-btn">Hint</button><div class="hint-content">Adding 8% tax means multiplying the Step 1 price by 1.08.</div></div>
   </div></div>
   <div class="qcard" data-qid="r7-ex" data-exam="1"><div class="qhead"><span class="qtag exam">Exam &middot; explain</span><span class="qtitle">MCAP &middot; pump rates (constructed response)</span></div><div class="qbody">
     <p>Three pumps fill a hot tub. The slowest fills it in 90 minutes. Pump k fills 90 gallons in 3 minutes; the slowest fills 40 gallons in 8 minutes. Explain how to find how long the fastest pump (k) takes to fill the same hot tub, and give the time.</p>
     <div class="step"><div class="step-label">MCAP constructed response &middot; explain your reasoning</div>
       <textarea class="cr-area" placeholder="Explain using unit rates..."></textarea>
-      <button class="check-btn cr-save">Save response</button>
-      <button class="hint-btn">Hint</button><div class="hint-content">Slowest = 5 gal/min, pump k = 30 gal/min (6&times; faster). The hot tub volume = 5&times;90 = 450 gal, so k takes <span class="math">450 &divide; 30 = 15</span> minutes.</div></div>
+      <button class="check-btn cr-save">Save response</button></div>
   </div></div>
   </section>
 
@@ -441,9 +451,28 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
   document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.matches('.ans-input')){e.preventDefault();var step=e.target.closest('.step');if(step){var b=step.querySelector('.check-btn');if(b&&!b.classList.contains('ms-check')&&!b.classList.contains('cr-save'))b.click();else checkInput(e.target);}else checkInput(e.target);}});
   document.querySelectorAll('.step.locked').forEach(function(s){setStepDisabled(s,true);});
   document.addEventListener('wheel',function(e){if(e.target&&e.target.matches&&e.target.matches('.ans-input')&&document.activeElement===e.target)e.target.blur();},{passive:true});
+  /* v1.4.2 anti-cheat: block copy/cut from question cards (typing areas exempt) */
+  ['copy','cut'].forEach(function(ev){document.addEventListener(ev,function(e){var t=e.target;if(t&&t.closest&&t.closest('.qcard')&&!(t.matches&&t.matches('input,textarea')))e.preventDefault();});});
+  /* v1.4.2 anti-cheat: shuffle MC/MS options on load (3+ options only; add data-noshuffle to a group to opt out) */
+  document.querySelectorAll('.mc-group,.ms-group').forEach(function(g){if(g.hasAttribute('data-noshuffle'))return;var o=Array.prototype.slice.call(g.querySelectorAll('.mc-option,.ms-option'));if(o.length<3)return;for(var i=o.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=o[i];o[i]=o[j];o[j]=t;}o.forEach(function(b){g.appendChild(b);});});
 
   function countAllSteps(){return document.querySelectorAll('.qcard .step').length;}
-  function refreshOverall(){var d=loadData(),done=0;document.querySelectorAll('.qcard').forEach(function(c){var q=c.dataset.qid;if(q&&d[q]&&d[q].steps)done+=Object.keys(d[q].steps).filter(function(k){return d[q].steps[k];}).length;});var tot=countAllSteps();document.getElementById('op-done').textContent=done;document.getElementById('op-total').textContent=tot;document.getElementById('op-pct').textContent=(tot?Math.round(done/tot*100):0)+'%';}
+  function refreshOverall(){var d=loadData(),done=0;document.querySelectorAll('.qcard').forEach(function(c){var q=c.dataset.qid;if(q&&d[q]&&d[q].steps)done+=Object.keys(d[q].steps).filter(function(k){return d[q].steps[k];}).length;});var tot=countAllSteps();document.getElementById('op-done').textContent=done;document.getElementById('op-total').textContent=tot;document.getElementById('op-pct').textContent=(tot?Math.round(done/tot*100):0)+'%';renderSecReport();}
+  /* v1.4.3: student-facing per-section report card, injected after the overall progress box */
+  function renderSecReport(){
+    var host=document.querySelector('.overall-progress');if(!host)return;
+    var box=document.getElementById('sec-report');
+    if(!box){box=document.createElement('div');box.id='sec-report';box.className='sec-report';host.parentNode.insertBefore(box,host.nextSibling);}
+    var rows='';
+    document.querySelectorAll('section.topic').forEach(function(sec){
+      var steps=sec.querySelectorAll('.qcard .step');if(!steps.length)return;
+      var done=sec.querySelectorAll('.qcard .step.completed').length;
+      var h=sec.querySelector('h2');var name=(h?h.textContent:sec.id).replace(/[<>&]/g,'').trim();
+      var pct=steps.length?Math.round(done/steps.length*100):0;
+      rows+='<div class="sec-row'+(pct>=100?' full':'')+'"><a href="#'+sec.id+'">'+name+'</a><span class="bar"><span style="width:'+pct+'%"></span></span><span class="val">'+done+'/'+steps.length+' · '+pct+'%</span></div>';
+    });
+    if(rows)box.innerHTML='<h3>Your section scores</h3>'+rows; else box.style.display='none';
+  }
 
   function restoreProgress(){
     var nm=document.getElementById('g7name');if(nm)nm.textContent=g7current();
