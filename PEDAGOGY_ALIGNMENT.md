@@ -28,7 +28,7 @@ whole tree — and missing the retention layer entirely.
 | Mastery & sequencing | ● solid | no advanced concept before its prerequisite |
 | Assessment & feedback | ● solid | active check-and-feedback; hints never give the answer |
 | Motivation & UX | ◐ partial | honest mastery bars; anti-cheat; no gamification |
-| Adaptive & analytics | ◐ partial | per-topic tracking; no adaptive dose or calibration |
+| Adaptive & analytics | ◐ partial | per-topic tracking + acquisition-vs-retention readout (`AN-4` ✅) + per-skill ~85% calibration band (`AS-4` diagnostic ✅); auto difficulty-selection still needs difficulty-tagged item pools |
 
 ---
 
@@ -106,31 +106,38 @@ build it here, then confirm in Grade 8. Never surface an unstarted topic as "due
 
 ---
 
-## 2 · Calibrate difficulty toward ~85% success — `AS-4` · medium effort
+## 2 · Calibrate difficulty toward ~85% success — `AS-4` · ◑ diagnostic shipped (16 Jul 2026); auto-selection blocked on content
 
-**Gap.** Practice difficulty is fixed by the author; nothing adapts toward the ~85%-success sweet
-spot per student.
+**Finding.** The modules have **no difficulty metadata and no draw-from-pool Practice** — each is a
+fixed run of unique qcards shown top-to-bottom, ~1 Practice item per skill. So the literal spec ("bias
+selection toward harder/easier items within the author's difficulty range") **can't be built without
+content authoring**: tagging each Practice item's difficulty *and* adding several varied-difficulty
+items per skill so there's a pool to pick from. That is an author decision — inventing difficulty
+ratings or new problems would be fabrication and would lower the bar.
 
-**Where.** The Practice section logic in `Module_Template.html` (and re-stamp). `skillStats` already
-holds per-skill correct/attempts → rolling accuracy.
+**Shipped instead (the actionable core).** A per-skill **calibration band** on the teacher dashboard,
+from the first-attempt accuracy already in `skillStats`: **>90% → "too easy" (advance), <70% → "too
+hard" (re-teach / easier entry), else "on target (~85%)"**, min 4 attempts. It gives the teacher the
+exact lever to raise or lower difficulty by hand. Hub-only (`skillCalibration()` + a chip on each skill
+line), no engine/contract change; 4 assertions here (**107 pass**).
 
-**Implement.** Within a Practice section that has items across difficulties, bias selection toward
-harder items when a student's rolling accuracy on that skill is >~90%, easier when <~80%. Keep the
-author's ceiling/floor; calibrate only within it.
-
-**Verify.** Behavioral suite: seed high accuracy on a skill, assert the next practice draw skews
-harder.
+**Still open (needs content).** Difficulty-tagged item pools + an engine that auto-serves toward the
+sweet spot. Raise with the author before building.
 
 **Guardrails.** Representation-before-operations and the prerequisite flow still win — never calibrate
 a student *past* an unmet prerequisite.
 
 ---
 
-## 3 · Shared frontier (tracked here too) — `AN-4`
+## 3 · Durable-learning readout — `AN-4` · ✅ shipped (16 Jul 2026)
 
-**Durable-learning readout.** Once item 1 exists, retention = accuracy on due-review attempts, shown
-against first-time (acquisition) accuracy on the teacher dashboard. This is the number that
-distinguishes "forgot" from "never learned" — the exact thing the reports assert to parents.
+**Shipped.** The engine buckets every **first-attempt** by whether the topic was **due for review when
+the session started** (`_revWasDue`, snapshotted at load): due → **retention**, not-due →
+**acquisition** (four additive fields `acqFirst/acqCorrect/retFirst/retCorrect` that ride the topic
+record). The teacher dashboard renders **"Retrieval — first-time X% (a/b) · on review Y% (c/d)"** per
+topic, retention flagged red when it drops >15 pts below acquisition — the number that distinguishes
+"forgot" from "never learned," the exact thing the reports assert to parents. Teacher-gated
+(never student-readable). Built in both grades; 8 assertions here (**103 pass**).
 
 ---
 
