@@ -331,6 +331,18 @@ function load(file,seed,rnd){
   ok(!!d.querySelector('.lv.beyond')&&ll.textContent.includes('Stretch (beyond)'),'AS-4: stretch reported separately as beyond the standard');
   ok(!d.querySelector('.lv.beyond.low'),'AS-4: a low stretch score is never flagged as failure');
 })();
+// ---- SYNC: the connection test tells the truth (it used to claim success unconditionally) ----
+(function(){
+  const w=load('Grade_7_Math_Hub.html').window;
+  const pt=w.__hubPing.text;
+  ok(typeof pt==='function','sync: hub exposes the ping status formatter');
+  ok(/No response from that URL/.test(pt(null)),'sync: no response is reported as a failure, not "sent"');
+  ok(/No response from that URL/.test(pt({ok:false,error:'boom'})),'sync: an error reply is reported as a failure');
+  const good=pt({ok:true,sheet:'Study Hubs Cloud',id:'abc',log:42,sync:17});
+  ok(/Connected/.test(good),'sync: a live backend reports Connected');
+  ok(good.includes('Study Hubs Cloud'),'sync: the test names WHICH sheet it writes to');
+  ok(good.includes('42')&&good.includes('17'),'sync: the test reports Log/SyncStore row counts');
+})();
 // ---- Static regression checks on the fixed content ----
 (function(){
   const hub=fs.readFileSync(path.join(DIR,'Grade_7_Math_Hub.html'),'utf8');

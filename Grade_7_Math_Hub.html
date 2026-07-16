@@ -409,6 +409,23 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function initials(n){return String(n||'?').trim().split(/\s+/).map(function(w){return w[0]||'';}).slice(0,2).join('').toUpperCase();}
   function postSheet(p){var u=sheetURL();if(!u)return Promise.resolve();return fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)}).catch(function(){});}
+  /* Truthful connection test. The post path is no-cors — its response is opaque, so it can never
+     tell you anything; the old test said "sent" even against a dead URL. The JSONP ping gives a
+     real signal (callback = alive, onerror/timeout = not) and names the Sheet it writes to. */
+  function syncPing(cb){
+    var u=sheetURL(); if(!u){cb(null);return;}
+    var done=false,nm='__hubping'+Math.floor(Math.random()*1e9),s=document.createElement('script');
+    function finish(r){if(done)return;done=true;clearTimeout(tm);try{delete window[nm];}catch(e2){}if(s.parentNode)s.parentNode.removeChild(s);cb(r);}
+    var tm=setTimeout(function(){finish(null);},8000);
+    window[nm]=function(r){finish(r||null);};
+    s.onerror=function(){finish(null);};
+    try{s.src=u+(u.indexOf('?')>=0?'&':'?')+'op=ping&cb='+nm;document.head.appendChild(s);}catch(e){finish(null);}
+  }
+  function pingStatusText(r){
+    if(!r||!r.ok)return 'No response from that URL. Check the deployment — Web app, Execute as: Me, Who has access: Anyone — and that the URL ends in /exec.';
+    return 'Connected ✓ writing to “'+r.sheet+'” — Log '+r.log+' rows, SyncStore '+r.sync+' rows.';
+  }
+  window.__hubPing={text:pingStatusText};
 
   /* Per-subject skill labels (drive the struggle dashboard). Merged into SKILL_LABELS below. */
   var MATH_SKILLS={
@@ -935,9 +952,11 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
       document.getElementById('sheet-status').textContent=u?'Saved. Sheet logging is on.':'Cleared. Sheet logging is off.';
     };
     document.getElementById('btn-test-sheet').onclick=function(){
-      if(!sheetURL()){document.getElementById('sheet-status').textContent='Save a URL first.';return;}
+      var st=document.getElementById('sheet-status');
+      if(!sheetURL()){st.textContent='Save a URL first.';return;}
+      st.textContent='Testing…';
       postSheet({student:current()||'(teacher test)',topic:'Hub',question:'-',event:'test',detail:'Connection test',ts:Date.now()});
-      document.getElementById('sheet-status').textContent='Test row sent. Check your Google Sheet (Log tab).';
+      syncPing(function(r){st.textContent=pingStatusText(r);});
     };
     document.getElementById('btn-save-pass').onclick=function(){
       var v=document.getElementById('pass-set').value;
