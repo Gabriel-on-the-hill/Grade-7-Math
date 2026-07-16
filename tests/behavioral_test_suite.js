@@ -3,7 +3,8 @@
  * Covers: gate, sign-in → PIN → app, device binding, teacher modal + dashboard,
  * module wrong→retry→correct, struggle logging, exam first-attempt-only,
  * fraction equivalence + simplify nudge, locked steps, persistence, settings gate.
- * 69 assertions (incl. v1.4.2 anti-cheat and the v1.4.3 section report card). Exit code 0 = all pass.
+ * 85 assertions (incl. v1.4.2 anti-cheat, the v1.4.3 section report card, and the MR-1
+ * spaced-review due-for-review ladder). Exit code 0 = all pass.
  */
 const {JSDOM}=require('jsdom');const fs=require('fs');const path=require('path');
 const DIR=(process.argv[2]||'.').replace(/\/?$/,'/');
@@ -201,6 +202,70 @@ function load(file,seed,rnd){
   const card=d.querySelector('.tcard.avail[data-id="number-system"]');
   ok(card&&card.innerHTML.includes('secbars'),'hub: student card shows section bars');
   ok(card.innerHTML.includes('Section 1: 0/10'),'hub: bar tooltip has section counts');
+})();
+// ---- MR-1: spaced review — due-for-review ladder (read-only over g7.data) ----
+(function(){
+  const DAY=86400000, now=Date.now();
+  const R=load('Grade_7_Math_Hub.html').window.__hubReview;
+  ok(R&&typeof R.due==='function','review: hub exposes __hubReview API');
+  ok(R.rungs.join(',')==='1,3,7,21,42','review: ladder rungs are 1/3/7/21/42 days');
+  ok(R.streak({attempts:20,correct:19,skillStats:{}})===4,'review: high accuracy + evidence earns the top rung');
+  ok(R.streak({attempts:20,correct:8,skillStats:{}})===0,'review: low accuracy stays on the bottom rung');
+  ok(R.streak({attempts:1,correct:1,skillStats:{}})===0,'review: one lucky correct is not a streak (evidence cap)');
+  ok(R.streak({attempts:20,correct:19,skillStats:{roots:{attempts:8,misses:4}}})===3,'review: a currently-shaky skill pulls the rung back one');
+  ok(R.due({attempts:20,correct:19,skillStats:{},lastPracticed:now-50*DAY}).dueNow===true,'review: aged mastered topic is due (past its 42d rung)');
+  ok(R.due({attempts:20,correct:19,skillStats:{},lastPracticed:now-5*DAY}).dueNow===false,'review: just-practiced mastered topic is not due');
+  ok(R.due({attempts:0,correct:0,skillStats:{},lastPracticed:0})===null,'review: unstarted topic is never eligible');
+  ok(R.due({attempts:3,correct:1,skillStats:{},lastPracticed:now-2*DAY}).dueNow===true,'review: a shaky topic returns fast (1d rung)');
+  const topics={a:{attempts:20,correct:19,skillStats:{},lastPracticed:now-50*DAY},   // rung 42d, 8d overdue
+                b:{attempts:6,correct:5,skillStats:{},lastPracticed:now-40*DAY},      // rung 7d, 33d overdue
+                c:{attempts:10,correct:9,skillStats:{},lastPracticed:now}};           // just practiced
+  const list=R.list(topics,['a','b','c'],now);
+  ok(list.length===2,'review: only overdue topics are listed (just-practiced excluded)');
+  ok(list[0].id==='b'&&list[1].id==='a','review: most-overdue first');
+})();
+(function(){
+  const DAY=86400000, now=Date.now();
+  const seed=lp=>({students:{Fareedah:{topics:{'number-system':{title:'NS',tree:{},totalSteps:107,sectionTotals:{},lastPracticed:lp,attempts:20,correct:19,struggles:[],skillStats:{},exam:{attempts:0,correct:0},responses:[]}}}}});
+  const store=lp=>({'g7.data':JSON.stringify(seed(lp)),'g7.current':'Fareedah'});
+  const d=load('Grade_7_Math_Hub.html',store(now-50*DAY)).window.document;
+  const dr=d.getElementById('due-review');
+  ok(dr&&dr.querySelectorAll('.review-item').length===1,'review: hub surfaces a due item for an aged mastered topic');
+  ok(dr.textContent.includes('Number System Connections'),'review: due item names the topic');
+  ok(dr.querySelector('.review-item').getAttribute('data-id')==='number-system','review: due item links into its module');
+  const d2=load('Grade_7_Math_Hub.html',store(now)).window.document;
+  ok(d2.getElementById('due-review').innerHTML==='','review: nothing surfaced right after practice');
+})();
+// ---- MR-1 phase-2: stored streak wins over the inferred proxy ----
+(function(){
+  const DAY=86400000, now=Date.now();
+  const R=load('Grade_7_Math_Hub.html').window.__hubReview;
+  ok(R.streak({reviewStreak:2,attempts:1,correct:1,skillStats:{}})===2,'review(p2): stored reviewStreak overrides the inferred proxy');
+  ok(R.streak({reviewStreak:0,attempts:20,correct:19,skillStats:{}})===0,'review(p2): stored 0 wins even when accuracy is high');
+  ok(R.due({reviewStreak:4,attempts:1,correct:1,skillStats:{},lastPracticed:now-50*DAY}).dueNow===true,'review(p2): stored top rung schedules 42d (due at 50d)');
+  ok(R.due({reviewStreak:4,attempts:1,correct:1,skillStats:{},lastPracticed:now-10*DAY}).dueNow===false,'review(p2): stored top rung not due at 10d');
+})();
+// ---- MR-1 phase-2: module engine writes the streak per spaced session ----
+(function(){
+  const DAY=86400000, now=Date.now(), today=Math.floor(now/DAY);
+  const mk=(rs,rd)=>{const t={title:'NS',tree:{},totalSteps:107,sectionTotals:{},lastPracticed:now,attempts:0,correct:0,struggles:[],skillStats:{},exam:{attempts:0,correct:0},responses:[]};if(rs!==undefined)t.reviewStreak=rs;if(rd!==undefined)t.reviewDay=rd;return {students:{Fareedah:{topics:{'number-system':t}}}};};
+  const rec=w=>JSON.parse(w.localStorage.getItem('g7.data')).students.Fareedah.topics['number-system'];
+  let w=load('Number_System_Connections.html',{'g7.current':'Fareedah','g7.data':JSON.stringify(mk())}).window;
+  w.__modReview.review(true,true);w.__modReview.review(true,true);
+  ok(rec(w).reviewStreak===undefined,'review(engine): under 3 first-attempts does not commit a session');
+  w.__modReview.review(true,true);
+  ok(rec(w).reviewStreak===1&&rec(w).reviewDay===today,'review(engine): a clean 3-item session sets streak 1 for today');
+  w.__modReview.review(true,true);
+  ok(rec(w).reviewStreak===1,'review(engine): more clean items the same visit do not double-advance');
+  w=load('Number_System_Connections.html',{'g7.current':'Fareedah','g7.data':JSON.stringify(mk(2,today-1))}).window;
+  w.__modReview.review(true,true);w.__modReview.review(true,true);w.__modReview.review(true,true);
+  ok(rec(w).reviewStreak===3,'review(engine): a passing return advances the streak one rung (2->3)');
+  w=load('Number_System_Connections.html',{'g7.current':'Fareedah','g7.data':JSON.stringify(mk(3,today-1))}).window;
+  w.__modReview.review(true,false);w.__modReview.review(true,false);w.__modReview.review(true,true);
+  ok(rec(w).reviewStreak===0,'review(engine): a failing return resets the streak to 0');
+  w=load('Number_System_Connections.html',{'g7.current':'Fareedah','g7.data':JSON.stringify(mk(3,today))}).window;
+  w.__modReview.review(true,true);w.__modReview.review(true,true);w.__modReview.review(true,true);
+  ok(rec(w).reviewStreak===3,'review(engine): a second session the same day does not advance the streak');
 })();
 // ---- Static regression checks on the fixed content ----
 (function(){
