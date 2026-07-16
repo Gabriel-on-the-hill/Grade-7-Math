@@ -304,6 +304,33 @@ function load(file,seed,rnd){
   ok(dash.querySelector('.cal-chip.hard')&&dash.querySelector('.cal-chip.hard').textContent==='too hard','AS-4: <70% first-attempt flagged too hard (re-teach)');
   ok(dash.querySelector('.cal-chip.sweet')&&dash.querySelector('.cal-chip.sweet').textContent==='on target','AS-4: ~85% band flagged on target');
 })();
+// ---- AS-4 (automatic): the lesson's own Learn->Stretch ladder supplies the difficulty level ----
+(function(){
+  const dom=load('Number_System_Connections.html',{'g7.current':'Fareedah','g7.roster':'["Fareedah"]'});
+  const d=dom.window.document,w=dom.window;
+  const rec=()=>JSON.parse(w.localStorage.getItem('g7.data')).students.Fareedah.topics['number-system'].levelStats||{};
+  const card=d.querySelector('.qcard[data-qid="2-2"]');    // Practice -> level 2 (target)
+  const step=card.querySelector('.step');
+  step.querySelector('.ans-input').value='99';step.querySelector('.check-btn').click();
+  ok(rec()['2']&&rec()['2'].attempts===1&&rec()['2'].misses===1,'AS-4: a Practice item logs to level 2 (target)');
+  step.querySelector('.ans-input').value='8';step.querySelector('.check-btn').click();
+  ok(rec()['2'].attempts===2&&rec()['2'].misses===1,'AS-4: the retry logs to the same level');
+  ok(!rec()['1']&&!rec()['3']&&!rec()['4'],'AS-4: nothing leaks into other levels');
+})();
+// ---- AS-4: dashboard shows where strength failed; stretch stays out of pass/fail ----
+(function(){
+  const data={students:{Fareedah:{topics:{'number-system':{title:'Number System Connections',tree:{},totalSteps:107,sectionTotals:{},lastPracticed:Date.now(),attempts:53,correct:38,struggles:[],skillStats:{},exam:{attempts:0,correct:0},responses:[],levelStats:{1:{attempts:20,misses:1},2:{attempts:20,misses:6},3:{attempts:10,misses:6},4:{attempts:3,misses:2}}}}}}};
+  const d=load('Grade_7_Math_Hub.html',{'g7.current':'Fareedah','g7.roster':JSON.stringify(['Fareedah']),'g7.data':JSON.stringify(data)}).window.document;
+  d.getElementById('tb-teacher').click();d.getElementById('tm-pass').value='Gabe';d.getElementById('tm-go').click();
+  const ll=d.querySelector('.level-line');
+  ok(ll&&ll.textContent.includes('Foundational 95%'),'AS-4: foundational level reported');
+  ok(ll.textContent.includes('Target 70%'),'AS-4: target level reported');
+  ok(ll.textContent.includes('Exam 40%'),'AS-4: exam (assessed bar) reported');
+  ok(d.querySelector('.lv.low')&&d.querySelector('.lv.low').textContent.includes('Exam'),'AS-4: the level where strength failed is flagged');
+  ok(d.querySelector('.lv-focus')&&d.querySelector('.lv-focus').textContent==='Focus: Exam','AS-4: focus point = first curriculum level below the bar');
+  ok(!!d.querySelector('.lv.beyond')&&ll.textContent.includes('Stretch (beyond)'),'AS-4: stretch reported separately as beyond the standard');
+  ok(!d.querySelector('.lv.beyond.low'),'AS-4: a low stretch score is never flagged as failure');
+})();
 // ---- Static regression checks on the fixed content ----
 (function(){
   const hub=fs.readFileSync(path.join(DIR,'Grade_7_Math_Hub.html'),'utf8');

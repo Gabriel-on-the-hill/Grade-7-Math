@@ -28,7 +28,7 @@ whole tree — and missing the retention layer entirely.
 | Mastery & sequencing | ● solid | no advanced concept before its prerequisite |
 | Assessment & feedback | ● solid | active check-and-feedback; hints never give the answer |
 | Motivation & UX | ◐ partial | honest mastery bars; anti-cheat; no gamification |
-| Adaptive & analytics | ◐ partial | per-topic tracking + acquisition-vs-retention readout (`AN-4` ✅) + per-skill ~85% calibration band (`AS-4` diagnostic ✅); auto difficulty-selection still needs difficulty-tagged item pools |
+| Adaptive & analytics | ● solid | per-topic tracking + acquisition-vs-retention readout (`AN-4` ✅) + automatic per-level accounting with a focus point, from the lesson's own ladder (`AS-4` ✅) + per-skill ~85% calibration band. Machine auto-serving of easier work is deliberately out of scope (house rule) |
 
 ---
 
@@ -106,23 +106,35 @@ build it here, then confirm in Grade 8. Never surface an unstarted topic as "due
 
 ---
 
-## 2 · Calibrate difficulty toward ~85% success — `AS-4` · ◑ diagnostic shipped (16 Jul 2026); auto-selection blocked on content
+## 2 · Difficulty calibration — `AS-4` · ✅ shipped as automatic level accounting (16 Jul 2026)
 
-**Finding.** The modules have **no difficulty metadata and no draw-from-pool Practice** — each is a
-fixed run of unique qcards shown top-to-bottom, ~1 Practice item per skill. So the literal spec ("bias
-selection toward harder/easier items within the author's difficulty range") **can't be built without
-content authoring**: tagging each Practice item's difficulty *and* adding several varied-difficulty
-items per skill so there's a pool to pick from. That is an author decision — inventing difficulty
-ratings or new problems would be fabrication and would lower the bar.
+**Correction to an earlier finding in this file.** The modules **do** carry a difficulty ladder: every
+card is tagged `learn · guided · practice · apply · exam · stretch`, and a `stretch` tier was already
+authored (7 of them in `Number_System_Connections.html`). So nothing needed difficulty tagging — and
+**no extra items were added on purpose**: bolting 2–3 variants onto each skill would spend student time
+on content the curriculum did not ask for.
 
-**Shipped instead (the actionable core).** A per-skill **calibration band** on the teacher dashboard,
-from the first-attempt accuracy already in `skillStats`: **>90% → "too easy" (advance), <70% → "too
-hard" (re-teach / easier entry), else "on target (~85%)"**, min 4 attempts. It gives the teacher the
-exact lever to raise or lower difficulty by hand. Hub-only (`skillCalibration()` + a chip on each skill
-line), no engine/contract change; 4 assertions here (**107 pass**).
+**Shipped.** **The lesson's own ladder is the difficulty gradient.** The engine derives the level from
+the phase tag each card already carries — `g7level()` called inside `g7log()`, no call-site changes —
+into an additive `levelStats{1..4}`:
 
-**Still open (needs content).** Difficulty-tagged item pools + an engine that auto-serves toward the
-sweet spot. Raise with the author before building.
+- **1 Foundational** (`learn`/`guided`) · **2 Target** (`practice`/`apply`) · **3 Exam** — the assessed
+  MCAP bar, i.e. the expectation · **4 Stretch** — *beyond* the standard, reported separately and
+  **never counted as failure**. `exam` and `stretch` are deliberately **not** merged: the teacher must be
+  able to tell "missed the required bar" from "missed a bonus".
+
+The teacher dashboard renders **“By level — Foundational 95% · Target 70% · Exam 40% · *Stretch (beyond)
+33%* → Focus: Exam”**, naming the first curriculum level where the student's strength failed — the
+teacher's focus point. The remedy stays a human decision; the app measures, the teacher teaches. The
+per-skill calibration band (>90% too easy / <70% too hard / on target ~85%) also stays. **117 assertions
+pass.**
+
+**Automatic for new modules.** Any module stamped from `Module_Template.html` inherits level accounting
+with zero setup (verified by driving the template directly); untagged cards default to Target.
+
+**Deliberately not built.** Machine auto-serving of easier items / skipping drill — the one direction the
+house rule forbids ("struggle is met with more targeted practice, never a standard quietly dropped").
+The "more for strugglers" half already exists via spaced review + homework.
 
 **Guardrails.** Representation-before-operations and the prerequisite flow still win — never calibrate
 a student *past* an unmet prerequisite.
