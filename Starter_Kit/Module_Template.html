@@ -329,6 +329,11 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
   // ===== Per-module identity (change these per unit) =====
   const G7_TOPIC_ID='template-demo';
   const G7_TOPIC_TITLE='Module Template (Demo)';
+  /* SET THIS (see HUB_Google_Sheet_Setup.md). The shared cloud backend files every row under the hub
+     id its app sends — one Sheet serves all hubs, and this is what keeps the programs apart. Use a
+     short lowercase id ('grade9'), and MATCH the hub's SYNC_HUB_ID exactly. Left as CHANGEME it shows
+     up loudly in the Sheet's hub column, which is the point: 'default' would look plausible. */
+  var G7_SYNC_HUB='CHANGEME';
   const G7_SKILLS={'d1':'demo','d2':'demo','d3':'demo','d4':'demo','d5':'reasoning','d6':'demo','d7':'demo'};
   const G7_SKILL_LABELS={'demo':'Template skill','reasoning':'Reasoning & error analysis',
     'rationals':'Rational numbers & ordering','numberline':'Number line, opposites & absolute value',
@@ -343,7 +348,7 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
   function g7sectionTotals(){var m={};document.querySelectorAll('.qcard[data-qid]').forEach(function(c){var sec=(c.dataset.qid||'').split('-')[0];m[sec]=(m[sec]||0)+c.querySelectorAll('.step').length;});return m;}
   function loadData(){return g7topic(g7all()).tree;}
   function saveData(tree){var o=g7all();var t=g7topic(o);t.tree=tree;t.totalSteps=document.querySelectorAll('.qcard .step').length;t.sectionTotals=g7sectionTotals();t.lastPracticed=Date.now();g7save(o);}
-  function g7sheet(event,question,detail){var url=localStorage.getItem('g7.sheetURL');if(!url)return;try{fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({student:g7current(),topic:G7_TOPIC_TITLE,question:question||'',event:event,detail:detail||'',ts:Date.now()})});}catch(e){}}
+  function g7sheet(event,question,detail){var url=localStorage.getItem('g7.sheetURL');if(!url)return;try{fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({hub:G7_SYNC_HUB||'default',student:g7current(),topic:G7_TOPIC_TITLE,question:question||'',event:event,detail:detail||'',ts:Date.now()})});}catch(e){}}
   function g7log(qid,wrong,label,your,exam){var o=g7all();var t=g7topic(o);var sk=G7_SKILLS[qid]||'reasoning';t.skillStats[sk]=t.skillStats[sk]||{attempts:0,misses:0};t.skillStats[sk].attempts++;t.attempts=(t.attempts||0)+1;if(wrong){t.skillStats[sk].misses++;t.struggles.push({qid:qid,label:(label||qid).trim(),skill:sk,skillLabel:G7_SKILL_LABELS[sk],your:your||'',ts:Date.now()});if(t.struggles.length>120)t.struggles=t.struggles.slice(-120);}else{t.correct=(t.correct||0)+1;}if(exam){t.exam=t.exam||{attempts:0,correct:0};t.exam.attempts++;if(!wrong)t.exam.correct++;}t.lastPracticed=Date.now();g7save(o);g7sheet(wrong?'struggle':'step_complete',(label||qid).trim(),wrong?('typed "'+(your||'')+'"'):'');}
 
   // ===== answer helpers =====

@@ -7,7 +7,8 @@ This kit lets you reproduce the study-hub system for **any grade or subject** at
 - **`Hub_Template.html`** — the home hub: sign-in by name, roster, passcode-gated teacher dashboard (mastery, exam-readiness, section progress, concept-level struggles, constructed-response review), homework (auto-suggested + teacher-set), data backup, optional Google Sheet logging. Edit only the `UNITS` list + title per grade.
 - **`PROJECT_STANDARD_TEMPLATE.md`** — the methodology/pedagogy/flow/contract/build-discipline. Fill the `[BRACKETED]` blanks, rename to `PROJECT_STANDARD.md`.
 - **`NEW_GRADE_SETUP.md`** — step-by-step instantiation checklist.
-- **`HUB_Google_Sheet_Setup.md`** — deploy the cloud activity logger (optional).
+- **`HUB_Google_Sheet_Setup.md`** — connect the cloud activity log (optional). **Reuse the one shared
+  deployment across all hubs**; the only per-grade step is the hub id.
 
 ## Quick start
 1. New project + folder → copy this kit in.

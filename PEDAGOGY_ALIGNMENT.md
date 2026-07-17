@@ -16,15 +16,18 @@ evaluation is the "app-pedagogy-eval" artifact.
 
 ---
 
-## Where this hub stands (15 Jul 2026)
+## Where this hub stands (16 Jul 2026)
 
 The best lesson *structure* of the three families, on the most explicitly principled standard in the
-whole tree — and missing the retention layer entirely.
+whole tree — and, as of 16 Jul 2026, **with the retention layer it was missing**: topics come back on a
+spaced ladder, individual skills come back inside them, and a return visit is a real retrieval rather
+than a re-read. Items 0–3 are shipped. **The one remaining category is Motivation & UX (◐) — a real
+handbook gap, not a deliberate exclusion** (see item 4).
 
 | Category | Status | |
 |---|---|---|
 | Cognitive load | ● solid | Learn→Guided→Practice→Apply→Exam; strategy-only hints |
-| **Memory & retention** | ● **solid** | **spaced review shipped — "Due for review" ladder + engine-written consecutive-session streak (phase-1 + phase-2)** |
+| **Memory & retention** | ● **solid** | **spaced review shipped in full — "Due for review" ladder + engine-written per-topic *and* per-skill streaks + in-module `?review=<skill>` retrieval mode (phase-1 + phase-2 + phase-3)** |
 | Mastery & sequencing | ● solid | no advanced concept before its prerequisite |
 | Assessment & feedback | ● solid | active check-and-feedback; hints never give the answer |
 | Motivation & UX | ◐ partial | honest mastery bars; anti-cheat; no gamification |
@@ -45,7 +48,7 @@ rather than by a localStorage shim, which does not fit a DOM-driven suite. Keep 
 
 ---
 
-## 1 · Add spaced review — `MR-1`, `MR-3` · **phase-1 + phase-2 ✅ shipped (16 Jul 2026)**
+## 1 · Add spaced review — `MR-1`, `MR-3` · **phase-1 + phase-2 + phase-3 ✅ shipped (16 Jul 2026)**
 
 **Shipped (phase 1, hub surface).** `Grade_7_Math_Hub.html` renders a **"Due for review"** surface in
 `renderApp()`: ladder `due = lastPracticed + rung(streak)`, rungs `1 → 3 → 7 → 21 → 42` days,
@@ -59,46 +62,71 @@ live inside the topic record; when `reviewStreak` is absent the hub falls back t
 proxy (accuracy/evidence/shaky-skill), so migration is zero-regression. Engine hook is `g7review()` in
 every module (`__modReview` for tests); the hub prefers the stored value in `reviewStreak()`. Built in
 Grade 8 first and ported here ("change both, check both") — 3 G7 engine files + hub + suite; **95
-assertions pass**. Note: the G7 modules are behind Grade 8's engine (no `__hubSync`/v1.5 sync), so the
-G7 engine block omits `schedulePush`; the review layer itself is at parity.
+assertions pass**. (That drift is now closed too — see *Cloud sync* below: G7 has the v1.5 layer and
+`schedulePush`, so the two grades are one engine again.)
 
-**Phase 3 (open, optional):** per-*skill* streaks and an in-module `?review=<skill>` retrieval-practice
-mode drawn from the topic's authored item pool (put it in `Module_Template.html` and re-stamp).
+**Shipped (phase 3, per-skill streaks + in-module retrieval mode).** Phase 3 turned out to be
+**load-bearing, not optional** — the reason is worth recording, because the backlog had it filed as
+polish. `restoreProgress()` re-fills a completed item with its own correct answer and marks the right MC
+option (that is deliberate, and right, for "review your work"). But it meant the hub's brand-new "Due for
+review" button *opened an answer key*: verified on a real record — a topic finished 60 days ago and
+squarely due re-opened with 3 of 5 inputs on card `2-1` pre-filled with `6`, `-42` on `6-1`, and correct
+MC options pre-marked. **The retention layer's front door led to a re-read.** So phase 3:
+
+- **Per-skill ladder.** `skillStats[k]` gains additive `last`/`streak`/`day`, so a *single skill* can come
+  due inside an otherwise-solid topic. Same rungs, ≥2 first-attempt items per skill (a module authors far
+  fewer items per skill than per topic), same one-rung-per-calendar-day guard, reset on a miss. Legacy
+  records have no `last` → no skill is ever falsely due → the row just opens the full lesson. Zero migration.
+- **`?review=<skill>` retrieval mode.** Opens up to **4 of that skill's already-authored Target/Exam
+  cards** — *no new content authored* (same reasoning as `AS-4`: don't spend student time on items the
+  curriculum didn't ask for). Learn/Guided are excluded (scaffolded re-reads) and Stretch is excluded
+  (beyond the standard). The set is **cleared for a genuine attempt** — no pre-filled inputs, no pre-marked
+  options, lock ladder restored — and the rest of the lesson is hidden. Cards are **moved, not removed**,
+  so step totals stay honest; the stored tree is **never written**, so the mastery bar stays monotonic
+  (`MO-7`, `UX-5`); and because the topic was due at load, the re-attempt lands in the `AN-4` **retention**
+  bucket. Unknown/unauthored skill → normal lesson.
+- **The hub closes the loop.** A due row now names the faded skill ("Retrieve: Number line, opposites &
+  absolute value") and links to `<module>?review=<skill>` instead of the bare lesson.
+
+Built in `Module_Template.html` and ported to all 5 engine copies + both hubs by extracting the canonical
+blocks from the template (never retyped), so the stamped copies cannot drift. **G7 162 assertions pass
+(+39), G8 187 (+27)**; the new tests were mutation-checked (disabling review mode fails them immediately).
+The guarded invariant, in both suites: **a due revisit must never show its own answers.**
 
 **Original gap (for context).** A student climbed a lesson, the mastery bar turned green, and the topic
 was **never brought back**; `lastPracticed` was recorded and never used to resurface anything — the
-single biggest gap across all six codebases. Phases 1–2 above close it: the hub resurfaces due topics,
-and the engine schedules them from real spaced-retrieval performance.
+single biggest gap across all six codebases. Phases 1–3 above close it: the hub resurfaces due topics,
+the engine schedules them from real spaced-retrieval performance, and the return visit is a genuine
+retrieval instead of a re-read of the answers.
 
 **Why.** Spacing is the largest, most replicated effect in the learning literature (`MR-1`, `MR-3`).
 A topic taught once is a topic being forgotten; without a return schedule, the green bar is a snapshot
 of a memory that is already decaying.
 
-**Where.** The data contract already has what you need: `g7.data` stores per-topic `lastPracticed`,
-`attempts`, `correct`, and per-skill `skillStats`. The **hub** (`Grade_7_Math_Hub.html`) already reads
-every topic's data to render live mastery — so it is the one-file place to compute and show "what is
-due." The `Module_Template.html` engine is where a per-skill review *mode* would live (phase 2).
+**Where it lives now** (for the next person who has to change it):
 
-**Implement (phase 1 — the hub surface, one file, highest value).**
-1. Add a **ladder** to the hub's read of `g7.data`: for each topic (and, if `skillStats` supports it,
-   each skill), compute a `streak` of consecutive successful sessions (infer from `correct`/`attempts`
-   for legacy data, then store it going forward) and a due date:
-   `due = lastPracticed + rung(streak)` where `rung = [1, 3, 7, 21, 42]` days, a miss resetting to the
-   bottom rung. This is the same ladder the SAT apps now run — copy the shape from
-   `PSAT 8-9/app/progress.js`.
-2. Render a **"Due for review"** section on the hub: the topics/skills whose rung has elapsed,
-   most-overdue first, each linking into its module. Never list a topic the student has not started.
-3. Keep the mastery bar honest and monotonic — "due for review" is a *separate* surface, it does not
-   drop the mastery bar backwards (`MO-7`, `UX-5`).
+| Piece | File | Entry point |
+|---|---|---|
+| Due-for-review surface, topic + skill ladder | `Grade_7_Math_Hub.html` | `renderDueReview()`, `dueReviewList()`, `dueSkills()` · `window.__hubReview` |
+| Topic & per-skill streak writer, acquisition/retention buckets | every module | `g7review(first,correct,qid)` · `window.__modReview` |
+| `?review=<skill>` retrieval mode | every module | `g7reviewMode()` · `window.__modReviewMode` |
+| Canonical source for all module-side code | `Module_Template.html` | re-stamp or port from here — never hand-edit one copy |
 
-**Implement (phase 2 — an in-module Review mode, optional).** Give the module a `?review=<skill>`
-entry that draws a short set from the topic's already-authored item pool for the due skill, so a
-review is a real retrieval, not a re-read. Put it in `Module_Template.html` and re-stamp, so Grade 8
-inherits it.
+The ladder shape (`1 → 3 → 7 → 21 → 42`, reset on a miss) is the same one the SAT apps run
+(`PSAT 8-9/app/progress.js`) — keep them in agreement.
 
-**Verify.** In the (now-runnable — item 0) behavioral suite, seed `g7.data` with an aged
-`lastPracticed` and a mastered topic, and assert it appears in the due-for-review computation; seed a
-just-practiced topic and assert it does not. Mirror `PSAT 8-9/app/homework/review-ladder.test.js`.
+**The three invariants a change must not break** (all asserted in both suites):
+
+1. **A due revisit never shows its own answers.** `restoreProgress()` pre-fills completed work by
+   design; review mode must keep clearing it. This is the whole point of the layer.
+2. **The mastery bar never moves backwards.** Review mode reads the tree and never writes it
+   (`MO-7`, `UX-5`), and "due for review" stays a *separate* surface.
+3. **Nothing unstarted is ever surfaced as due**, and legacy records (no `reviewStreak`, no
+   `skillStats[k].last`) degrade to the inferred proxy / full lesson rather than to a false "due".
+
+**Verify.** `npm test` in both grades — G7 **162**, G8 **187**, exit 0. The phase-3 assertions drive the
+real journey (hub due-row → its own link → the module it opens) rather than only unit-testing the
+ladder, and were mutation-checked: disabling `g7revParam()` fails them immediately.
 
 **Guardrails.** Do **not** change the `g7.` storage prefix or the existing key shapes — back-compat is
 explicit in the standard. This touches the **shared data contract**, so **Grade 8 inherits it** —
@@ -172,8 +200,49 @@ plus the retention layer:
       lives in a tutor-facing `LEDGER.md` (see `Fareedah/`) — root rule 6.
 - [ ] **A test guards it** (item 0 makes this possible — keep the suite green).
 
-## Definition of 100% aligned
+## 4 · Motivation layer — `MO-1`…`MO-6` · ⬜ **open — the last category still ◐**
 
-Item 0 done (tests run), item 1 shipped (spaced review, inherited by Grade 8), items 2–3 landed, and
-the teacher dashboard showing acquisition **and** retention. At that point Memory & retention moves
-○ → ●, and this hub matches its own excellent structure with the retention layer it was missing.
+**Correction to an earlier reading of this file (16 Jul 2026).** The status table's "no gamification"
+was previously read as a *virtue* — it isn't. **Nothing in the root or hub house rules forbids
+gamification**, and the handbook actively calls for it: `MO-2` ("Gamify to increase learning,
+engagement, *and* enjoyment — aligned and hack-resistant"), `MO-1` (effortful learning decays to
+mediocrity without incentives), `MO-3` (XP ≈ minutes of productive work), `MO-4` (reward curve for
+quantity *and* quality), `MO-6` (habit beats motivation). That is 5–6 unbuilt principles — **Motivation
+& UX is ◐ because the layer is missing, not because it was declined.**
+
+**What this hub already gets right, and must not lose.** `MO-7` (*progress ≠ points*) is **already
+honored**: the mastery bar is share-of-topics-mastered and monotonic, never a point total that can drop.
+Any XP added must be a **separate, clearly-labelled effort currency** — never fed into the progress bar.
+`MO-5` (close loopholes) is the other constraint: this hub has a real anti-cheat history (v1.4.2), and
+`MO-2` is explicit that mechanics rewarding vanity metrics unmoored from learning **corrupt `M1`**
+(mastery integrity). Points for opening a page, or a streak that survives without retrieval, would do
+exactly that.
+
+**Why it is not built here and now.** It is a genuine design decision with a live tension against this
+hub's anti-cheat posture, and it is worth a deliberate call rather than a default — **raise it before
+building it.** The honest status is *open*, not *declined*.
+
+**Where it would go.** The hub (`Grade_7_Math_Hub.html`) already reads every topic's record to render
+mastery; an effort currency would ride the same read. The spaced-review streak (`reviewStreak`) is
+already a real, retrieval-earned number — the one streak in the system that cannot be farmed — so it is
+the natural, `MO-5`-safe foundation to build on rather than inventing a new countable.
+
+---
+
+## Definition of 100% aligned — items 0–3 ✅ met (16 Jul 2026); item 4 open
+
+Item 0 done (tests run), item 1 shipped (spaced review, **all three phases**, inherited by Grade 8),
+items 2–3 landed, and the teacher dashboard showing acquisition **and** retention. Memory & retention
+has moved ○ → ●: this hub now matches its own excellent structure with the retention layer it was
+missing. **G7 162 assertions / G8 187, both green.** **Motivation & UX (item 4) remains ◐** — the last
+category short of ●.
+
+**What is deliberately not built** (so a future reader doesn't file it as a gap):
+
+- **Machine auto-serving of easier work / skipping drill** — forbidden by the house rule (`AS-4` above).
+  Struggle is met with more targeted practice, never a standard quietly dropped. This is the *only*
+  item on this list; do not add to it without a house rule to cite.
+
+**The invariant to protect from here on:** a due revisit must never show its own answers. Every future
+module stamped from `Module_Template.html` inherits spacing, level accounting, and review mode with zero
+setup — but only if it authors real Target/Exam items per skill and keeps its `G7_SKILLS` map honest.

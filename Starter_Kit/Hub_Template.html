@@ -296,7 +296,13 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   function setSubject(id){LS.setItem(K('subject'),id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function initials(n){return String(n||'?').trim().split(/\s+/).map(function(w){return w[0]||'';}).slice(0,2).join('').toUpperCase();}
-  function postSheet(p){var u=sheetURL();if(!u)return Promise.resolve();return fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)}).catch(function(){});}
+  /* SET THIS (see HUB_Google_Sheet_Setup.md). One Sheet + one Apps Script deployment serves every hub
+     (SAT / Grade 7 / Grade 8 / …); the backend files each row under the hub id its app sends, which is
+     what stops the programs colliding. Use a short lowercase id ('grade9') and MATCH every module's
+     G7_SYNC_HUB exactly. Left as CHANGEME it shows up loudly in the Sheet's hub column — on purpose,
+     since 'default' would look plausible and quietly mix your grades together. */
+  var SYNC_HUB_ID='CHANGEME';
+  function postSheet(p){var u=sheetURL();if(!u)return Promise.resolve();p=p||{};p.hub=SYNC_HUB_ID||'default';return fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)}).catch(function(){});}
 
   /* Per-subject skill labels (drive the struggle dashboard). One map per subject; merged into SKILL_LABELS below.
      Give each subject ~8 skill tags; the matching module reports against these keys via G7_SKILLS. */

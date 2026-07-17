@@ -16,14 +16,17 @@ Use this to spin up a new grade/subject hub (e.g., Grade 8 Math) from the Starte
 
 ## D. Build units (repeat per unit)
 7. For each unit, follow **"How to add a new unit"** in `PROJECT_STANDARD.md`:
-   - copy `Module_Template.html`, set `G7_TOPIC_ID` / `G7_TOPIC_TITLE` / `G7_SKILLS`;
+   - copy `Module_Template.html`, set `G7_TOPIC_ID` / `G7_TOPIC_TITLE` / `G7_SKILLS` / `G7_SYNC_HUB`;
    - scan the folder, read the unit's chapters, curate the **best** explanations + exercises;
    - weave the grade's real **exam items** as `Exam` capstones;
    - author in correct flow, hints sparingly, one worked example per skill;
    - add the topic to the hub `UNITS`; verify; confirm the dashboard updates.
 
 ## E. Optional cloud log
-8. Follow `HUB_Google_Sheet_Setup.md` to connect a Google Sheet for activity logging.
+8. Follow `HUB_Google_Sheet_Setup.md`. **Reuse the existing shared deployment — do not deploy a new
+   one**: one Sheet + one Apps Script serves every hub, namespaced by a hub id. Paste the same `/exec`
+   URL into Settings, and set this grade's id in **both** `SYNC_HUB_ID` (hub) and `G7_SYNC_HUB`
+   (modules) — they must match, or the rows file under `default` instead of your grade.
 
 ## Kicking it off in a chat
 Say: **"Set up a Grade 8 Math hub from the Starter Kit — follow PROJECT_STANDARD.md."** That single instruction is enough; the assistant reads the standard + template and proceeds the way this project works.

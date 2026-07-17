@@ -307,7 +307,7 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
 <div id="settingsModal" class="modal-bg hidden">
   <div class="modal">
     <h2>Settings</h2>
-    <p>Connect a Google Sheet to keep a cloud log of activity (optional). See the setup guide for how to get this link.</p>
+    <p>Connect a Google Sheet to sync progress across devices and keep a cloud log of activity (optional). One Sheet serves every hub — reuse the same link. See the setup guide.</p>
     <label class="muted-note">Google Sheet web app URL</label>
     <input id="sheet-url" class="field" placeholder="https://script.google.com/.../exec" style="margin-top:.3rem"/>
     <div class="row">
@@ -315,6 +315,12 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
       <button class="btn ghost sm" id="btn-test-sheet">Send test row</button>
     </div>
     <div id="sheet-status" class="statusline muted-note"></div>
+    <label class="muted-note" style="display:block;margin-top:.8rem">Teacher sync key <span style="font-weight:400">— type it on <strong>your</strong> device only. It unlocks the full dashboard from the cloud. Students never need it; they sync their own work with their PIN. It is never stored in this page.</span></label>
+    <input id="sync-key" class="field" type="password" placeholder="the TEACHER_KEY from your Apps Script" style="margin-top:.3rem"/>
+    <div class="row">
+      <button class="btn sm" id="btn-save-key">Save key</button>
+    </div>
+    <div id="key-status" class="statusline muted-note"></div>
     <hr style="border:none;border-top:1px solid var(--line);margin:1.1rem 0">
     <label class="muted-note">Teacher passcode</label>
     <input id="pass-set" class="field" type="password" placeholder="Set or change teacher passcode" style="margin-top:.3rem"/>
@@ -394,7 +400,7 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
       var v2=(document.getElementById('pin2').value||'').trim();
       if(!v1){err.textContent='Please enter a PIN.';return;}
       if(v1!==v2){err.textContent='The PINs do not match.';return;}
-      setPin(n,v1); closePinModal(); setCurrent(n); LS.setItem(K('device'),n); _showAllNames=false; boot(); return;
+      setPin(n,v1); syncPush('pin',n,'',{v:v1,ts:markPinTs(n)}); closePinModal(); setCurrent(n); LS.setItem(K('device'),n); _showAllNames=false; boot(); return;
     }
     if(v1!==getPin(n)){err.textContent='Incorrect PIN. If you forgot it, ask your teacher to reset it.';document.getElementById('pin1').focus();document.getElementById('pin1').select();return;}
     closePinModal(); setCurrent(n); LS.setItem(K('device'),n); _showAllNames=false; boot();
@@ -408,7 +414,13 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   function setSubject(id){LS.setItem(K('subject'),id);}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function initials(n){return String(n||'?').trim().split(/\s+/).map(function(w){return w[0]||'';}).slice(0,2).join('').toUpperCase();}
-  function postSheet(p){var u=sheetURL();if(!u)return Promise.resolve();return fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)}).catch(function(){});}
+  /* Namespace in the shared multi-hub cloud backend: ONE Sheet + ONE deployment serves the SAT hub,
+     Grade 7, Grade 8 and any future hub, and every row is filed under the hub id its app sends.
+     Without this the backend files our rows as 'default' — the column exists precisely to keep the
+     programs apart, and one student may be in several at once. Must match Grade 8's SYNC_HUB_ID
+     pattern ('grade8'); see HUB_Google_Sheet_Setup.md. */
+  var SYNC_HUB_ID='grade7';
+  function postSheet(p){var u=sheetURL();if(!u)return Promise.resolve();p=p||{};p.hub=SYNC_HUB_ID||'default';return fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)}).catch(function(){});}
   /* Truthful connection test. The post path is no-cors — its response is opaque, so it can never
      tell you anything; the old test said "sent" even against a dead URL. The JSONP ping gives a
      real signal (callback = alive, onerror/timeout = not) and names the Sheet it writes to. */
@@ -515,6 +527,15 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
      seed and redeploy; Settings changes last only until the seed changes. */
   var ROSTER_SEED=['Fareedah'];
   var TEACHER_PASS_SEED=atob('R2FiZQ==');  // lightly encoded; checked case-insensitively
+  var SHEET_URL_SEED='https://script.google.com/macros/s/AKfycbyJKH4CmbbaQ8J7_uhtVKKAO2yg7ELDoIB1jwvzBkt4bvh-G4Q2vHAbI4LGxMMCtnx5/exec';
+  /* ^ Apps Script web-app URL, baked in -> zero-setup sync on every device (applied once per value
+     via g7.urlv; Settings may override until the seed changes). This is the SAME deployment Grade 8
+     uses — one Sheet serves every hub, and our rows are namespaced by SYNC_HUB_ID ('grade7').
+     This page is PUBLIC, so this URL is public. That is safe only because the endpoint is scoped:
+     the URL alone returns an empty doc and every write is rejected; a student needs their own PIN
+     (and only ever reaches their own record); the full dashboard needs TEACHER_KEY, which lives in
+     the Apps Script and in the teacher's own Settings — never here.
+     If you ever remove the auth from the Apps Script, remove this seed in the same commit. */
   function applySeeds(){
     try{
       var sv=JSON.stringify(ROSTER_SEED);
@@ -522,9 +543,57 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
         var r=getRoster();ROSTER_SEED.forEach(function(n){if(r.indexOf(n)<0)r.push(n);});setRoster(r);LS.setItem(K('seedv'),sv);
       }
       if(TEACHER_PASS_SEED && LS.getItem(K('passv'))!==TEACHER_PASS_SEED){LS.setItem(K('teacherPass'),TEACHER_PASS_SEED);LS.setItem(K('passv'),TEACHER_PASS_SEED);}
+      if(SHEET_URL_SEED && LS.getItem(K('urlv'))!==SHEET_URL_SEED){LS.setItem(K('sheetURL'),SHEET_URL_SEED);LS.setItem(K('urlv'),SHEET_URL_SEED);}
       if(EXAM_SEED){Object.keys(EXAM_SEED).forEach(function(n){var d=getData();if(!(d.students&&d.students[n]&&d.students[n].examProgram))setExamProgram(n,EXAM_SEED[n]);});}
     }catch(e){}
   }
+
+  /* ===== v1.5 cloud sync (offline-first; shared multi-hub Apps Script backend — see HUB_Google_Sheet_Setup.md) ===== */
+  /* Ported from Grade 8, which had this layer first; this hub was behind it. Same contract, same
+     merge rules, same LWW-on-lastPracticed — so the two grades stay one engine.
+     Credentials. The /exec URL is public (this page is), so it grants nothing on its own:
+     a student proves who they are with their own PIN and can only ever touch their own
+     record; the teacher's key unlocks the whole dashboard and is typed once into Settings,
+     never baked into this file. */
+  function syncKey(){return LS.getItem(K('syncKey'))||'';}
+  function pinFor(n){try{var m=jget(K('pins'),{});return (n&&m&&m[n]!==undefined)?String(m[n]):'';}catch(e){return '';}}
+  function syncPush(kind,name,sub,payload){if(!sheetURL())return;try{fetch(sheetURL(),{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({op:'put',hub:SYNC_HUB_ID||'default',kind:kind,name:name,sub:sub||'',payload:payload,ts:Date.now(),pin:pinFor(name),key:syncKey()})}).catch(function(){});}catch(e){}}
+  function syncPull(cb){if(!sheetURL()){cb(null);return;}try{var nm='__hubcb'+Math.floor(Math.random()*1e9);var s=document.createElement('script');
+    window[nm]=function(doc){try{cb(doc||null);}finally{try{delete window[nm];}catch(e2){}if(s.parentNode)s.parentNode.removeChild(s);}};
+    s.onerror=function(){try{delete window[nm];}catch(e2){}if(s.parentNode)s.parentNode.removeChild(s);cb(null);};
+    var me=current()||'';
+    s.src=sheetURL()+(sheetURL().indexOf('?')>=0?'&':'?')+'op=pull&hub='+encodeURIComponent(SYNC_HUB_ID||'default')+'&cb='+nm
+      +'&name='+encodeURIComponent(me)+'&pin='+encodeURIComponent(pinFor(me))+'&key='+encodeURIComponent(syncKey());
+    document.head.appendChild(s);}catch(e){cb(null);}}
+  function recTs(r){return Math.max((r&&r.ts)||0,(r&&r.mts)||0,(r&&r.doneTs)||0);}
+  function markPinTs(n){var m=jget(K('pints'),{});m[n]=Date.now();jset(K('pints'),m);return m[n];}
+  function applyCloud(doc){
+    if(!doc)return {changed:false,pushTopics:[]};
+    var changed=false,pushTopics=[];
+    var d=getData();d.students=d.students||{};
+    var pins=getPins(),pints=jget(K('pints'),{}),cp=doc.pins||{};
+    Object.keys(cp).forEach(function(n){var c=cp[n]||{};if((c.ts||0)>(pints[n]||0)){if(c.v)pins[n]=c.v;else delete pins[n];pints[n]=c.ts||0;changed=true;}});
+    setPins(pins);jset(K('pints'),pints);
+    var ca=doc.assign||{};
+    Object.keys(ca).forEach(function(n){var subs=ca[n]||{};d.students[n]=d.students[n]||{topics:{}};d.students[n].assignments=d.students[n].assignments||{};
+      Object.keys(subs).forEach(function(sid){var c=subs[sid];var l=d.students[n].assignments[sid];if(recTs(c)>recTs(l)){d.students[n].assignments[sid]=c;changed=true;}});});
+    var ct=doc.topics||{};
+    Object.keys(ct).forEach(function(n){var tps=ct[n]||{};d.students[n]=d.students[n]||{topics:{}};d.students[n].topics=d.students[n].topics||{};
+      Object.keys(tps).forEach(function(tid){var c=tps[tid],l=d.students[n].topics[tid];
+        if(((c&&c.lastPracticed)||0)>((l&&l.lastPracticed)||0)){d.students[n].topics[tid]=c;changed=true;}
+        else if(l&&((l.lastPracticed||0)>((c&&c.lastPracticed)||0))){pushTopics.push({n:n,tid:tid});}});});
+    Object.keys(d.students).forEach(function(n){var tps=(d.students[n]&&d.students[n].topics)||{};Object.keys(tps).forEach(function(tid){if(!(ct[n]&&ct[n][tid])&&((tps[tid]&&tps[tid].lastPracticed)||0)>0)pushTopics.push({n:n,tid:tid});});});
+    var cr=doc.reviews||{};
+    Object.keys(cr).forEach(function(n){var tmap=cr[n]||{};var st=d.students[n];if(!st||!st.topics)return;
+      Object.keys(tmap).forEach(function(tid){var m=tmap[tid]||{};var to=st.topics[tid];if(!to||!to.responses)return;
+        to.responses.forEach(function(r){var k=String(r.ts);if(Object.prototype.hasOwnProperty.call(m,k)&&(r.reviewed||0)!==(m[k]||0)){r.reviewed=m[k]||0;changed=true;}});});});
+    jset(K('data'),d);
+    return {changed:changed,pushTopics:pushTopics};
+  }
+  function reviewMapFor(n,tid){var d=getData();var to=d.students&&d.students[n]&&d.students[n].topics&&d.students[n].topics[tid];var m={};((to&&to.responses)||[]).forEach(function(r){if(r.reviewed)m[String(r.ts)]=r.reviewed;});return m;}
+  function runSync(after){syncPull(function(doc){var res=applyCloud(doc);var seen={};(res.pushTopics||[]).forEach(function(p){var k=p.n+'|'+p.tid;if(seen[k])return;seen[k]=1;var d=getData();var to=d.students[p.n]&&d.students[p.n].topics&&d.students[p.n].topics[p.tid];if(to)syncPush('topic',p.n,p.tid,to);});if(res.changed&&after)after();});}
+  function rerenderView(){try{if(!document.getElementById('view-teacher').classList.contains('hidden')){renderTeacher();}else if(!document.getElementById('view-app').classList.contains('hidden')){renderApp();}}catch(e){}}
+  window.__hubSync={applyCloud:applyCloud,recTs:recTs,reviewMapFor:reviewMapFor,pingText:pingStatusText};
 
   function subjectById(id){for(var i=0;i<SUBJECTS.length;i++){if(SUBJECTS[i].id===id)return SUBJECTS[i];}return null;}
   function eachTopic(fn){SUBJECTS.forEach(function(s){s.units.forEach(function(u){u.topics.forEach(function(t){fn(t,u,s);});});});}
@@ -604,13 +673,44 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     var due=last + rungDays*86400000;
     return { due:due, overdueMs:now-due, rungDays:rungDays, dueNow:now>=due };
   }
+  // ---- phase-3: the same ladder one level down, per skill ----
+  // A topic can be solid overall while one skill inside it fades. The engine stamps skillStats[k].last
+  // and .streak; legacy records have neither, so these return null/0 and the row simply falls back to
+  // opening the whole lesson — no migration needed.
+  function skillStreak(ss){
+    if(ss&&typeof ss.streak==='number') return ss.streak;   // engine-written streak wins
+    var a=(ss&&ss.attempts)||0; if(a<=0) return 0;
+    var acc=(a-((ss&&ss.misses)||0))/a;
+    var base = acc>=0.95?4 : acc>=0.85?3 : acc>=0.70?2 : acc>=0.50?1 : 0;
+    var cap  = a>=12?4 : a>=8?3 : a>=4?2 : a>=2?1 : 0;
+    return Math.min(base,cap);
+  }
+  function skillDue(ss, now){
+    now=now||Date.now();
+    var last=(ss&&ss.last)||0;
+    if(!last || ((ss&&ss.attempts)||0)<=0) return null;      // never surface a skill never practised
+    var rungDays=REVIEW_RUNGS[skillStreak(ss)];
+    var due=last + rungDays*86400000;
+    return { due:due, overdueMs:now-due, rungDays:rungDays, dueNow:now>=due };
+  }
+  // The due skills inside one topic, most-overdue first.
+  function dueSkills(t, now){
+    var st=(t&&t.skillStats)||{}, out=[];
+    Object.keys(st).forEach(function(k){
+      var r=skillDue(st[k], now); if(!r||!r.dueNow) return;
+      out.push({ skill:k, overdueMs:r.overdueMs, rungDays:r.rungDays });
+    });
+    return out.sort(function(a,b){return b.overdueMs-a.overdueMs;});
+  }
   // The due list for one student within one subject, most-overdue first. Read-only.
   function dueReviewList(topics, ids, now){
     var out=[];
     (ids||Object.keys(topics||{})).forEach(function(id){
       var to=topics&&topics[id]; if(!to) return;
       var r=reviewDue(to, now); if(!r || !r.dueNow) return;
-      out.push({ id:id, overdueMs:r.overdueMs, last:to.lastPracticed||0, rungDays:r.rungDays });
+      var ds=dueSkills(to, now);   // the sharpest-faded skill drives the retrieval set
+      out.push({ id:id, overdueMs:r.overdueMs, last:to.lastPracticed||0, rungDays:r.rungDays,
+                 skill:ds.length?ds[0].skill:'' });
     });
     return out.sort(function(a,b){return b.overdueMs-a.overdueMs;});
   }
@@ -622,9 +722,13 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
       var m=topicMeta(x.id)||{}; if(!m.file) return '';
       var over=x.overdueMs>=86400000;
       var when=over ? ('Due '+Math.floor(x.overdueMs/86400000)+' d ago') : 'Due now';
-      return '<div class="review-item" role="button" tabindex="0" data-id="'+esc(x.id)+'">'+
+      // Name the faded skill when we know it — the row then opens that skill's retrieval set
+      // rather than the whole lesson (whose completed items would show their own answers).
+      var sl=x.skill ? ((subj.skillLabels&&subj.skillLabels[x.skill])||SKILL_LABELS[x.skill]||'') : '';
+      var sub=sl ? ('Retrieve: '+esc(sl)) : ('Last practiced '+relTime(x.last));
+      return '<div class="review-item" role="button" tabindex="0" data-id="'+esc(x.id)+'" data-skill="'+esc(x.skill||'')+'">'+
         '<span class="ri-ico">'+(m.icon||'↺')+'</span>'+
-        '<span class="ri-main"><span class="ri-t">'+esc(m.title||x.id)+'</span><span class="ri-m">Last practiced '+relTime(x.last)+'</span></span>'+
+        '<span class="ri-main"><span class="ri-t">'+esc(m.title||x.id)+'</span><span class="ri-m">'+sub+'</span></span>'+
         '<span class="ri-when'+(over?' over':'')+'">'+when+'</span>'+
         '<button class="btn sm ri-go">Review</button>'+
       '</div>';
@@ -633,12 +737,13 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
       '<p class="rsub">Spacing keeps mastered work from fading. A quick pass now is worth more than a re-read later.</p>'+
       '<div class="review-list">'+rows+'</div></div>';
     Array.prototype.forEach.call(el.querySelectorAll('.review-item'),function(it){
-      var id=it.getAttribute('data-id');
-      it.onclick=function(){openTopic(id);};
-      it.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openTopic(id);}};
+      var id=it.getAttribute('data-id'), sk=it.getAttribute('data-skill')||'';
+      it.onclick=function(){openTopic(id,sk);};
+      it.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openTopic(id,sk);}};
     });
   }
-  window.__hubReview={streak:reviewStreak,due:reviewDue,list:dueReviewList,rungs:REVIEW_RUNGS};
+  window.__hubReview={streak:reviewStreak,due:reviewDue,list:dueReviewList,rungs:REVIEW_RUNGS,
+    skillStreak:skillStreak,skillDue:skillDue,dueSkills:dueSkills};
 
   // ---- view switching ----
   function show(id){['view-signin','view-app','view-teacher'].forEach(function(v){document.getElementById(v).classList.toggle('hidden',v!==id);});window.scrollTo(0,0);}
@@ -745,10 +850,11 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     });
     show('view-app');
   }
-  function openTopic(id){
+  // skill (optional) opens the module straight into its retrieval-practice set for that skill.
+  function openTopic(id,skill){
     var t=topicMeta(id); if(!t||!t.file)return;
-    postSheet({student:current(),topic:t.title,question:'',event:'topic_opened',detail:'',ts:Date.now()});
-    location.href=t.file;
+    postSheet({student:current(),topic:t.title,question:'',event:skill?'review_opened':'topic_opened',detail:skill||'',ts:Date.now()});
+    location.href=t.file+(skill?('?review='+encodeURIComponent(skill)):'');
   }
   function renderHomeworkBanner(cur, topics, subj){
     var el=document.getElementById('hw-banner'); if(!el)return;
@@ -764,7 +870,7 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     if(sugg.length) s+='<div class="item" style="margin-top:.45rem">Practice again: '+sugg.map(function(x){return esc(x.label)+' ('+x.misses+' missed)';}).join('; ')+'</div>';
     s+='</div>'; el.innerHTML=s;
     var hb=document.getElementById('hw-done');
-    if(hb)hb.onclick=function(){var d=getData();d.students=d.students||{};d.students[cur]=d.students[cur]||{topics:{}};d.students[cur].assignments=d.students[cur].assignments||{};var cu=d.students[cur].assignments[subj.id]||{text:ao.text,ts:ao.ts||Date.now()};cu.doneTs=cu.doneTs?0:Date.now();d.students[cur].assignments[subj.id]=cu;jset(K('data'),d);renderApp();};
+    if(hb)hb.onclick=function(){var d=getData();d.students=d.students||{};d.students[cur]=d.students[cur]||{topics:{}};d.students[cur].assignments=d.students[cur].assignments||{};var cu=d.students[cur].assignments[subj.id]||{text:ao.text,ts:ao.ts||Date.now()};cu.doneTs=cu.doneTs?0:Date.now();cu.mts=Date.now();d.students[cur].assignments[subj.id]=cu;jset(K('data'),d);syncPush('assign',cur,subj.id,cu);renderApp();};
   }
 
   // ---- teacher ----
@@ -898,8 +1004,8 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     });
     dash.innerHTML=html;
     Array.prototype.forEach.call(dash.querySelectorAll('.exam-prog'),function(sel){sel.onchange=function(){setExamProgram(sel.getAttribute('data-n'),sel.value);renderTeacher();};});
-    Array.prototype.forEach.call(dash.querySelectorAll('.assign-save'),function(b){b.onclick=function(){var inp=b.parentNode.querySelector('.assign-inp');var n=b.getAttribute('data-n');var sid=b.getAttribute('data-s');var d=getData();d.students=d.students||{};d.students[n]=d.students[n]||{topics:{}};d.students[n].assignments=d.students[n].assignments||{};d.students[n].assignments[sid]={text:inp.value.trim(),ts:Date.now()};jset(K('data'),d);b.textContent='Saved';setTimeout(function(){b.textContent='Save';},1200);};});
-    Array.prototype.forEach.call(dash.querySelectorAll('.cr-rev'),function(b){b.onclick=function(){var d=getData();var n=b.getAttribute('data-n'),ti=b.getAttribute('data-t'),i=parseInt(b.getAttribute('data-i'),10);var to=d.students&&d.students[n]&&d.students[n].topics&&d.students[n].topics[ti];if(!to||!to.responses||!to.responses[i])return;to.responses[i].reviewed=to.responses[i].reviewed?0:Date.now();jset(K('data'),d);b.textContent=to.responses[i].reviewed?'Reviewed \u2713':'Mark reviewed';};});
+    Array.prototype.forEach.call(dash.querySelectorAll('.assign-save'),function(b){b.onclick=function(){var inp=b.parentNode.querySelector('.assign-inp');var n=b.getAttribute('data-n');var sid=b.getAttribute('data-s');var d=getData();d.students=d.students||{};d.students[n]=d.students[n]||{topics:{}};d.students[n].assignments=d.students[n].assignments||{};d.students[n].assignments[sid]={text:inp.value.trim(),ts:Date.now(),mts:Date.now()};jset(K('data'),d);syncPush('assign',n,sid,d.students[n].assignments[sid]);b.textContent='Saved';setTimeout(function(){b.textContent='Save';},1200);};});
+    Array.prototype.forEach.call(dash.querySelectorAll('.cr-rev'),function(b){b.onclick=function(){var d=getData();var n=b.getAttribute('data-n'),ti=b.getAttribute('data-t'),i=parseInt(b.getAttribute('data-i'),10);var to=d.students&&d.students[n]&&d.students[n].topics&&d.students[n].topics[ti];if(!to||!to.responses||!to.responses[i])return;to.responses[i].reviewed=to.responses[i].reviewed?0:Date.now();jset(K('data'),d);syncPush('review',n,ti,reviewMapFor(n,ti));b.textContent=to.responses[i].reviewed?'Reviewed \u2713':'Mark reviewed';};});
     Array.prototype.forEach.call(dash.querySelectorAll('.struggle-toggle'),function(tg){
       tg.onclick=function(){var box=document.getElementById(tg.getAttribute('data-tg'));var hidden=box.classList.toggle('hidden');tg.textContent=(hidden?'Show ':'Hide ')+tg.textContent.replace(/^(Show|Hide)\s/,'');};
     });
@@ -917,7 +1023,7 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
         '<button class="x" data-n="'+esc(n)+'" style="margin-left:0">Remove</button></span></div>';
     }).join(''):'<p class="muted-note">No names yet.</p>';
     Array.prototype.forEach.call(list.querySelectorAll('.reset-pin'),function(b){
-      b.onclick=function(){var n=b.getAttribute('data-n');if(!confirm('Reset '+n+"'s PIN? They will create a new one next time they sign in."))return;setPin(n,'');renderRosterPanel();};
+      b.onclick=function(){var n=b.getAttribute('data-n');if(!confirm('Reset '+n+"'s PIN? They will create a new one next time they sign in."))return;setPin(n,'');syncPush('pin',n,'',{v:'',ts:markPinTs(n)});renderRosterPanel();};
     });
     Array.prototype.forEach.call(list.querySelectorAll('.x'),function(b){
       b.onclick=function(){var n=b.getAttribute('data-n');setRoster(getRoster().filter(function(x){return x!==n;}));setPin(n,'');renderRosterPanel();};
@@ -933,6 +1039,8 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   function openSettings(){
     document.getElementById('sheet-url').value=sheetURL();
     document.getElementById('sheet-status').textContent='';
+    document.getElementById('sync-key').value=syncKey();
+    document.getElementById('key-status').textContent=syncKey()?'A key is saved on this device — it pulls the full dashboard.':'No key on this device — you will only sync the signed-in student’s own work.';
     document.getElementById('pass-status').textContent=teacherPass()?'A passcode is set.':'No passcode set yet.';
     document.getElementById('settingsModal').classList.remove('hidden');
   }
@@ -950,6 +1058,11 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
       var u=document.getElementById('sheet-url').value.trim();
       if(u)LS.setItem(K('sheetURL'),u); else LS.removeItem(K('sheetURL'));
       document.getElementById('sheet-status').textContent=u?'Saved. Sheet logging is on.':'Cleared. Sheet logging is off.';
+    };
+    document.getElementById('btn-save-key').onclick=function(){
+      var k=document.getElementById('sync-key').value.trim();
+      if(k)LS.setItem(K('syncKey'),k); else LS.removeItem(K('syncKey'));
+      document.getElementById('key-status').textContent=k?'Key saved on this device — it pulls the full dashboard.':'Key cleared — this device now syncs only the signed-in student’s own work.';
     };
     document.getElementById('btn-test-sheet').onclick=function(){
       var st=document.getElementById('sheet-status');
@@ -995,6 +1108,10 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   try{wire();}catch(e){if(window.console)console.error('wire() failed:',e);}
   applySeeds();
   boot();
+  /* Offline-first: boot() has already rendered from local storage, so a slow or dead backend never
+     blocks the app. The pull merges in whatever the cloud knows and re-renders only if it changed. */
+  runSync(rerenderView);
+  setInterval(function(){runSync(rerenderView);},60000);
 })();
 </script>
 

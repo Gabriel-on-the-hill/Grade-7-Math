@@ -25,18 +25,27 @@ The house rules for **how we teach** are in the root [AGENTS.md](../AGENTS.md), 
 If a change would soften a standard to make a lesson feel easier, that is the one move the whole
 system exists to prevent.
 
-## The gap this hub has not closed: spacing
+## The gap this hub has closed: spacing
 
-The engine tracks mastery per topic (`attempts`, `correct`, `skillStats`, `struggles`,
-`lastPracticed`) but **nothing brings a topic back once it is mastered.** A student climbs a lesson,
-the bar goes green, and it is never seen again — so it is quietly forgotten (root rule 3; `MR-1`,
-the largest effect in the learning literature, and this hub has none of it).
+This hub used to track mastery per topic (`attempts`, `correct`, `skillStats`, `struggles`,
+`lastPracticed`) and then **never bring a topic back** — the bar went green and the topic was quietly
+forgotten (root rule 3; `MR-1`, the largest effect in the learning literature). That is now closed, in
+three parts:
 
-A **gap, not a bug** — nothing is broken, there is just no review scheduler. `lastPracticed` is
-already recorded, so a "due for review" surface built on it is the highest-value pedagogy change
-available here. The sister SAT apps now run such a ladder (1 → 3 → 7 → 21 → 42 days) as a pattern to
-borrow. **Raise it before building it** — it touches the shared data contract, and Grade 8 inherits
-whatever you change.
+1. **The hub surfaces "Due for review"** on a `1 → 3 → 7 → 21 → 42` day ladder over `lastPracticed`,
+   most-overdue first, never listing an unstarted topic, and always separate from the (monotonic)
+   mastery bar.
+2. **The engine writes real streaks** — per topic (`reviewStreak`/`reviewDay`) and per skill
+   (`skillStats[k].streak`/`.day`/`.last`) — advancing one rung per clean session, at most one rung
+   per calendar day, resetting on a miss.
+3. **`?review=<skill>` is a retrieval, not a re-read.** This is the load-bearing part. `restoreProgress()`
+   re-fills a completed item with its own correct answer, so a plain revisit of a due topic *hands back
+   the answer key*. Review mode takes the due skill's already-authored Target/Exam items, clears them for
+   a genuine attempt, and hides the rest of the lesson. It never writes to the stored tree, so the mastery
+   bar cannot move backwards, and the attempt lands in the `AN-4` retention bucket.
+
+**If you touch this, keep the invariant: a due revisit must never show its own answers.** The suites in
+both grades assert it. This is shared-contract work — **Grade 8 inherits it, so change both, check both.**
 
 ## Student data: the pattern is already right — follow it
 
@@ -53,3 +62,15 @@ and their state in a tutor-facing `LEDGER.md` inside it — never in anything th
 
 Grade 8 (`../Grade 8`) shares this engine and prefix. A fix here is **not** a fix there — change
 both, check both.
+
+**They are one engine again (16 Jul 2026).** Grade 8 had run ahead: it grew the v1.5 cloud-sync layer
+while this hub stayed local-only. That layer is now ported back here — same merge rules, same
+last-write-wins on `lastPracticed`, same auth — so neither grade is "the newer one." Both file to
+**one shared Apps Script deployment**, namespaced by hub id (`grade7` / `grade8`); do not deploy a
+second backend. See [HUB_Google_Sheet_Setup.md](HUB_Google_Sheet_Setup.md) and
+[PROJECT_STANDARD.md](PROJECT_STANDARD.md) §4.
+
+Drift is the standing risk here, and it is expensive: the parent/child direction has already inverted
+once (spaced review was built in Grade 8, sync in Grade 8, both ported back). When you touch the
+engine, prefer changing `Module_Template.html` and porting by **extracting** its blocks into the
+stamped copies rather than retyping — a hand-edited copy is how a `schedulePush` goes missing.
