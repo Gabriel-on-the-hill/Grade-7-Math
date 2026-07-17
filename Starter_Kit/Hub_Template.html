@@ -50,15 +50,11 @@ input.field:focus{outline:none;border-color:var(--green)}
 .signin{max-width:640px;margin:3.4rem auto 0;text-align:center}
 .signin h1{font-size:1.7rem;margin:0 0 .4rem}
 .signin p.sub{color:var(--muted);margin:0 0 1.6rem}
-.roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem;margin-top:.5rem}
-.name-tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.1rem .8rem;
-           cursor:pointer;box-shadow:var(--shadow);transition:.15s;display:flex;flex-direction:column;align-items:center;gap:.5rem}
-.name-tile:hover{border-color:var(--green);transform:translateY(-2px)}
-.name-tile:focus-visible,.tcard.avail:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.name-tile .av{width:46px;height:46px;border-radius:50%;background:var(--green-soft);color:var(--green);
-               display:grid;place-items:center;font-weight:700;font-size:1.15rem}
-.name-tile .nm{font-weight:600;font-size:.95rem}
+.tcard.avail:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .empty-note{background:var(--gold-soft);border:1px solid #EBD8A0;border-radius:12px;padding:1.1rem;color:#6b5410;font-size:.92rem}
+#signin-host{max-width:320px;margin:0 auto;display:flex;flex-direction:column;gap:.7rem}
+#signin-host .signin-err{color:var(--bad);font-size:.85rem;min-height:1.1em;text-align:center}
+#signin-host .signin-note{color:var(--muted);font-size:.82rem;text-align:center}
 
 /* App / topics */
 .hello{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:1.6rem}
@@ -180,12 +176,9 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   <!-- Sign-in -->
   <section id="view-signin" class="hidden">
     <div class="signin">
-      <h1>Who's working today?</h1>
-      <p class="sub">Choose your name to open your work and pick up where you left off.</p>
-      <div id="roster-grid" class="roster-grid"></div>
-      <div id="roster-empty" class="empty-note hidden">
-        No students on this device yet. If you're a student, ask your teacher to add your name &mdash; you'll never need to touch any setup yourself. Teachers: open <strong>Teacher</strong> (top right) &rarr; <strong>Manage roster</strong>.
-      </div>
+      <h1>Welcome</h1>
+      <p class="sub">Type your name to open your work and pick up where you left off.</p>
+      <div id="signin-host"></div>
     </div>
   </section>
 
@@ -284,7 +277,6 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   function K(s){return STORE_PREFIX+s;}
   function jget(k,f){try{var v=JSON.parse(LS.getItem(k));return (v===null||v===undefined)?f:v;}catch(e){return f;}}
   function jset(k,v){LS.setItem(k,JSON.stringify(v));}
-  var _showAllNames=false;
   function getRoster(){return jget(K('roster'),[]);}
   function setRoster(r){jset(K('roster'),r);}
   function getData(){return jget(K('data'),{students:{}});}
@@ -361,9 +353,12 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   var TEACHER_PASS_SEED='';  // e.g. 'lion8' — leave '' to require manual setup
   function applySeeds(){
     try{
-      var sv=JSON.stringify(ROSTER_SEED);
-      if(ROSTER_SEED.length && LS.getItem(K('seedv'))!==sv){
-        var r=getRoster();ROSTER_SEED.forEach(function(n){if(r.indexOf(n)<0)r.push(n);});setRoster(r);LS.setItem(K('seedv'),sv);
+      // When ROSTER_SEED is set, it is AUTHORITATIVE: exactly those names, nothing else (a locked
+      // class); any stray name is pruned every boot. Left empty (the template default), the roster
+      // stays teacher-managed via the dashboard. (If you add a PIN layer, prune stray PINs here too.)
+      if(ROSTER_SEED.length){
+        setRoster(ROSTER_SEED.slice());
+        LS.setItem(K('seedv'),JSON.stringify(ROSTER_SEED));
       }
       if(TEACHER_PASS_SEED && LS.getItem(K('passv'))!==TEACHER_PASS_SEED){LS.setItem(K('teacherPass'),TEACHER_PASS_SEED);LS.setItem(K('passv'),TEACHER_PASS_SEED);}
     }catch(e){}
@@ -419,19 +414,42 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   }
 
   // ---- sign in ----
+  // Resolve a typed name to its canonical roster spelling, case- and spacing-insensitive.
+  // Returns '' if not on the roster — the roster is never displayed, so a student never sees who
+  // else is enrolled, and only a real name gets in.
+  function resolveName(s){
+    s=String(s||'').trim().toLowerCase().replace(/\s+/g,' ');
+    if(!s)return '';
+    var r=getRoster();
+    for(var i=0;i<r.length;i++){ if(String(r[i]).trim().toLowerCase().replace(/\s+/g,' ')===s) return r[i]; }
+    return '';
+  }
   function renderSignIn(){
-    var grid=document.getElementById('roster-grid');var roster=getRoster();
-    var dev=LS.getItem(K('device'))||'';
-    var mine=!_showAllNames && dev && roster.indexOf(dev)>=0;
-    var names=mine?[dev]:roster;
-    document.getElementById('roster-empty').classList.toggle('hidden',roster.length>0);
-    grid.innerHTML=names.map(function(n){
-      return '<div class="name-tile" role="button" tabindex="0" data-n="'+esc(n)+'"><span class="av">'+esc(initials(n))+'</span><span class="nm">'+esc(n)+'</span></div>';
-    }).join('')+(mine?'<div style="grid-column:1/-1;margin-top:.3rem"><span id="show-all-names" style="font-size:.84rem;color:var(--green);font-weight:600;cursor:pointer">Someone else? Show all students</span></div>':'');
-    Array.prototype.forEach.call(grid.querySelectorAll('.name-tile'),function(t){
-      var go=function(){var n=t.getAttribute('data-n');setCurrent(n);LS.setItem(K('device'),n);_showAllNames=false;boot();};t.onclick=go;t.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};
-    });
-    var sa=document.getElementById('show-all-names');if(sa)sa.onclick=function(){_showAllNames=true;renderSignIn();};
+    var host=document.getElementById('signin-host');
+    var roster=getRoster();
+    if(!roster.length){
+      host.innerHTML='<div class="empty-note">No students on this device yet. Teachers: open <strong>Teacher</strong> (top right) &rarr; <strong>Manage roster</strong> to add names (or set <code>ROSTER_SEED</code> in the code).</div>';
+      show('view-signin');return;
+    }
+    var dev=resolveName(LS.getItem(K('device'))||'');   // a bound device only ever knows its own student
+    if(dev){
+      host.innerHTML='<button class="btn signin-go" id="signin-open">Continue as '+esc(dev)+'</button>'+
+        '<div class="signin-note">This device is set up for '+esc(dev)+'. If that is not you, ask your teacher.</div>';
+      document.getElementById('signin-open').onclick=function(){setCurrent(dev);LS.setItem(K('device'),dev);boot();};
+      show('view-signin');return;
+    }
+    host.innerHTML='<input id="signin-name" class="field signin-name" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Your name">'+
+      '<div id="signin-err" class="signin-err"></div>'+
+      '<button class="btn signin-go" id="signin-go">Continue</button>';
+    function go(){
+      var canon=resolveName(document.getElementById('signin-name').value);
+      if(!canon){document.getElementById('signin-err').textContent="We couldn't find that name. Check the spelling, or ask your teacher.";return;}
+      setCurrent(canon);LS.setItem(K('device'),canon);boot();
+    }
+    document.getElementById('signin-go').onclick=go;
+    var ni=document.getElementById('signin-name');
+    ni.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();go();}});
+    setTimeout(function(){try{ni.focus();}catch(e){}},30);
     show('view-signin');
   }
 

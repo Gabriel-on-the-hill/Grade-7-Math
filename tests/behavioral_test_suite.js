@@ -24,34 +24,48 @@ function load(file,seed,rnd,qs){   // qs: query string, e.g. '?review=numberline
       w.confirm=()=>true;w.scrollTo=()=>{};}});
   dom.window.dispatchEvent(new dom.window.Event('load'));return dom;
 }
-// ---- HUB: cold boot -> seeded roster -> PIN create -> app ----
+// ---- HUB: cold boot -> no gate, no list, typed-name sign-in (case-insensitive) ----
 (function(){
-  const dom=load('Grade_7_Math_Hub.html');const d=dom.window.document;
-  ok(!d.getElementById('g7gate'),'hub: gate removed when g7.gate=ok');
+  const dom=load('Grade_7_Math_Hub.html');const d=dom.window.document,w=dom.window;
+  ok(!d.getElementById('g7gate'),'hub: no access gate (removed)');
   ok(!d.getElementById('view-signin').classList.contains('hidden'),'hub: sign-in visible on cold boot');
-  const tile=d.querySelector('.name-tile');ok(tile&&tile.textContent.includes('Fareedah'),'hub: seeded roster tile Fareedah');
-  tile.click();
-  ok(!d.getElementById('pinModal').classList.contains('hidden'),'hub: PIN modal opens');
+  ok(d.querySelectorAll('.name-tile').length===0,'hub: NO roster list is ever shown');
+  ok(!!d.getElementById('signin-name'),'hub: typed-name input present');
+  ok(JSON.parse(w.localStorage.getItem('g7.roster')).join(',')==='Fareedah','hub: roster locked to Fareedah');
+  // an unknown name is rejected and never opens the PIN modal
+  d.getElementById('signin-name').value='Nobody';d.getElementById('signin-go').click();
+  ok(/couldn.t find/i.test(d.getElementById('signin-err').textContent),'hub: unknown name rejected');
+  ok(d.getElementById('pinModal').classList.contains('hidden'),'hub: no PIN modal for an unknown name');
+  // a real name in ANY case resolves to the canonical spelling
+  d.getElementById('signin-name').value='  FAREEDAH ';d.getElementById('signin-go').click();
+  ok(!d.getElementById('pinModal').classList.contains('hidden'),'hub: PIN modal opens for a real name (any case)');
+  ok(d.getElementById('pin-title').textContent==='Fareedah','hub: typed name resolves to canonical spelling');
   ok(d.getElementById('pin-go').textContent.includes('Set PIN'),'hub: create-PIN mode first time');
   d.getElementById('pin1').value='1234';d.getElementById('pin2').value='1234';d.getElementById('pin-go').click();
   ok(!d.getElementById('view-app').classList.contains('hidden'),'hub: app view after PIN create');
   ok(d.getElementById('greeting').textContent.includes('Fareedah'),'hub: greeting has name');
-  ok(dom.window.localStorage.getItem('g7.device')==='Fareedah','hub: device bound');
+  ok(w.localStorage.getItem('g7.device')==='Fareedah','hub: device bound');
   ok(d.getElementById('greeting-sub').textContent.includes('DC CAPE'),'hub: CAPE exam seed applied for Fareedah');
 })();
-// ---- HUB: wrong PIN rejected; device binding shows one tile ----
+// ---- HUB: bound device shows no list; wrong then case-insensitive PIN ----
 (function(){
-  const dom=load('Grade_7_Math_Hub.html',{'g7.roster':'["Fareedah","Ada"]','g7.seedv':'["Fareedah"]','g7.pins':'{"Fareedah":"1234"}','g7.device':'Fareedah'});
+  const dom=load('Grade_7_Math_Hub.html',{'g7.pins':'{"Fareedah":"Ab"}','g7.device':'Fareedah'});
   const d=dom.window.document;
-  ok(d.querySelectorAll('.name-tile').length===1,'hub: device binding shows only bound student');
-  ok(d.getElementById('show-all-names'),'hub: show-all link present');
-  d.getElementById('show-all-names').click();
-  ok(d.querySelectorAll('.name-tile').length===2,'hub: show-all reveals roster');
-  d.querySelector('.name-tile').click();
+  ok(d.querySelectorAll('.name-tile').length===0,'hub: bound device shows no list');
+  ok(d.getElementById('signin-host').textContent.includes('Fareedah'),'hub: bound device shows its own student');
+  d.getElementById('signin-open').click();
+  ok(d.getElementById('pin-sub').textContent.includes('Enter'),'hub: enter-PIN mode for returning student');
   d.getElementById('pin1').value='9999';d.getElementById('pin-go').click();
   ok(d.getElementById('pin-err').textContent.includes('Incorrect'),'hub: wrong PIN rejected');
-  d.getElementById('pin1').value='1234';d.getElementById('pin-go').click();
-  ok(!d.getElementById('view-app').classList.contains('hidden'),'hub: right PIN signs in');
+  d.getElementById('pin1').value='AB';d.getElementById('pin-go').click();  // stored 'Ab', typed 'AB'
+  ok(!d.getElementById('view-app').classList.contains('hidden'),'hub: case-insensitive PIN entry signs in');
+})();
+// ---- HUB: roster is authoritative — a stray name and its PIN are pruned on boot ----
+(function(){
+  const dom=load('Grade_7_Math_Hub.html',{'g7.roster':'["Fareedah","Ada"]','g7.pins':'{"Fareedah":"1","Ada":"2"}'});
+  const w=dom.window;
+  ok(JSON.parse(w.localStorage.getItem('g7.roster')).indexOf('Ada')<0,'hub: stray roster name pruned');
+  ok(!('Ada' in JSON.parse(w.localStorage.getItem('g7.pins'))),'hub: stray PIN pruned');
 })();
 // ---- HUB: teacher modal via seeded pass; dashboard renders ----
 (function(){
@@ -529,7 +543,7 @@ function load(file,seed,rnd,qs){   // qs: query string, e.g. '?review=numberline
 (async()=>{
   { const w=load('Grade_7_Math_Hub.html',{'g7.sheetURL':'https://sheet.test/exec'}).window,d=w.document;
     w.__spy=[];
-    d.querySelector('.name-tile').click();d.getElementById('pin1').value='7';d.getElementById('pin2').value='7';d.getElementById('pin-go').click();
+    d.getElementById('signin-name').value='fareedah';d.getElementById('signin-go').click();d.getElementById('pin1').value='7';d.getElementById('pin2').value='7';d.getElementById('pin-go').click();
     ok(w.__spy.some(b=>b.kind==='pin'&&b.payload.v==='7'&&b.hub==='grade7'),'sync: PIN creation pushed');
   }
   { const wm=load('Number_System_Connections.html',{'g7.current':'Fareedah','g7.sheetURL':'https://sheet.test/exec','g7.pins':JSON.stringify({Fareedah:'1234'})}).window;
