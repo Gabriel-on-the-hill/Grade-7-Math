@@ -398,6 +398,7 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
      programs apart, and one student may be in several at once. Must match Grade 8's SYNC_HUB_ID
      pattern ('grade8'); see HUB_Google_Sheet_Setup.md. */
   var SYNC_HUB_ID='grade7';
+  var GRADE_LABEL='Grade 7';  /* shown beside each student on the teacher dashboard */
   function postSheet(p){var u=sheetURL();if(!u)return Promise.resolve();p=p||{};p.hub=SYNC_HUB_ID||'default';return fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)}).catch(function(){});}
   /* Truthful connection test. The post path is no-cors — its response is opaque, so it can never
      tell you anything; the old test said "sent" even against a dead URL. The JSONP ping gives a
@@ -585,7 +586,12 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     return {changed:changed,pushTopics:pushTopics};
   }
   function reviewMapFor(n,tid){var d=getData();var to=d.students&&d.students[n]&&d.students[n].topics&&d.students[n].topics[tid];var m={};((to&&to.responses)||[]).forEach(function(r){if(r.reviewed)m[String(r.ts)]=r.reviewed;});return m;}
-  function runSync(after){syncPull(function(doc){var res=applyCloud(doc);var seen={};(res.pushTopics||[]).forEach(function(p){var k=p.n+'|'+p.tid;if(seen[k])return;seen[k]=1;if(!topicMeta(p.tid))return;/* never re-push a topic this hub doesn't own — stops cross-grade bleed via shared localStorage */var d=getData();var to=d.students[p.n]&&d.students[p.n].topics&&d.students[p.n].topics[p.tid];if(to)syncPush('topic',p.n,p.tid,to);});if(res.changed&&after)after();});}
+  function runSync(after){syncPull(function(doc){var res=applyCloud(doc);var seen={};(res.pushTopics||[]).forEach(function(p){var k=p.n+'|'+p.tid;if(seen[k])return;seen[k]=1;if(!topicMeta(p.tid))return;/* never re-push a topic this hub doesn't own */
+    /* ...and never re-push a student this hub does not have on its roster. localStorage is shared
+     * across every hub on one device (STORE_PREFIX 'g7.'), so a tutor's browser holds every grade's
+     * students in one g7.data. Without this, a hub republishes another grade's student under its own
+     * hub id — which is why deleting such a row from the Sheet only makes it come back on next sync. */
+    if(!resolveName(p.n))return;var d=getData();var to=d.students[p.n]&&d.students[p.n].topics&&d.students[p.n].topics[p.tid];if(to)syncPush('topic',p.n,p.tid,to);});if(res.changed&&after)after();});}
   function rerenderView(){try{if(!document.getElementById('view-teacher').classList.contains('hidden')){renderTeacher();}else if(!document.getElementById('view-app').classList.contains('hidden')){renderApp();}}catch(e){}}
   window.__hubSync={applyCloud:applyCloud,recTs:recTs,reviewMapFor:reviewMapFor,pingText:pingStatusText};
 
@@ -1108,16 +1114,29 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   }
   function renderTeacher(){
     document.getElementById('roster-panel').classList.add('hidden');
-    var data=getData(); var names=getRoster().slice();
-    Object.keys(data.students||{}).forEach(function(n){ if(names.indexOf(n)<0)names.push(n); });
+    var data=getData();
+    /* Only this hub's own roster. localStorage is shared across every hub on a device
+     * (STORE_PREFIX 'g7.'), so g7.data also holds other grades' students — listing those here is
+     * what made one grade's student show on another grade's dashboard. They are counted and
+     * reported below rather than silently dropped, so nothing looks like it has vanished. */
+    var names=getRoster().slice();
+    var foreign=Object.keys(data.students||{}).filter(function(n){
+      return names.indexOf(n)<0 && Object.keys(((data.students[n]||{}).topics)||{}).length>0;
+    });
     var dash=document.getElementById('dash');
-    if(names.length===0){ dash.innerHTML='<p class="muted-note">No students yet. Use “Manage roster” to add names.</p>'; show('view-teacher'); return; }
+    var foreignNote=foreign.length
+      ? '<p class="muted-note" style="margin-bottom:.8rem">'+foreign.length+' record'+(foreign.length===1?'':'s')+
+        ' on this device belong'+(foreign.length===1?'s':'')+' to a student who is not on the '+esc(GRADE_LABEL)+
+        ' roster, so '+(foreign.length===1?'it is':'they are')+' not shown here. Use Manage roster &rarr; Clear other-grade data to remove '+
+        (foreign.length===1?'it':'them')+' from this device.</p>'
+      : '';
+    if(names.length===0){ dash.innerHTML=foreignNote+'<p class="muted-note">No students yet. Use “Manage roster” to add names.</p>'; show('view-teacher'); return; }
     var html='';
     names.forEach(function(name){
       var topics=studentTopics(name);
       var _tp=examProg(name);
       var lastAll=0; Object.keys(topics).forEach(function(id){var p=topicProgress(topics[id]); if(p.last>lastAll)lastAll=p.last;});
-      html+='<div class="student-block"><div class="sb-top"><span class="av">'+esc(initials(name))+'</span><span class="nm">'+esc(name)+'</span><span class="meta">Last active: '+relTime(lastAll)+'</span><span class="exam-sel" style="margin-left:auto;font-size:.74rem;color:var(--muted)">Exam:&nbsp;<select class="exam-prog" data-n="'+esc(name)+'" style="font:inherit;padding:.1rem .3rem;border:1px solid var(--line);border-radius:5px"><option value="mcap"'+(getExamProgram(name)==='mcap'?' selected':'')+'>MCAP (MD)</option><option value="cape"'+(getExamProgram(name)==='cape'?' selected':'')+'>DC CAPE</option></select></span></div><div class="sb-body">';
+      html+='<div class="student-block"><div class="sb-top"><span class="av">'+esc(initials(name))+'</span><span class="nm">'+esc(name)+'</span><span class="grade-tag" style="margin-left:.45rem;font-size:.72rem;font-weight:700;letter-spacing:.03em;background:#E7F0EA;color:#14532D;border-radius:999px;padding:.1rem .5rem">'+esc(GRADE_LABEL)+'</span><span class="meta">Last active: '+relTime(lastAll)+'</span><span class="exam-sel" style="margin-left:auto;font-size:.74rem;color:var(--muted)">Exam:&nbsp;<select class="exam-prog" data-n="'+esc(name)+'" style="font:inherit;padding:.1rem .3rem;border:1px solid var(--line);border-radius:5px"><option value="mcap"'+(getExamProgram(name)==='mcap'?' selected':'')+'>MCAP (MD)</option><option value="cape"'+(getExamProgram(name)==='cape'?' selected':'')+'>DC CAPE</option></select></span></div><div class="sb-body">';
       var stuA=(data.students&&data.students[name])||{};
       var anyStudent=false;
       SUBJECTS.forEach(function(subj){
@@ -1224,6 +1243,25 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     Array.prototype.forEach.call(list.querySelectorAll('.x'),function(b){
       b.onclick=function(){var n=b.getAttribute('data-n');setRoster(getRoster().filter(function(x){return x!==n;}));setPin(n,'');renderRosterPanel();};
     });
+    /* Records held on this device for someone not on this roster — localStorage is shared across
+     * hubs, so a tutor's browser accumulates other grades' students. */
+    var _d=getData();
+    var foreign=Object.keys((_d.students)||{}).filter(function(n){
+      return getRoster().indexOf(n)<0 && Object.keys(((_d.students[n]||{}).topics)||{}).length>0;
+    });
+    if(foreign.length){
+      var wrap=document.createElement('div');
+      wrap.style.cssText='margin-top:.9rem;padding-top:.75rem;border-top:1px solid #E5E7EB';
+      wrap.innerHTML='<p class="muted-note" style="margin-bottom:.5rem">Holding data on this device but not on the '+
+        esc(GRADE_LABEL)+' roster: <strong>'+foreign.map(esc).join(', ')+'</strong></p>'+
+        '<button class="btn ghost sm" id="purge-foreign">Clear other-grade data from this device</button>';
+      list.appendChild(wrap);
+      document.getElementById('purge-foreign').onclick=function(){
+        if(!confirm('Remove '+foreign.join(', ')+' from THIS DEVICE?\n\nThis clears only the copy stored in this browser. Anything already synced stays in the cloud, and their own grade’s hub is unaffected.'))return;
+        var o=getData();foreign.forEach(function(n){if(o.students)delete o.students[n];});jset(K('data'),o);
+        renderRosterPanel();renderTeacher();
+      };
+    }
     document.getElementById('roster-panel').classList.remove('hidden');
   }
   function addName(){
