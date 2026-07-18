@@ -17,7 +17,7 @@ The short version:
   writes real per-topic *and* per-skill streaks, and `?review=<skill>` opens a module straight into a
   retrieval set of its own authored items. **A due revisit must never pre-fill its answers** — that is
   what review mode exists to prevent, and it is the one regression to watch for.
-- **Public repo, publishes `.md`.** Student data is gitignored (see `Fareedah/`) and lives in a
+- **Public repo, publishes `.md`.** Student data is gitignored (see `<student>/`) and lives in a
   tutor-facing `LEDGER.md`, never in anything the hub serves. Same for every new student.
 
 House pedagogy is in the root [AGENTS.md](../AGENTS.md).

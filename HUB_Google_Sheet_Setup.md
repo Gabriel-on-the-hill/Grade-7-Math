@@ -63,8 +63,8 @@ The `Log` tab columns:
 
 | when | hub | student | topic | question | event | detail |
 |---|---|---|---|---|---|---|
-| 2026-07-16 14:02 | grade7 | Damilare | Number System Connections | Q4.2a | struggle | typed "1/4" |
-| 2026-07-16 14:03 | grade7 | Damilare | Number System Connections | Q4.2a | step_complete | — |
+| 2026-07-16 14:02 | grade7 | <student> | Number System Connections | Q4.2a | struggle | typed "1/4" |
+| 2026-07-16 14:03 | grade7 | <student> | Number System Connections | Q4.2a | step_complete | — |
 
 **Event types:** `step_complete` (right), `struggle` (a wrong attempt — *detail* shows what they typed),
 `constructed_response`, `topic_opened`, and `review_opened` (a spaced-review retrieval session, *detail*

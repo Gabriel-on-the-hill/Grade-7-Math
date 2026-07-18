@@ -1,16 +1,16 @@
 # DC CAPE vs Maryland MCAP — Grade 7 Math Blueprint Comparison
 
-**Why this exists:** Fareedah is in Washington, DC, so her exam is **DC CAPE** (DC Math), not Maryland's **MCAP**. This compares the two Grade 7 math blueprints and flags exactly where they diverge — and what it means for the hub.
+**Why this exists:** the Grade 7 student is in Washington, DC, so her exam is **DC CAPE** (DC Math), not Maryland's **MCAP**. This compares the two Grade 7 math blueprints and flags exactly where they diverge — and what it means for the hub.
 
 **Sources (both in the project folder):**
-- `Fareedah/DC CAPE Math Sp24 Assessment Design and Blueprint.FINAL.pdf` (OSSE / Pearson, Spring 2024)
+- `<student>/DC CAPE Math Sp24 Assessment Design and Blueprint.FINAL.pdf` (OSSE / Pearson, Spring 2024)
 - `Grade_7_MCAP_Public_Blueprint-A.pdf` (MSDE, Sept 2022)
 
 ---
 
 ## Headline
 
-**The tested content is the same; the test *architecture* is different.** Both assess the identical Common Core Grade 7 domains (7.RP, 7.NS, 7.EE, 7.G, 7.SP) — so everything you're building in the hub serves Fareedah as well as a Maryland student. What differs is how each program **organizes, weights, scores, and frames** those standards. CAPE is the direct continuation of **PARCC** (DC was a PARCC state 2015–2023, vendor Pearson); MCAP is Maryland's own PARCC-descended program (vendor for scoring differs). Same CCSS roots, two different reporting skeletons.
+**The tested content is the same; the test *architecture* is different.** Both assess the identical Common Core Grade 7 domains (7.RP, 7.NS, 7.EE, 7.G, 7.SP) — so everything you're building in the hub serves the Grade 7 student as well as a Maryland student. What differs is how each program **organizes, weights, scores, and frames** those standards. CAPE is the direct continuation of **PARCC** (DC was a PARCC state 2015–2023, vendor Pearson); MCAP is Maryland's own PARCC-descended program (vendor for scoring differs). Same CCSS roots, two different reporting skeletons.
 
 ---
 
@@ -50,7 +50,7 @@
 
 ## Where they diverge (the actual answer)
 
-1. **Reporting frame — Task Type vs Subclaim.** CAPE buckets every item as Type 1 (skills), Type 2 (reasoning), or Type 3 (modeling) — the PARCC scheme. MCAP buckets as Content / Reasoning / Modeling *subclaims*. These are close cousins (Type 1↔Content, Type 2↔Reasoning, Type 3↔Modeling), but the vocabulary and score reports Fareedah sees will use **Type 1/2/3**, not subclaims.
+1. **Reporting frame — Task Type vs Subclaim.** CAPE buckets every item as Type 1 (skills), Type 2 (reasoning), or Type 3 (modeling) — the PARCC scheme. MCAP buckets as Content / Reasoning / Modeling *subclaims*. These are close cousins (Type 1↔Content, Type 2↔Reasoning, Type 3↔Modeling), but the vocabulary and score reports the Grade 7 student sees will use **Type 1/2/3**, not subclaims.
 
 2. **Point values per item.** CAPE has **multi-point machine-scored items** — 2-point Type 1 items (five of them) and a **6-point** Type 3 task. MCAP content is strictly **1-point**, and its only multi-point items are 3- and 4-point constructed responses. So CAPE rewards partial credit on skill items and has a higher single-task ceiling.
 
@@ -60,18 +60,18 @@
 
 5. **Test length & timing.** CAPE Grade 7 = **3 sections × 60 minutes** (180 min), mostly calculator-allowed. MCAP's blueprint here doesn't specify timing. CAPE is 31 items / 52 points vs MCAP 35 items / 45 points — CAPE is **fewer items but more points each**.
 
-6. **What does NOT diverge.** The **content** — every Grade 7 CCSS domain and cluster is common to both (identical 7.RP / 7.NS / 7.EE / 7.G / 7.SP). Both are computer-based and use MC/MS/fill-in/TE. So the hub's five units are correct for Fareedah with **zero content changes**.
+6. **What does NOT diverge.** The **content** — every Grade 7 CCSS domain and cluster is common to both (identical 7.RP / 7.NS / 7.EE / 7.G / 7.SP). Both are computer-based and use MC/MS/fill-in/TE. So the hub's five units are correct for the Grade 7 student with **zero content changes**.
 
 ---
 
-## Implications for the hub (Fareedah)
+## Implications for the hub (the Grade 7 student)
 
 - **No curriculum change needed.** The units (Number System, Ratios & Proportional, Expressions/Equations/Inequalities, Geometry, Statistics & Probability) map cleanly to CAPE. The MCAP-released items woven in as "Exam" capstones remain **valid content practice** — same standards, same PARCC lineage.
-- **Framing should match her exam.** For Fareedah the tagline/label should read **CAPE / DC Math**, and exam capstones ideally reflect CAPE's shape:
+- **Framing should match her exam.** For the Grade 7 student the tagline/label should read **CAPE / DC Math**, and exam capstones ideally reflect CAPE's shape:
   - add some **2-point** skill items and a **6-point** modeling task (CAPE has these; MCAP doesn't),
   - lean on **technology-enhanced / multi-step** tasks over "write your explanation" prompts,
   - keep it **calculator-friendly** for the proportional-reasoning and later units.
 - **Best CAPE-authentic source = released PARCC items** (and Pearson/TestNav Grade 7 math practice), since CAPE *is* PARCC continued. Worth adding a `CAPE / PARCC` item folder next to the `MCAP RELEASES PER TOPIC` folder.
 - **Engine-wise**, the cleanest handling is a **per-student "exam program" setting** (MCAP vs CAPE) that only swaps the framing/labels and which capstones surface — the underlying content and skills tracking stay identical. This fits the existing multi-subject engine without a fork. (Optional, low priority — the content already serves her.)
 
-**Bottom line:** CAPE and MCAP diverge in *packaging* (task-type vs subclaim, multi-point vs 1-point items, TE vs human-scored CR, published vs unpublished domain weights, timing) but **not in the Grade 7 content**. Fareedah can use the same hub; the only real adjustments are exam-prep *framing* and pulling a few CAPE/PARCC-style item shapes (2-pt and 6-pt tasks) into her capstones.
+**Bottom line:** CAPE and MCAP diverge in *packaging* (task-type vs subclaim, multi-point vs 1-point items, TE vs human-scored CR, published vs unpublished domain weights, timing) but **not in the Grade 7 content**. the Grade 7 student can use the same hub; the only real adjustments are exam-prep *framing* and pulling a few CAPE/PARCC-style item shapes (2-pt and 6-pt tasks) into her capstones.

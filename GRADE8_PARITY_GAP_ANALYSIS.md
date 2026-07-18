@@ -53,7 +53,7 @@ Grade 7's `PROJECT_STANDARD.md` also has **zero** mention of engine versioning, 
 - Add `ROSTER_SEED` and `TEACHER_PASS_SEED` constants to `Grade_7_Math_Hub.html` (and the template).
 - Add the versioned-merge logic keyed on `g7.seedv` (merge once; never overwrite PINs/progress/teacher additions).
 - Add student-friendly empty-state copy.
-- Fill the seeds with the real Grade 7 roster (Grade 8's are `['Divine','Ayodeji']` / `'Gabe'` — Grade 7 needs its own; e.g. Damilare, Fareedah, and whoever else is on the Grade 7 roster — **confirm before shipping**).
+- Fill the seeds with the real Grade 7 roster (Grade 8's are `['<student>','<student>']` / `'Gabe'` — Grade 7 needs its own; e.g. the Grade 7 roster names is on the Grade 7 roster — **confirm before shipping**).
 
 **Files:** `Grade_7_Math_Hub.html`, `Starter_Kit/Hub_Template.html`.
 
@@ -207,7 +207,7 @@ Grade 7's standard is the **original v1 charter**. It is missing everything Grad
 **Grade 7 now:** **not a git repo** (no `.git`), no `.gitignore`, no `index.html` redirect, no Pages deployment. There is currently **no way to publish Grade 7** and no protection against committing the copyrighted textbook PDFs sitting in the folder (enVision, Illustrative Mathematics, Spectrum, Glencoe, MCAP releases — several are large copyrighted works).
 
 **Adjust in Grade 7:**
-- Add a `.gitignore` mirroring Grade 8's (exclude all `*.pdf`, `Curriculum/`, `MCAP RELEASES PER TOPIC/`, any textbook folders, `Fareedah/`, `Class Summaries…` if private).
+- Add a `.gitignore` mirroring Grade 8's (exclude all `*.pdf`, `Curriculum/`, `MCAP RELEASES PER TOPIC/`, any textbook folders, `<student>/`, `Class Summaries…` if private).
 - Add an `index.html` redirect to `Grade_7_Math_Hub.html` (Grade 7 has a `Module_Template.html` but no `index.html`).
 - Stand up a Grade-7 Pages repo and document the deploy flow in the standard §11.
 - **Before any first commit, confirm the `.gitignore` blocks every PDF** — the folder is full of copyrighted material.

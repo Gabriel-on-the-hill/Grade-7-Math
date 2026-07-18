@@ -197,7 +197,7 @@ plus the retention layer:
 - [ ] **Un-telegraphed exam capstones**, drawn from real MCAP items on top of the curriculum, never
       instead of it.
 - [ ] **Public repo, publishes markdown.** Any per-student data is gitignored *before* commit and
-      lives in a tutor-facing `LEDGER.md` (see `Fareedah/`) — root rule 6.
+      lives in a tutor-facing `LEDGER.md` (see `<student>/`) — root rule 6.
 - [ ] **A test guards it** (item 0 makes this possible — keep the suite green).
 
 ## 4 · Motivation layer — `MO-1`…`MO-6` · ⬜ **open — the last category still ◐**

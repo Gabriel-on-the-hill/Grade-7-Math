@@ -50,7 +50,7 @@ both grades assert it. This is shared-contract work — **Grade 8 inherits it, s
 ## Student data: the pattern is already right — follow it
 
 The repo is **PUBLIC and publishes `.md` files** (the `.gitignore` blocks PDFs, `Curriculum/`,
-`Textbooks/`, and student folders). `Fareedah/` is gitignored, and it holds a `Fareedah/LEDGER.md`
+`Textbooks/`, and student folders). `<student>/` is gitignored, and it holds a `<student>/LEDGER.md`
 that is tutor-facing and correctly never published — read its top matter, it explains the rule
 (root rule 6: a note about a named minor, committed to a public repo, goes to the internet).
 

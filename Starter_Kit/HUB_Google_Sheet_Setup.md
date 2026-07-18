@@ -65,8 +65,8 @@ new row must read your id, not `CHANGEME` and not `default`.
 
 | when | hub | student | topic | question | event | detail |
 |---|---|---|---|---|---|---|
-| 2026-07-16 14:02 | grade9 | Damilare | Linear Functions | Q4.2a | struggle | typed "1/4" |
-| 2026-07-16 14:03 | grade9 | Damilare | Linear Functions | Q4.2a | step_complete | — |
+| 2026-07-16 14:02 | grade9 | <student> | Linear Functions | Q4.2a | struggle | typed "1/4" |
+| 2026-07-16 14:03 | grade9 | <student> | Linear Functions | Q4.2a | step_complete | — |
 
 **Event types:** `step_complete` (got it right), `struggle` (a wrong attempt — *detail* shows what they
 typed), `constructed_response`, `topic_opened`, and `review_opened` (a spaced-review retrieval session;
