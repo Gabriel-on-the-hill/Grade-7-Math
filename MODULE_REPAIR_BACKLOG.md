@@ -151,7 +151,64 @@ Re-run `node tests/exam_coverage.test.js` after each pass; it goes green when §
 
 ---
 
-## 8. One caveat about the guard
+## 8. TODO — platform, not content: the two hubs share one storage namespace
+
+**This is not a module repair, but it belongs here because Grade 7 is one of the two victims.**
+It affects Grade 7 and Grade 8 equally and should be fixed before more is built on top.
+
+### The defect
+
+Both hubs declare `var STORE_PREFIX='g7.'` (line ~336 in each). So on any device that opens both —
+the tutor's, always — `g7.roster`, `g7.data`, `g7.pins`, `g7.current`, `g7.teacherPass` and
+`g7.syncKey` are **one shared set of keys**.
+
+`applySeeds()` then rewrites the roster on **every boot**, unconditionally, and prunes the PIN of any
+name not in *this* hub's seed (`Grade_7_Math_Hub.html`, in `applySeeds`, the `if(ROSTER_SEED.length)`
+branch — note there is no `seedv` guard on it, unlike the passcode branch below it):
+
+| Tutor opens | Effect on the shared store |
+|---|---|
+| Grade 8 | roster ← the Grade 8 seed; **the Grade 7 student's PIN is deleted** |
+| then Grade 7 | roster ← `['<student>']`; **both Grade 8 students' PINs are deleted** |
+| then Grade 8 | the Grade 7 PIN is deleted again… |
+
+It self-heals on the next cloud pull (PINs return with the teacher key), so it looks harmless — but
+the churn is masking a real fault, and it is the **same root cause** behind three symptoms already
+hit in July 2026:
+
+1. A deleted `Homework`/SyncStore row **reappeared** — the tutor's device republished another
+   grade's student, because the push loop iterated every student in the shared `g7.data`.
+   *(Fixed 19 Jul by a roster-membership guard on push — the symptom, not the cause.)*
+2. A **Grade 7 student appeared on the Grade 8 dashboard** — the dashboard listed anyone found in
+   shared data. *(Fixed 19 Jul by scoping the dashboard to the hub's own roster.)*
+3. **Removing a student from the roster changed nothing**, because the roster governs sign-in while
+   the data lives in the shared store.
+
+### The fix, and why it needs care
+
+Give each hub its own prefix (`g7.` → `g8.` for Grade 8; keep `g7.` here). It is a one-constant
+change **plus a migration**: every existing device already holds that student's PINs, progress and
+device binding under `g7.`. Shipping the rename without a migration would strand a student's work
+and PIN on their own device and make them look like a brand-new user.
+
+Suggested approach: on boot, if the new prefix has no data and the old one does, copy the keys this
+hub owns across once, and record that the migration ran.
+
+### Related, separate: a single teacher console
+
+Two dashboards is *sufficient* but the wrong shape for a tutor who teaches both grades — two URLs to
+answer one question. More importantly, **a student's history spans grades**: the Grade 8 student was
+Grade 7 in 2025–26, so her record lives under two hub ids, and no per-hub dashboard can ever show
+that trajectory.
+
+The data is already unified — the Sheet namespaces by `hub`, and the `Homework` and `Log` tabs both
+carry a `hub` column. **Only the view is split.** One teacher-key-gated console that pulls every hub
+and groups by grade would do it.
+
+**Order:** fix `STORE_PREFIX` first (it is the root cause of three symptoms), then build the console
+if wanted. Do **not** add a third dashboard for Grade 7 — that multiplies the problem.
+
+## 9. One caveat about the guard
 
 `exam_coverage.test.js` originally reported a **pass** on `Number_System_Connections` while reading
 nothing at all: cards in this repo are written `class="qcard interactive"`, and the check matched
