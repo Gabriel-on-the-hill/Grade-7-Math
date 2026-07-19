@@ -1,6 +1,7 @@
 # Grade 7 — module repair backlog
 
-**Status: findings only. Nothing here has been fixed yet.**
+**Status: §§1–7 are findings only — none of the content work has been done yet.**
+**§8 (the shared storage namespace) is FIXED as of 19 Jul 2026** — see that section.
 Written 18 Jul 2026 after the same audit was run and repaired on Grade 8, so this folder has the
 evidence ready for a thorough pass later.
 
@@ -151,10 +152,27 @@ Re-run `node tests/exam_coverage.test.js` after each pass; it goes green when §
 
 ---
 
-## 8. TODO — platform, not content: the two hubs share one storage namespace
+## 8. FIXED 19 Jul 2026 — platform, not content: the two hubs shared one storage namespace
 
-**This is not a module repair, but it belongs here because Grade 7 is one of the two victims.**
-It affects Grade 7 and Grade 8 equally and should be fixed before more is built on top.
+**This is not a module repair, but it belongs here because Grade 7 was one of the two victims.**
+
+**Outcome:** Grade 8 now owns `g8.` (commit `b92c15e` in that repo), with a one-time per-device
+migration. **Grade 7 keeps `g7.` and needed no code change** — its hub and its modules already agree
+on that prefix, so it is self-consistent. Nothing is outstanding here for this folder.
+
+**One correction to the analysis below, because it under-scoped the job.** The text originally called
+this "a one-constant change plus a migration." It was not. The **modules never used `STORE_PREFIX` at
+all** — each one hardcoded `'g7.current'`, `'g7.data'`, `'g7.pins'` and `'g7.sheetURL'`, ten literals
+per file, so the hub's constant never governed them. Changing only the hub would have split hub from
+modules: the dashboard would read `g8.data` while the modules kept writing `g7.data`, and **a
+student's work would have silently stopped appearing** — a worse failure than the one being fixed,
+and one that looks exactly like "no work done." The real change was the constant, plus `G7_STORE` in
+three live modules and both Starter Kit templates, plus the migration.
+
+**Read this as a general lesson:** a constant that is only honoured by one of the files that shares it
+is not a constant. Before renaming one, grep for the literal, not just for the constant's name.
+
+*The original finding is kept below, as written, for the record.*
 
 ### The defect
 
@@ -207,6 +225,9 @@ and groups by grade would do it.
 
 **Order:** fix `STORE_PREFIX` first (it is the root cause of three symptoms), then build the console
 if wanted. Do **not** add a third dashboard for Grade 7 — that multiplies the problem.
+
+**Status 19 Jul 2026:** the `STORE_PREFIX` prerequisite is done, so the console is unblocked and is
+now the open item in this section. It is still a *want*, not a defect — nothing is broken without it.
 
 ## 9. One caveat about the guard
 
