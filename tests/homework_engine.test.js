@@ -1,6 +1,6 @@
 /* Homework engine — hub logic guard.
  *
- * Drives the REAL pure functions out of Grade_8_Math_Hub.html:
+ * Drives the REAL pure functions out of this folder's *_Math_Hub.html:
  *   hwSetStatus   — release / catch-up rules
  *   hwItemDone    — reads module-recorded completion (one source of truth)
  *   hwSetProgress — how much of a set is done
@@ -9,6 +9,10 @@
  * The rule these protect: a released set NEVER re-locks. The students this engine exists for are
  * the ones catching up, and a lockout is precisely the friction that loses them.
  *
+ * The backend half of homework (per-student isolation) is NOT guarded here: it lives in the shared
+ * Apps Script, single-sourced in Grade 8's Starter_Kit/HUB_Sync_Apps_Script.gs and driven by that
+ * repo's tests/homework_backend.test.js — which does assert that a grade7 pull sees no grade8
+ * homework. One deployment serves both hubs, so duplicating the script here would fork it.
  * Run:  node tests/homework_engine.test.js
  */
 const fs = require('fs');

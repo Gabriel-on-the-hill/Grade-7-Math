@@ -1,5 +1,8 @@
 # Grade 7 Mathematics Hub — Project Operating Standard
 
+**Hand-off in progress?** Read [HANDOFF.md](HANDOFF.md) first — it carries the decided task list,
+the decisions already made (so they are not re-argued), and the traps that cost real time.
+
 **Purpose:** Single source of truth for this Grade 7 Mathematics hub. Any assistant/session should **read this file and `Module_Template.html` first**, then continue at (or above) this standard with minimal prompting. Keep this file updated as the standard evolves.
 
 > Project facts:
@@ -83,6 +86,26 @@ Header (title · unit · standard · objectives) → hub bar → progress → **
 
 ## 6. Homework model
 Auto-suggested from each student's weakest concepts (requires **≥2 misses per skill AND ≥25% miss ratio**, so one slip ≠ homework and mastered skills clear); optional teacher-set per-student assignment; the make-your-own challenge as the creative anchor. Homework "Mark done" (student) and constructed-response "Mark reviewed" (teacher) loops close the feedback cycle. Verification is automatic via timestamped tracking + dashboard.
+
+### 6.1 Where the homework backend lives (and why it is not in this repo)
+
+Homework has two halves. The **front half** — plans, sets, release dates, deep links into a module by
+`{ref:'module', topic, qid}`, and the auto-suggestion from `skillStats` — is in this hub and guarded by
+`tests/homework_deeplink|engine|publish.test.js`.
+
+The **back half** is a single Apps Script deployment shared by every hub in the family (SAT, Grade 7,
+Grade 8, …). It is checked in **once**, at `Grade 8/Starter_Kit/HUB_Sync_Apps_Script.gs`, and its guard
+is that repo's `tests/homework_backend.test.js`. Copying it here would fork a live backend, which §2.5
+forbids — so this note exists instead.
+
+**Why it matters that it is enforced there and not here.** This hub is a public static site, so hiding
+another student's homework in the UI would be decoration; isolation has to be a backend property. That
+suite asserts a student can only write their own state, cannot publish a plan, and — the line that
+protects *this* grade — that a `grade7` pull sees no `grade8` homework. Rows are namespaced by the hub
+id each app sends (`SYNC_HUB_ID` in the hub, `G7_SYNC_HUB` in each module; both `'grade7'` here).
+
+**If you change homework storage, run that suite in Grade 8 as well as this one.** A green suite here
+proves the app half only.
 
 ## 7. Build & verify discipline
 1. **Consult the sources first** (scan folder, read chapters/items); build from the best.

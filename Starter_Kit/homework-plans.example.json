@@ -1,0 +1,77 @@
+[
+  {
+    "_comment": "EXAMPLE ONLY. Copy this, fill in real names, and keep your copy OFF this repo (Fareedah/ and *.local.json are gitignored). Publish it via Teacher > Settings > Homework > Choose plans file.",
+    "student": "<student name exactly as it appears on the roster>",
+    "subject": "math",
+    "sets": [
+      {
+        "id": "pc-1",
+        "label": "Set 1 \u2014 percent applications",
+        "_releaseOn_note": "Omit releaseOn for a set available immediately. Add it for a dated release.",
+        "items": [
+          {
+            "ref": "module",
+            "topic": "ratios",
+            "qid": "r6-2"
+          },
+          {
+            "ref": "module",
+            "topic": "ratios",
+            "qid": "r6-4"
+          }
+        ]
+      },
+      {
+        "id": "ns-1",
+        "label": "Set 2 \u2014 signed numbers on the line",
+        "releaseOn": "2026-07-24",
+        "items": [
+          {
+            "ref": "module",
+            "topic": "number-system",
+            "qid": "2-6"
+          },
+          {
+            "ref": "module",
+            "topic": "number-system",
+            "qid": "ex-2b"
+          }
+        ]
+      },
+      {
+        "id": "ee-1",
+        "label": "Set 3 \u2014 two-step equations & inequalities",
+        "releaseOn": "2026-07-31",
+        "items": [
+          {
+            "ref": "module",
+            "topic": "expressions",
+            "qid": "5-6"
+          },
+          {
+            "ref": "module",
+            "topic": "expressions",
+            "qid": "6-6"
+          }
+        ]
+      },
+      {
+        "id": "geo-1",
+        "label": "Set 4 \u2014 circles, and the domain with no evidence yet",
+        "releaseOn": "2026-08-07",
+        "items": [
+          {
+            "ref": "module",
+            "topic": "geometry",
+            "qid": "4-1"
+          },
+          {
+            "ref": "module",
+            "topic": "statistics",
+            "qid": "2-2"
+          }
+        ]
+      }
+    ]
+  }
+]

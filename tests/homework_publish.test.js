@@ -1,11 +1,15 @@
 /* Homework engine — plan validation guard.
  *
- * Drives the REAL hwValidatePlans() out of Grade_8_Math_Hub.html.
+ * Drives the REAL hwValidatePlans() out of this folder's *_Math_Hub.html.
  *
  * The rule this protects: validation FAILS CLOSED. One bad plan in a file publishes nothing at all,
  * because a half-published week — some students with homework, some silently without — is worse
  * than an unpublished one and far harder to notice.
  *
+ * The backend half of homework (per-student isolation) is NOT guarded here: it lives in the shared
+ * Apps Script, single-sourced in Grade 8's Starter_Kit/HUB_Sync_Apps_Script.gs and driven by that
+ * repo's tests/homework_backend.test.js — which does assert that a grade7 pull sees no grade8
+ * homework. One deployment serves both hubs, so duplicating the script here would fork it.
  * Run:  node tests/homework_publish.test.js
  */
 const fs = require('fs');
@@ -81,6 +85,30 @@ t('...and the good plan is still reported as valid input', r.errors.length, 1);
 // ---- multiple students stay separate ----
 r = validate([goodPlan('A'), goodPlan('B')]);
 t('two students -> two separate plans', r.plans.map(p => p.student), ['A', 'B']);
+
+// ---- the shipped example plan must reference real topics and real qids -------------------------
+// An example is documentation, and documentation that does not run is a trap: this file is what a new
+// deployment copies, so a stale qid in it becomes their first failed publish.
+(function(){
+  const EX = path.join(DIR, 'Starter_Kit', 'homework-plans.example.json');
+  if (!fs.existsSync(EX)) { console.log('FAIL Starter_Kit/homework-plans.example.json is missing'); fail++; return; }
+  const plans = JSON.parse(fs.readFileSync(EX, 'utf8'));
+  const byTopic = {};
+  for (const f of fs.readdirSync(DIR).filter(f => /\.html$/.test(f))) {
+    const h = fs.readFileSync(path.join(DIR, f), 'utf8');
+    const id = (h.match(/G7_TOPIC_ID='([^']+)'/) || [])[1];
+    if (!id) continue;
+    byTopic[id] = new Set([...h.matchAll(/data-qid="([^"]+)"/g)].map(m => m[1]).filter(q => !/\+String/.test(q)));
+  }
+  let refs = 0, bad = 0;
+  for (const plan of plans) for (const set of (plan.sets || [])) for (const it of (set.items || [])) {
+    if (it.ref !== 'module') continue;
+    refs++;
+    if (!byTopic[it.topic]) { console.log('  bad topic  "' + it.topic + '"'); bad++; }
+    else if (!byTopic[it.topic].has(it.qid)) { console.log('  bad qid    ' + it.topic + '/' + it.qid); bad++; }
+  }
+  t('example plan: all ' + refs + ' references resolve to a real topic and qid', bad, 0);
+})();
 
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);
