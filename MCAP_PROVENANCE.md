@@ -44,12 +44,12 @@ our own:
 | Packet | Citation | Standards | Fits |
 |---|---|---|---|
 | Reasoning | 2024 Q15 | 7.R.2d, 7.NS.A.2d | Number System (decimals) — **drop-down item, check it renders before use** |
-| Reasoning | 2024 Q25 | 7.R.3a, 7.EE.A.1 | Expressions |
+| Reasoning | 2024 Q25 | 7.R.3a, 7.EE.A.1 | ~~Expressions~~ — **done**, live as `2-6` |
 | Reasoning | 2024 Q31 | 7.R.1c, 7.RP.A.3-1 | Ratios |
 | Reasoning | 2024 Q33 | 7.R.3b, 7.EE.B.4a-2 | Expressions |
 | Modeling | 2024 Q16 | 7.M.3, 7.EE.B.4a | Expressions |
 | Modeling | 2024 Q18 | 7.M.3, 7.G.B.6 | Geometry |
-| Modeling | 2024 Q23 | 7.M.1, 7.RP.A.3-2, 7.G.B.6 | Ratios or Geometry |
+| Modeling | 2024 Q23 | 7.M.1, 7.RP.A.3-2, 7.G.B.6 | ~~Ratios or Geometry~~ — **blocked**, figure not reproducible (see above) |
 | Modeling | 2024 Q30 | 7.M.4, 7.EE.B.3, 7.G.B.4-1 | Expressions or Geometry |
 
 
@@ -68,6 +68,7 @@ Every row below was checked on 20 Jul 2026 against the extracted text of the nam
 | `Ratios_Proportional_Relationships.html` | `r6-ex` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q3 | 7.EE.A.2 |
 | `Ratios_Proportional_Relationships.html` | `r7-ex` | `…Math 7 Reasoning` | Math 7 2024 Release, Q17 | 7.R.1a, 7.RP.A.1, 7.RP.A.2b |
 | `Expressions_Equations_Inequalities.html` | `2-4` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q8 | 7.EE.A.1 |
+| `Expressions_Equations_Inequalities.html` | `2-6` | `…Math 7 Reasoning` | Math 7 2024 Release, Q25 | 7.R.3a, 7.EE.A.1 |
 | `Expressions_Equations_Inequalities.html` | `3-3` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q3 | 7.EE.A.2 |
 | `Expressions_Equations_Inequalities.html` | `5-5` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q5 | 7.EE.B.4a-1 |
 | `Expressions_Equations_Inequalities.html` | `6-4` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q12 | 7.EE.B.4b |
@@ -172,6 +173,15 @@ claiming MCAP — the same failure this file exists to prevent.
 this reason. That was wrong — it confused "the text extraction is insufficient" with "the item cannot be used." Both
 pages were rendered at 125 dpi with `pymupdf`, read, and reproduced faithfully; Q28 is now live as `Geometry 6-4`.
 The lesson is the general one: **when extraction fails, render the page — do not fall back to writing your own.**
+
+**Modeling Q23 — rendered at 380 dpi, and not reproducible.** The stem is clean (a tank, every measurement
+increased by 25%, asking the percentage increase in water and the days to drink it — both answerable from the scale
+factor alone: `1.25³ = 1.953125`, so a **95.3125%** increase and `4 × 1.953125 = 7.8125` days). But the figure is a
+**composite solid, not a box**: the top face has a step cut into it, which is why five edge labels do not resolve to
+three dimensions, and why the citation carries 7.G.B.6. The notch depth cannot be determined from the single view in
+the release, so the solid cannot be redrawn faithfully, and the stem says "with dimensions shown". Reproducing it
+would invent geometry. **Do not re-attempt from the PDF** — it needs the original figure or an MSDE source that
+states the dimensions in text.
 
 **Statistics Q27 — rendered, and still unusable, for a different reason.** The dot plots read cleanly at 400 dpi
 (soccer 8, 9, 10x3, 11x2, 13x2, 15; hockey 7, 9, 10x2, 12x4, 13x2 — both mean 11, both MAD 1.6, medians 10.5 and 12).

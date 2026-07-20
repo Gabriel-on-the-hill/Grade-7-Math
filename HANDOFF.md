@@ -59,7 +59,9 @@ exactly once.
 
 Each task states **what**, **where**, **how to verify**, and **done when**. Effort is rough.
 
-### T1 — Lift the 7 remaining Type 2/3 items · **highest value** · ~2–3 h
+### T1 — Lift the remaining Type 2/3 items · **highest value** · ~2 h
+
+*Progress 20 Jul: Q24 and Q25 lifted; Q23 blocked. **Five remain.***
 
 DC CAPE puts **42% of its 52 points** on Type 2 (reasoning) and Type 3 (modelling). These are real
 released items, already indexed, and they beat authoring our own.
@@ -67,12 +69,12 @@ released items, already indexed, and they beat authoring our own.
 | Packet | Citation | Standards | Target module / skill |
 |---|---|---|---|
 | Reasoning | 2024 Q15 | 7.R.2d, 7.NS.A.2d | Number System · `decimals` — **drop-down item, verify it renders before use** |
-| Reasoning | 2024 Q25 | 7.R.3a, 7.EE.A.1 | Expressions · `reasoning` |
+| ~~Reasoning~~ | ~~2024 Q25~~ | 7.R.3a, 7.EE.A.1 | **DONE** — live as Expressions `2-6` (constructed response) |
 | Reasoning | 2024 Q31 | 7.R.1c, 7.RP.A.3-1 | Ratios · `reasoning` |
 | Reasoning | 2024 Q33 | 7.R.3b, 7.EE.B.4a-2 | Expressions · `reasoning` |
 | Modeling | 2024 Q16 | 7.M.3, 7.EE.B.4a | Expressions · `modeling` |
 | Modeling | 2024 Q18 | 7.M.3, 7.G.B.6 | Geometry · `modeling` |
-| Modeling | 2024 Q23 | 7.M.1, 7.RP.A.3-2, 7.G.B.6 | Ratios or Geometry · `modeling` |
+| ~~Modeling~~ | ~~2024 Q23~~ | 7.M.1, 7.RP.A.3-2, 7.G.B.6 | **BLOCKED** — composite solid, notch depth unreadable from the release. Do not re-attempt from the PDF. |
 | Modeling | 2024 Q30 | 7.M.4, 7.EE.B.3, 7.G.B.4-1 | Expressions or Geometry · `modeling` |
 
 **Method (this is the part that matters):**
