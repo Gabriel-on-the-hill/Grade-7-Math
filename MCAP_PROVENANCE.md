@@ -35,9 +35,23 @@ releases for MCAP items". That would have produced New York items cited as Maryl
 `tests/mcap_provenance.test.js` would have **passed** them — the guard checks that a claim carries a
 citation, not that the citation says what the author believed. A folder name is not provenance.
 
-**The genuine MCAP supply is finite and nearly exhausted.** The MSDE per-domain packets together are
-the 2024 release: 24 standard-tagged questions, of which 19 are already used or verified. Plan around
-roughly ten remaining, several figure-dependent — not around an open-ended well.
+**The genuine MCAP supply is finite — but the richest part of it is still unused.** The MSDE per-domain packets
+together are the 2024 release. The **Reasoning packet holds 6 items and the Modeling packet 5**, of which only four are
+in use (Q17, Q24, Q26, and Q13 via Expressions). The remaining seven are real Type 2 / Type 3 material — exactly what
+DC CAPE weights at 42% of its points, and a far better source for reasoning and modelling capstones than authoring
+our own:
+
+| Packet | Citation | Standards | Fits |
+|---|---|---|---|
+| Reasoning | 2024 Q15 | 7.R.2d, 7.NS.A.2d | Number System (decimals) — **drop-down item, check it renders before use** |
+| Reasoning | 2024 Q25 | 7.R.3a, 7.EE.A.1 | Expressions |
+| Reasoning | 2024 Q31 | 7.R.1c, 7.RP.A.3-1 | Ratios |
+| Reasoning | 2024 Q33 | 7.R.3b, 7.EE.B.4a-2 | Expressions |
+| Modeling | 2024 Q16 | 7.M.3, 7.EE.B.4a | Expressions |
+| Modeling | 2024 Q18 | 7.M.3, 7.G.B.6 | Geometry |
+| Modeling | 2024 Q23 | 7.M.1, 7.RP.A.3-2, 7.G.B.6 | Ratios or Geometry |
+| Modeling | 2024 Q30 | 7.M.4, 7.EE.B.3, 7.G.B.4-1 | Expressions or Geometry |
+
 
 ## Verified items
 
@@ -63,6 +77,7 @@ Every row below was checked on 20 Jul 2026 against the extracted text of the nam
 | `Geometry_Connections.html` | `6-4` | `…Math 7 Geometry` | Math 7 2024 Release, Q28 | 7.G.B.6 |
 | `Ratios_Proportional_Relationships.html` | `r1-4` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q14 | 7.RP.A.1 |
 | `Ratios_Proportional_Relationships.html` | `r3-6` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q4 | 7.RP.A.2d |
+| `Ratios_Proportional_Relationships.html` | `r8-5` | `…Math 7 Reasoning` | Math 7 2024 Release, Q24 | 7.R.2e, 7.NS.A.3 |
 | `Statistics_and_Probability.html` | `1-3` | `…Math 7 Statistics and Probability` | Math 7 2024 Release, Q34 | 7.SP.A.2 |
 | `Statistics_and_Probability.html` | `3-4` | `…Math 7 Statistics and Probability` | Math 7 2024 Release, Q19 | 7.SP.C.5 |
 
