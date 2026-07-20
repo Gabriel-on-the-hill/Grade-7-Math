@@ -16,6 +16,29 @@ manufacture one, and the fastest way to manufacture one is to copy the format �
 the real capstone next to it. Any future push to "close the coverage guard" carries the same
 pressure. Close it with sourced items or with honestly-labelled ones; never by relabelling.
 
+## Not MCAP, despite the folder name
+
+`MCAP RELEASES PER TOPIC/` contains **three files that are not MCAP at all**:
+
+| File | Actually is |
+|---|---|
+| `2023-released-items-math-g7.pdf` | New York State Testing Program, Grade 7 Mathematics |
+| `2024-released-items-math-g7.pdf` | New York State Testing Program, Grade 7 Mathematics |
+| `2025-released-items-math-g7.pdf` | New York State Testing Program, Grade 7 Mathematics |
+
+108 pages of NYSED released questions filed under a folder named for Maryland's programme. They are
+good CCSS-aligned practice and **may be used** — but they are **never** to be cited as MCAP. Label
+lifted items `NYSED ·` (with a row in "Other released items" below) or `Exam-style ·`.
+
+**Why this warning is here.** On 20 Jul 2026 the planned next step was "sweep the 2023 and 2025
+releases for MCAP items". That would have produced New York items cited as Maryland ones, and
+`tests/mcap_provenance.test.js` would have **passed** them — the guard checks that a claim carries a
+citation, not that the citation says what the author believed. A folder name is not provenance.
+
+**The genuine MCAP supply is finite and nearly exhausted.** The MSDE per-domain packets together are
+the 2024 release: 24 standard-tagged questions, of which 19 are already used or verified. Plan around
+roughly ten remaining, several figure-dependent — not around an open-ended well.
+
 ## Verified items
 
 Every row below was checked on 20 Jul 2026 against the extracted text of the named packet in
@@ -24,6 +47,7 @@ Every row below was checked on 20 Jul 2026 against the extracted text of the nam
 | File | qid | Packet | Citation | Standard |
 |---|---|---|---|---|
 | `Number_System_Connections.html` | `ex-2a` | `…Math 7 The Number System` | Math 7 2024 Release, Q11 | 7.NS.A.1b-1 |
+| `Number_System_Connections.html` | `ex-2b` | `…Math 7 The Number System` | Math 7 2024 Release, Q11 | 7.NS.A.1b-1 |
 | `Number_System_Connections.html` | `ex-5a` | `…Math 7 The Number System` | Math 7 2024 Release, Q2 | 7.NS.A.3 |
 | `Number_System_Connections.html` | `ex-6a` | `…Math 7 The Number System` | Math 7 2024 Release, Q7 | 7.NS.A.2c |
 | `Number_System_Connections.html` | `ex-7a` | `…Math 7 The Number System` | Math 7 2024 Release, Q9 | 7.NS.A.1c-2 |
@@ -122,5 +146,6 @@ options are not visible anywhere in the packet. Reproducing it would mean invent
 reuse in an honestly-labelled `Exam-style` item; the *item* is not reproducible. Recorded so nobody re-renders it
 hoping for a different result.
 
-Still to render before use: Ratios Q1 and Q4 (graph-reading),
-Number System Q11 (plot a point on a number line — also needs an interactive number line the engine does not yet have).
+**Number System Q11 is now live** as `ex-2b`: the page was rendered, point `k` read off at `-5`, and the item is
+answered with the new click-to-plot format (added to the engine 20 Jul). Still to render before use: Ratios Q1 and Q4
+(both are "choose the right graph" items needing four rendered graphs as options).

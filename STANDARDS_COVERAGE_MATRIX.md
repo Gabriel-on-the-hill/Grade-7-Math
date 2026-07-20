@@ -98,8 +98,8 @@ Legend: ✅ covered · ◐ partial · ❌ absent
 | 7.SP.8 | Compound events: sample space via tables or trees | ✅ | §5 `5-1`…`5-3` |
 
 **Grade-level guard held (§2.8):** mean / median / range / MAD only — no grouped-frequency statistics.
-`Probability_Lesson.html` remains on the legacy engine, unwired, and was **not** reused; the new module
-was stamped from `Module_Template.html`.
+`Probability_Lesson.html` has been **retired** (20 Jul 2026) — it sat on the pre-v1.4 engine, was never wired in,
+and 7.SP is now served properly by a module stamped from the current `Module_Template.html`.
 
 ---
 

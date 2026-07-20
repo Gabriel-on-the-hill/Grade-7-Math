@@ -40,7 +40,7 @@ A Grade 7 Mathematics **study & practice hub** for a teacher with one or more st
 - `Expressions_Equations_Inequalities.html` — Unit 3 (7.EE), built.
 - `Geometry_Connections.html` — Unit 4 (7.G), built 2026-07-20.
 - `Statistics_and_Probability.html` — Unit 5 (7.SP), built 2026-07-20.
-- `Probability_Lesson.html` — standalone probability lesson on a **legacy engine**; not wired into the hub and pending a grade-level + engine review before adoption. Do not treat as template-parity.
+- `Probability_Lesson.html` — **retired 2026-07-20.** A standalone lesson on the pre-v1.4 engine, never wired into the hub, pending review since 2026-07-02. `Statistics_and_Probability.html` now covers 7.SP properly on the current engine, so the old file was dead weight and a trap for a future session (a stale copy of an engine nobody maintains). Recoverable from git history if ever wanted.
 - `index.html` — redirect to the hub. `.gitignore` — blocks copyrighted PDFs + private data from publishing.
 - `Starter_Kit/` — `Hub_Template.html`, `Module_Template.html` (generic engine copies), setup docs.
 
@@ -62,7 +62,10 @@ Header (title · unit · standard · objectives) → hub bar → progress → **
 
 **Phase tags (only chip vocabulary):** Learn / Guided / Practice / Apply / Exam / Stretch. Concept is tracked invisibly via `G7_SKILLS`, not shown as a chip.
 
-**Five item formats (all in the template):** fill-in (accepts equivalent fractions, nudges to simplify), single multiple-choice, multi-select ("select all"), two-part (A unlocks B), constructed-response (typed, logged to teacher). Mark exam-grade items with `data-exam="1"`.
+**Six item formats (all in the template):** fill-in (accepts equivalent fractions, nudges to simplify), single multiple-choice, multi-select ("select all"), two-part (A unlocks B), constructed-response (typed, logged to teacher), and **click-to-plot** (`.plotbox`, `data-plot="line"` or `"grid"`). Mark exam-grade items with `data-exam="1"`.
+
+**The plot format, and why it is built the way it is (2026-07-20).** Without it the hub could not ask a student to *produce* a representation — only to read one of ours and type a number about it. That left every "represent", "graph" and "plot" verb in the standards assessable only indirectly: 7.NS.1 (represent addition/subtraction on a number line), 7.RP.2a (decide proportionality *by graphing* and seeing whether the line passes through the origin), 7.RP.2d (the point `(1, r)`), and released MCAP Q11. Before it, the five modules held 16 diagrams to read and **none** to make.
+  The plot is **only a pointer painted over a hidden `.ans-input`** that holds the answer in the ordinary way. Clicking writes into that input; everything downstream is the untouched engine — `checkInput` (numeric tolerance or text match), `setStepDisabled` (the lock ladder), `restoreProgress` (re-fill), `g7revReset` (clearing for retrieval). §7.2 forbids hand-rolling the answer handlers and this does not. **Keep it that way:** if a future change makes the plot grade itself, it leaves the integrity invariants behind. Answer formats are `"-3"` for a line (numeric, `data-tol="0"`) and `"3,12"` for a grid (`data-type="text"`). Guarded by `tests/plot_format.test.js`, which proves placement, tick-snapping, lock-respect and grading through the normal check path.
 
 **qid convention (required):** every qcard's `data-qid` is `<section>-<n>` (e.g. `3-2` = section 3, item 2). The number before the first `-` drives `sectionTotals` and the teacher dashboard's per-section bars — never use any other scheme, and never duplicate a qid. Every qid should appear in `G7_SKILLS` (unmapped qids fall back to the `reasoning` skill). **Legacy exception:** `Ratios_Proportional_Relationships.html` shipped with `r<sec>-<n>` qids and Number System uses `ex-*`/`cr-*` for capstones; the hub tolerates non-numeric prefixes (sort + section labels strip non-digits, v1.4.1). Do not rename shipped qids (it would orphan student data); new modules must use plain numeric sections.
 
@@ -138,8 +141,8 @@ Do not fork the engine per grade/subject; improve in one place and re-propagate 
 
   *New units.* **`Geometry_Connections.html`** (7.G.1–7.G.6, 28 items) and **`Statistics_and_Probability.html`**
   (7.SP.1–7.SP.8, 20 items), both stamped from `Module_Template.html`, both wired into the hub. Geometry was the one
-  domain with no positive evidence on the student's record. `Probability_Lesson.html` was **not** reused — it remains on
-  the legacy engine, unwired, per §3.
+  domain with no positive evidence on the student's record. `Probability_Lesson.html` was **not** reused and has been
+  **retired** — 7.SP is now served properly on the current engine rather than by a stale legacy file.
 
   *Reasoning & modelling.* Against DC CAPE, 42% of the 52 points are multi-point Type 2/3 tasks. There was no `modeling`
   skill anywhere and `reasoning` was stretch-only and never machine-scored, so it could not register readiness. Every

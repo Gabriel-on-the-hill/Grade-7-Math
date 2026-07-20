@@ -34,10 +34,26 @@ let inVerified = false;
 for (const line of fs.readFileSync(MANIFEST, 'utf8').split('\n')) {
   if (/^##\s/.test(line)) { inVerified = /^##\s+Verified items\s*$/.test(line); continue; }
   if (!inVerified) continue;
+  // Keep BOTH the packet and the citation columns: the tell-tale for a mis-filed source ("…2023-
+  // released-items…") sits in the packet column, so storing only the citation lets it through.
   const m = line.match(/^\|\s*`([^`]+\.html)`\s*\|\s*`([^`]+)`\s*\|([^|]*)\|([^|]*)\|/);
-  if (m) allowed.set(m[1].trim() + '::' + m[2].trim(), m[4].trim());
+  if (m) allowed.set(m[1].trim() + '::' + m[2].trim(), (m[3] + ' | ' + m[4]).trim());
 }
 if (!allowed.size) { console.log('FAIL manifest parsed 0 item rows — the table format changed; fix this guard'); process.exit(1); }
+
+// Three files in MCAP RELEASES PER TOPIC/ are New York State releases, not MCAP (see the manifest's
+// "Not MCAP, despite the folder name"). A citation naming one of them is a false MCAP attribution
+// even though it looks perfectly well-formed — the earlier version of this guard would have passed it,
+// because it only checked that a claim carried *a* citation.
+const NOT_MCAP = /\b(20(23|24|25)-released-items|New York|NYSED)\b/i;
+for (const [key, citation] of allowed) {
+  if (NOT_MCAP.test(citation)) {
+    console.log('FAIL ' + key + ': cited to a New York State release — that is not MCAP. '
+                + 'Label it NYSED or Exam-style. Citation was: ' + citation);
+    process.exitCode = 1;
+  }
+}
+if (process.exitCode) { console.log('\nFAIL non-MCAP citation(s) in the verified table'); process.exit(1); }
 
 const MODULES = fs.readdirSync(DIR)
   .filter(f => /\.html$/.test(f) && !/_Math_Hub\.html$/.test(f) && !/^index\.html$/.test(f))

@@ -176,7 +176,19 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;
   table.gtable th, table.gtable td{padding:.25rem .35rem}
   table.gtable td .ans-input{width:64px;font-size:.8rem}
 }
-</style>
+    /* ===== plot input (6th format): click-to-place on a number line or grid ===== */
+    .plotbox{margin:.45rem 0 .2rem}
+    .plotbox svg{max-width:100%;height:auto;touch-action:manipulation}
+    .plotbox .hit{cursor:pointer;fill:transparent}
+    .plotbox.locked .hit{cursor:not-allowed}
+    .plotbox .pt{fill:#FAC415;stroke:#0F3D22;stroke-width:2}
+    .plotbox .gridline{stroke:#D9E4DC;stroke-width:1}
+    .plotbox .axis{stroke:#0F3D22;stroke-width:1.8}
+    .plotbox .tick{stroke:#0F3D22;stroke-width:1.4}
+    .plotbox .tlab{font-size:11px;fill:#0F172A}
+    .plotbox .hint-dot{fill:#B7CBBE}
+    .plotbox .readout{font-size:.82rem;color:var(--muted);margin-top:.2rem}
+  </style>
 <style>
 /* v1.4 engine deltas: gate MC feedback until answered + MC cooldown + locked-step dimming */
 .mc-feedback{display:none;margin-top:.4rem;font-size:.86rem;font-weight:500;min-height:0}
@@ -574,6 +586,14 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;
       <button class="hint-btn">Hint</button><div class="hint-content">Distance is the absolute value of the difference &mdash; and it is never negative.</div></div>
   </div></div>
 
+  <div class="qcard interactive" data-qid="2-6"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Represent the sum on the number line</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Plot the value of <span class="math">-2 + (-5)</span>.</div>
+      <div class="plotbox" data-plot="line" data-min="-10" data-max="10" data-step="1"><input type="hidden" class="ans-input" data-answer="k1:LTc=" data-tol="0"/></div>
+      <button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Start at <span class="math">-2</span>, then move <span class="math">|-5| = 5</span> units in the negative direction &mdash; that is, to the left.</div>
+    </div>
+  </div></div>
+
   <div class="qcard interactive" data-qid="ex-2a" data-exam="1">
     <div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; value on the number line</span></div>
     <div class="qbody">
@@ -588,6 +608,13 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;
       </div>
     </div>
   </div>
+
+    <div class="qcard interactive" data-qid="ex-2b" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; plot the value of an expression</span></div><div class="qbody">
+      <div class="figure"><svg viewBox="0 0 660 80" width="640" role="img" aria-label="A number line from -9 to 9 with point k plotted at -5" style="max-width:100%;margin:.2rem 0 .5rem"><line x1="20" y1="40" x2="640" y2="40" stroke="#0F3D22" stroke-width="1.8"/><line x1="30.0" y1="34" x2="30.0" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="30.0" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-9</text><line x1="63.3" y1="34" x2="63.3" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="63.3" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-8</text><line x1="96.7" y1="34" x2="96.7" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="96.7" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-7</text><line x1="130.0" y1="34" x2="130.0" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="130.0" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-6</text><line x1="163.3" y1="34" x2="163.3" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="163.3" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-5</text><line x1="196.7" y1="34" x2="196.7" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="196.7" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-4</text><line x1="230.0" y1="34" x2="230.0" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="230.0" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-3</text><line x1="263.3" y1="34" x2="263.3" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="263.3" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-2</text><line x1="296.7" y1="34" x2="296.7" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="296.7" y="64" font-size="12" text-anchor="middle" fill="#0F172A">-1</text><line x1="330.0" y1="34" x2="330.0" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="330.0" y="64" font-size="12" text-anchor="middle" fill="#0F172A">0</text><line x1="363.3" y1="34" x2="363.3" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="363.3" y="64" font-size="12" text-anchor="middle" fill="#0F172A">1</text><line x1="396.7" y1="34" x2="396.7" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="396.7" y="64" font-size="12" text-anchor="middle" fill="#0F172A">2</text><line x1="430.0" y1="34" x2="430.0" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="430.0" y="64" font-size="12" text-anchor="middle" fill="#0F172A">3</text><line x1="463.3" y1="34" x2="463.3" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="463.3" y="64" font-size="12" text-anchor="middle" fill="#0F172A">4</text><line x1="496.7" y1="34" x2="496.7" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="496.7" y="64" font-size="12" text-anchor="middle" fill="#0F172A">5</text><line x1="530.0" y1="34" x2="530.0" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="530.0" y="64" font-size="12" text-anchor="middle" fill="#0F172A">6</text><line x1="563.3" y1="34" x2="563.3" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="563.3" y="64" font-size="12" text-anchor="middle" fill="#0F172A">7</text><line x1="596.7" y1="34" x2="596.7" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="596.7" y="64" font-size="12" text-anchor="middle" fill="#0F172A">8</text><line x1="630.0" y1="34" x2="630.0" y2="46" stroke="#0F3D22" stroke-width="1.4"/><text x="630.0" y="64" font-size="12" text-anchor="middle" fill="#0F172A">9</text><polygon points="163.3,33 170.3,40 163.3,47 156.3,40" fill="#0F172A"/><text x="163.3" y="22" font-size="14" text-anchor="middle" font-style="italic" font-weight="700" fill="#0F172A">k</text></svg><div class="caption">The location of point <span class="math">k</span> is plotted on the number line.</div></div>
+    <div class="step"><div class="step-label">MCAP item &middot; The location of point <span class="math">k</span> is plotted on the number line above. Plot a point on the number line to represent the value of the expression <span class="math">k + 4</span>. Select a place on the number line to plot the point that represents the value of the expression.</div>
+      <div class="plotbox" data-plot="line" data-min="-9" data-max="9" data-step="1"><input type="hidden" class="ans-input" data-answer="k1:LTE=" data-tol="0"/></div>
+      <button class="check-btn">Check</button></div>
+  </div></div>
 
   </section>
 <!-- ====================== 3. DECIMALS ====================== -->
@@ -1726,7 +1753,7 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;
   const G7_TOPIC_ID='number-system';
   const G7_TOPIC_TITLE='Number System Connections';
   var G7_SYNC_HUB='grade7'; // shared-cloud namespace for this deployment (must match the hub's SYNC_HUB_ID)
-  const G7_SKILLS={'1-1':'rationals','1-2':'rationals','1-3':'rationals','2-1':'numberline','2-2':'numberline','2-3':'numberline','2-4':'numberline','4-1':'addsub-int','4-2':'realworld','4-3':'addsub-int','4-4':'addsub-int','4-5':'reasoning','5-1':'addsub-rat','5-2':'addsub-rat','5-3':'realworld','6-1':'muldiv','6-2':'muldiv','6-3':'muldiv','6-4':'muldiv','6-5':'muldiv','6-6':'reasoning','6-7':'muldiv','6-8':'realworld','3-1':'decimals','3-2':'decimals','3-3':'decimals','3-4':'rationals','3-5':'decimals','7-1':'realworld','7-2':'realworld','7-3':'realworld','7-4':'realworld','8-1':'muldiv','8-2':'reasoning','8-3':'reasoning','8-4':'realworld','8-5':'realworld','ex-5a':'addsub-rat','ex-6a':'muldiv','ex-7a':'realworld','ex-2a':'numberline','cr-8a':'reasoning','1-4':'rationals','ex-1a':'rationals','2-5':'numberline','3-6':'decimals','ex-3a':'decimals','ex-4a':'addsub-int','ex-8b':'reasoning','md-8a':'modeling','7-5':'realworld'};
+  const G7_SKILLS={'1-1':'rationals','1-2':'rationals','1-3':'rationals','2-1':'numberline','2-2':'numberline','2-3':'numberline','2-4':'numberline','4-1':'addsub-int','4-2':'realworld','4-3':'addsub-int','4-4':'addsub-int','4-5':'reasoning','5-1':'addsub-rat','5-2':'addsub-rat','5-3':'realworld','6-1':'muldiv','6-2':'muldiv','6-3':'muldiv','6-4':'muldiv','6-5':'muldiv','6-6':'reasoning','6-7':'muldiv','6-8':'realworld','3-1':'decimals','3-2':'decimals','3-3':'decimals','3-4':'rationals','3-5':'decimals','7-1':'realworld','7-2':'realworld','7-3':'realworld','7-4':'realworld','8-1':'muldiv','8-2':'reasoning','8-3':'reasoning','8-4':'realworld','8-5':'realworld','ex-5a':'addsub-rat','ex-6a':'muldiv','ex-7a':'realworld','ex-2a':'numberline','cr-8a':'reasoning','1-4':'rationals','ex-1a':'rationals','2-5':'numberline','3-6':'decimals','ex-3a':'decimals','ex-4a':'addsub-int','ex-8b':'reasoning','md-8a':'modeling','7-5':'realworld','ex-2b':'numberline','2-6':'numberline'};
   const G7_SKILL_LABELS={'modeling':'Modelling multi-step problems','rationals':'Rational numbers & ordering','numberline':'Number line, opposites & absolute value','addsub-int':'Adding & subtracting integers','addsub-rat':'Adding & subtracting fractions & decimals','muldiv':'Multiplying & dividing','decimals':'Decimals: forms & conversions','realworld':'Real-world multi-step problems','reasoning':'Reasoning & error analysis'};
 
   // ===== Shared [GRADE] Hub store =====
@@ -1994,7 +2021,103 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;
     if(changed){g7save(o);}else if((t.lastPracticed||0)>((c&&c.lastPracticed)||0)){schedulePush();}
     return changed;}
   window.__modSync={mergeCloudTopic:mergeCloudTopic,schedulePush:schedulePush};
-  window.addEventListener('load',function(){syncPull(function(doc){if(mergeCloudTopic(doc))restoreProgress();});});
+  window.addEventListener('load',function(){syncPull(function(doc){if(mergeCloudTopic(doc))restoreProgress();g7plotSync();});});
+
+  /* ===== plot input (6th format) =============================================================
+     A number line or coordinate grid the student clicks to place a point. The value lives in a
+     hidden .ans-input inside the same .step, so the ordinary engine does all the real work:
+     checkInput (numeric tolerance or text match), setStepDisabled (locking), restoreProgress
+     (re-fill), g7revReset (clearing for retrieval). Nothing here touches an answer handler.
+     Markup:
+       <div class="plotbox" data-plot="line" data-min="-10" data-max="10" data-step="1">
+         <input type="hidden" class="ans-input" data-answer="k1:..." data-tol="0"/></div>
+       <div class="plotbox" data-plot="grid" data-xmax="10" data-ymax="20" data-xstep="1" data-ystep="2">
+         <input type="hidden" class="ans-input" data-type="text" data-answer="k1:..."/></div>
+  ============================================================================================ */
+  function g7plotNum(el,name,dflt){var v=parseFloat(el.dataset[name]);return isNaN(v)?dflt:v;}
+  function g7plotDraw(box){
+    var inp=box.querySelector('.ans-input'); if(!inp)return;
+    var kind=box.dataset.plot||'line', W=360, sv;
+    if(kind==='line'){
+      var mn=g7plotNum(box,'min',-10), mx=g7plotNum(box,'max',10), st=g7plotNum(box,'step',1);
+      var H=88, x0=26, x1=W-26, y=52;
+      var px=function(v){return x0+(v-mn)/(mx-mn)*(x1-x0);};
+      var parts=['<line class="axis" x1="'+x0+'" y1="'+y+'" x2="'+x1+'" y2="'+y+'"/>'];
+      for(var v=mn; v<=mx+1e-9; v+=st){
+        parts.push('<line class="tick" x1="'+px(v).toFixed(1)+'" y1="'+(y-6)+'" x2="'+px(v).toFixed(1)+'" y2="'+(y+6)+'"/>');
+        parts.push('<text class="tlab" x="'+px(v).toFixed(1)+'" y="'+(y+22)+'" text-anchor="middle">'+(Math.round(v*100)/100)+'</text>');
+        parts.push('<circle class="hint-dot" cx="'+px(v).toFixed(1)+'" cy="'+y+'" r="2"/>');
+      }
+      var cur=parseFloat(inp.value);
+      if(!isNaN(cur)&&cur>=mn&&cur<=mx) parts.push('<circle class="pt" cx="'+px(cur).toFixed(1)+'" cy="'+y+'" r="7"/>');
+      parts.push('<rect class="hit" x="0" y="0" width="'+W+'" height="'+H+'"/>');
+      sv='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" role="img" aria-label="Number line from '+mn+' to '+mx+'. Click to place a point.">'+parts.join('')+'</svg>';
+    } else {
+      var xmn=g7plotNum(box,'xmin',0), xmx=g7plotNum(box,'xmax',10), xst=g7plotNum(box,'xstep',1);
+      var ymn=g7plotNum(box,'ymin',0), ymx=g7plotNum(box,'ymax',10), yst=g7plotNum(box,'ystep',1);
+      var H=300, L=44, R=W-16, T=16, B=H-40;
+      var gx=function(v){return L+(v-xmn)/(xmx-xmn)*(R-L);};
+      var gy=function(v){return B-(v-ymn)/(ymx-ymn)*(B-T);};
+      var g=[],i;
+      for(i=xmn;i<=xmx+1e-9;i+=xst){
+        g.push('<line class="gridline" x1="'+gx(i).toFixed(1)+'" y1="'+T+'" x2="'+gx(i).toFixed(1)+'" y2="'+B+'"/>');
+        g.push('<text class="tlab" x="'+gx(i).toFixed(1)+'" y="'+(B+18)+'" text-anchor="middle">'+(Math.round(i*100)/100)+'</text>');
+      }
+      for(i=ymn;i<=ymx+1e-9;i+=yst){
+        g.push('<line class="gridline" x1="'+L+'" y1="'+gy(i).toFixed(1)+'" x2="'+R+'" y2="'+gy(i).toFixed(1)+'"/>');
+        g.push('<text class="tlab" x="'+(L-7)+'" y="'+(gy(i)+4).toFixed(1)+'" text-anchor="end">'+(Math.round(i*100)/100)+'</text>');
+      }
+      g.push('<line class="axis" x1="'+L+'" y1="'+B+'" x2="'+R+'" y2="'+B+'"/>');
+      g.push('<line class="axis" x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+B+'"/>');
+      var pr=String(inp.value||'').split(',');
+      if(pr.length===2){
+        var cx=parseFloat(pr[0]), cy=parseFloat(pr[1]);
+        if(!isNaN(cx)&&!isNaN(cy)&&cx>=xmn&&cx<=xmx&&cy>=ymn&&cy<=ymx)
+          g.push('<circle class="pt" cx="'+gx(cx).toFixed(1)+'" cy="'+gy(cy).toFixed(1)+'" r="7"/>');
+      }
+      g.push('<rect class="hit" x="0" y="0" width="'+W+'" height="'+H+'"/>');
+      sv='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" role="img" aria-label="Coordinate grid, x from '+xmn+' to '+xmx+', y from '+ymn+' to '+ymx+'. Click to plot a point.">'+g.join('')+'</svg>';
+    }
+    var old=box.querySelector('svg'); if(old)old.parentNode.removeChild(old);
+    box.insertAdjacentHTML('afterbegin',sv);
+    var ro=box.querySelector('.readout');
+    if(!ro){ro=document.createElement('div');ro.className='readout';box.appendChild(ro);}
+    ro.textContent=inp.value?('Placed: '+(box.dataset.plot==='grid'?'('+inp.value+')':inp.value)):'Click to place your point.';
+    box.classList.toggle('locked',!!inp.disabled);
+  }
+  function g7plotSet(box,evt){
+    var inp=box.querySelector('.ans-input');
+    if(!inp||inp.disabled)return;                       // a locked step must stay locked
+    var svg=box.querySelector('svg'); if(!svg)return;
+    // Read the viewBox ATTRIBUTE rather than svg.viewBox.baseVal: the SVG DOM geometry interfaces
+    // are not universally implemented (jsdom has none), and an attribute parse works everywhere.
+    var r=svg.getBoundingClientRect();
+    var vb=String(svg.getAttribute('viewBox')||'0 0 360 100').split(/[\s,]+/).map(parseFloat);
+    var vw=vb[2]||360, vh=vb[3]||100;
+    var sx=vw/(r.width||vw), sy=vh/(r.height||vh);
+    var px=(evt.clientX-r.left)*sx, py=(evt.clientY-r.top)*sy;
+    var snap=function(v,st,mn,mx){var n=mn+Math.round((v-mn)/st)*st;return Math.min(mx,Math.max(mn,Math.round(n*1e6)/1e6));};
+    if((box.dataset.plot||'line')==='line'){
+      var mn=g7plotNum(box,'min',-10), mx=g7plotNum(box,'max',10), st=g7plotNum(box,'step',1);
+      var x0=26, x1=360-26;
+      var v=mn+(px-x0)/(x1-x0)*(mx-mn);
+      inp.value=String(snap(v,st,mn,mx));
+    } else {
+      var xmn=g7plotNum(box,'xmin',0), xmx=g7plotNum(box,'xmax',10), xst=g7plotNum(box,'xstep',1);
+      var ymn=g7plotNum(box,'ymin',0), ymx=g7plotNum(box,'ymax',10), yst=g7plotNum(box,'ystep',1);
+      var L=44, R=360-16, T=16, B=300-40;
+      var vx=xmn+(px-L)/(R-L)*(xmx-xmn), vy=ymn+(B-py)/(B-T)*(ymx-ymn);
+      inp.value=snap(vx,xst,xmn,xmx)+','+snap(vy,yst,ymn,ymx);
+    }
+    inp.classList.remove('correct','wrong');
+    g7plotDraw(box);
+  }
+  function g7plotSync(){Array.prototype.forEach.call(document.querySelectorAll('.plotbox'),g7plotDraw);}
+  document.addEventListener('click',function(e){
+    var box=e.target.closest&&e.target.closest('.plotbox');
+    if(box&&e.target.classList.contains('hit'))g7plotSet(box,e);
+  });
+  window.__modPlot={sync:g7plotSync,draw:g7plotDraw};
 
   /* ===== spaced review (MR-1) phase-3: in-module retrieval mode, ?review=<skill> ===== */
   // Why this exists: restoreProgress() re-fills a completed item with its own correct answer, so a
@@ -2051,6 +2174,7 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;
       var hc=s.querySelector('.hint-content');if(hc)hc.classList.remove('show');
       var hb=s.querySelector('.hint-btn');if(hb)hb.textContent='Hint';
     });
+    if(window.__modPlot)Array.prototype.forEach.call(card.querySelectorAll('.plotbox'),g7plotDraw);
   }
   function g7reviewMode(){
     var sk=g7revParam();if(!sk)return;
