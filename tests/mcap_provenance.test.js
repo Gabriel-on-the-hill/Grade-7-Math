@@ -1,0 +1,88 @@
+/* MCAP provenance guard.
+ *
+ * An item may claim the MCAP label ONLY if it is a real released MCAP item recorded in
+ * MCAP_PROVENANCE.md with its citation. A question presented to a student as "MCAP" when it is not
+ * one is a false claim about the material they are practising with, and it launders credibility from
+ * the genuinely sourced items beside it.
+ *
+ * This is not a style check. It failed for real on 20 Jul 2026, when 19 assistant-authored capstones
+ * shipped titled "MCAP ·" because that was the surrounding title convention. They were MCAP-shaped,
+ * not MCAP-sourced.
+ *
+ * The check runs both ways:
+ *   - every card whose text says MCAP must appear in the manifest  (no unlabelled invention)
+ *   - every manifest row must point at a card that exists and still claims MCAP  (no stale rows)
+ *
+ * Run:  node tests/mcap_provenance.test.js
+ */
+const fs = require('fs');
+const path = require('path');
+
+const DIR = path.join(__dirname, '..');
+const MANIFEST = path.join(DIR, 'MCAP_PROVENANCE.md');
+
+if (!fs.existsSync(MANIFEST)) { console.log('FAIL MCAP_PROVENANCE.md is missing'); process.exit(1); }
+
+// Rows look like: | `File.html` | `qid` | packet | citation | standard |
+// Only rows whose first cell is a .html file are item rows; the "not yet used" table is skipped
+// because its first cell is a packet name, not a file.
+// Only the "Verified items" table grants an MCAP label. The later tables (textbook lifts, data
+// reused from a released item) have the same shape but a different meaning — reading them here would
+// let a data-only credit silently authorise a full MCAP claim.
+const allowed = new Map();          // "file::qid" -> citation
+let inVerified = false;
+for (const line of fs.readFileSync(MANIFEST, 'utf8').split('\n')) {
+  if (/^##\s/.test(line)) { inVerified = /^##\s+Verified items\s*$/.test(line); continue; }
+  if (!inVerified) continue;
+  const m = line.match(/^\|\s*`([^`]+\.html)`\s*\|\s*`([^`]+)`\s*\|([^|]*)\|([^|]*)\|/);
+  if (m) allowed.set(m[1].trim() + '::' + m[2].trim(), m[4].trim());
+}
+if (!allowed.size) { console.log('FAIL manifest parsed 0 item rows — the table format changed; fix this guard'); process.exit(1); }
+
+const MODULES = fs.readdirSync(DIR)
+  .filter(f => /\.html$/.test(f) && !/_Math_Hub\.html$/.test(f) && !/^index\.html$/.test(f))
+  .filter(f => /G7_TOPIC_ID=/.test(fs.readFileSync(path.join(DIR, f), 'utf8')));
+
+let fail = 0;
+const seen = new Set();
+
+for (const f of MODULES) {
+  const h = fs.readFileSync(path.join(DIR, f), 'utf8');
+  const bad = [];
+  for (const p of h.split(/<div class="qcard[\s"]/).slice(1)) {
+    const qid = (p.match(/data-qid="([^"]+)"/) || [])[1];
+    if (!qid || /\+String/.test(qid)) continue;
+    const body = p.split(/<\/section>/)[0];
+
+    // A *claim* is what the student reads as "this is an exam question": the card title, or a stem
+    // opening "MCAP item ·". A caption crediting where a data set came from is *attribution*, not a
+    // claim, and must not be forced to carry a provenance row — otherwise the only way to attribute
+    // honestly would be to stop attributing. (Statistics 2-4 is ours, labelled Exam-style, and only
+    // its dot-plot data is MCAP's; it is recorded under "Data reused from a released item".)
+    const title = (body.match(/<span class="qtitle">([^<]*)/) || [])[1] || '';
+    const stems = [...body.matchAll(/<div class="step-label">([\s\S]*?)<\/div>/g)].map(m => m[1]).join(' ');
+    const claims = /MCAP/.test(title) || /MCAP\s*item/i.test(stems);
+    if (!claims) continue;
+
+    const key = f + '::' + qid;
+    seen.add(key);
+    if (!allowed.has(key)) {
+      bad.push(qid + ': claims MCAP but has no row in MCAP_PROVENANCE.md — source it or drop the label');
+      fail++;
+    }
+  }
+  if (bad.length) { console.log('FAIL ' + f); bad.forEach(b => console.log('     ' + b)); }
+  else console.log('PASS ' + f);
+}
+
+// stale rows: manifest promises a citation for something that no longer claims MCAP
+for (const key of allowed.keys()) {
+  if (!seen.has(key)) {
+    console.log('FAIL stale manifest row: ' + key + ' no longer exists or no longer claims MCAP');
+    fail++;
+  }
+}
+
+console.log('\n' + seen.size + ' MCAP-claiming item(s), ' + allowed.size + ' manifest row(s)');
+if (fail) { console.log('FAIL ' + fail + ' provenance violation(s)'); process.exit(1); }
+console.log('PASS  every MCAP label is backed by a cited released item');

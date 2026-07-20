@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Module Template — Grade 7 Hub</title>
+<title>Statistics &amp; Probability &middot; Grade 7</title>
 <style>
 :root{
   --pitch-green:#14532D; --gold:#FAC415; --navy:#0F172A; --bg:#F5F4EE; --card:#FFFFFF; --muted:#64748B;
@@ -131,8 +131,8 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
 
 
 <header class="mod">
-  <h1>Module Template</h1>
-  <p>Grade 7 Hub &middot; reusable module skeleton &amp; format showcase</p>
+  <h1>Statistics &amp; Probability</h1>
+  <p>Grade 7 Hub &middot; Unit 5 &middot; 7.SP.1&ndash;7.SP.8 &middot; sampling, comparing groups, probability models and compound events</p>
 </header>
 
 <div id="g7bar">
@@ -141,10 +141,12 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
 </div>
 
 <nav class="topics" id="topnav">
-  <a href="#guide" class="navlink">Guide</a>
-  <a href="#concept" class="navlink">1 · Concept</a>
-  <a href="#formats" class="navlink">2 · Formats</a>
-  <a href="#check" class="navlink">3 · Module Check</a>
+  <a href="#sampling" class="navlink">1 &middot; Samples</a>
+  <a href="#compare" class="navlink">2 &middot; Comparing</a>
+  <a href="#probability" class="navlink">3 &middot; Probability</a>
+  <a href="#models" class="navlink">4 &middot; Predicted vs Observed</a>
+  <a href="#compound" class="navlink">5 &middot; Compound Events</a>
+  <a href="#check" class="navlink">6 &middot; Module Check</a>
 </nav>
 
 <main>
@@ -162,161 +164,242 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
     </div>
   </div>
 
-  <section class="topic" id="guide">
-  <h2>Template guide</h2>
-  <p class="intro">This file is the canonical module skeleton. Every Grade 7 unit is stamped from it for consistency.</p>
-  <div class="guide">
-    <h3>Anatomy of a module (the baseline)</h3>
-    <p>Header (title · unit · standard · objectives) → hub bar → progress → <strong>5–8 sections</strong>, each = an <em>objective</em>, a <em>teach card + worked example</em>, then a climb of questions: <code>Learn → Guided → Practice → Apply → Exam</code> (with hints, step-locking) → <strong>module check</strong> → <strong>make-your-own</strong> challenge → export/reset.</p>
-    <h3>Rules baked in</h3>
-    <ul>
-      <li><strong>Curriculum &cup; MCAP:</strong> teach every required concept; weave real MCAP items on top as <code>Exam</code> capstones (<code>data-exam="1"</code>).</li>
-      <li><strong>Flow:</strong> representation before operations; no advanced concept before its prerequisite.</li>
-      <li><strong>One data contract:</strong> set <code>G7_TOPIC_ID</code>, <code>G7_TOPIC_TITLE</code>, and the concept <code>G7_SKILLS</code> map; everything else is shared with the hub.</li>
-      <li><strong>Best-of curation:</strong> pull the strongest explanation and exercises from the source set — no filler.</li>
-    </ul>
-    <h3>Five question formats (shown live below)</h3>
-    <p>Fill-in (accepts equivalent fractions), single multiple-choice, multi-select (&ldquo;select all&rdquo;), two-part (A unlocks B), and constructed-response (typed, logged to the teacher).</p>
+  <section class="topic" id="sampling">
+  <h2>1 &middot; Samples &amp; Populations</h2>
+  <p class="intro">You almost never get to ask everyone. A good sample lets you say something about all of them anyway.</p>
+  <p class="objective"><strong>By the end:</strong> you can say when a sample supports a conclusion about a population, and use one to estimate.</p>
+  <div class="tcard"><h3>What makes a sample trustworthy</h3>
+    <ul><li>A <strong>population</strong> is everyone you care about; a <strong>sample</strong> is the part you actually measure.</li>
+    <li>A conclusion about the population is valid only if the sample is <strong>representative</strong> of it.</li>
+    <li><strong>Random</strong> selection is what tends to produce representative samples &mdash; not asking whoever is nearest.</li>
+    <li>Bigger samples vary less. Two samples of the same size from one population will still differ &mdash; that spread is normal.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; scaling a sample up</div>
+      <p>A factory makes <span class="math">8,000</span> bulbs a day. In a random sample of <span class="math">200</span>, <span class="math">6</span> are faulty.</p>
+      <p>Sample rate: <span class="math">6 &divide; 200 = 0.03</span>, so <span class="math">3%</span>.</p>
+      <p>Estimate for the day: <span class="math">0.03 &times; 8,000 = 240</span> faulty bulbs.</p>
+      <p>It is an <em>estimate</em>. Another sample of 200 might give 5 or 8 faulty, so the real figure sits near 240, not exactly on it.</p></div>
   </div>
-  </section>
+  <div class="qcard" data-qid="1-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Is this sample any good?</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A principal wants to know how far the average student travels to school. Which sample is most likely to be representative?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MXwx"><span class="math">50</span> students chosen at random from the whole school roll</button><button class="mc-option" data-k="k1:Mnww">The first <span class="math">50</span> students to arrive in the morning</button><button class="mc-option" data-k="k1:M3ww"><span class="math">50</span> students who take the school bus</button><button class="mc-option" data-k="k1:NHww">The <span class="math">50</span> students in the principal&rsquo;s own classes</button></div>
+      <div class="mc-feedback">Each of the other three quietly selects for distance: early arrivals and bus riders are not typical travellers, and one teacher&rsquo;s classes are not the school. Only random selection avoids tilting the sample.</div></div>
+  </div></div>
 
-  <section class="topic" id="concept">
-  <h2>1 &middot; Concept</h2>
-  <p class="intro">Each section opens by teaching, then climbs into practice.</p>
-  <p class="objective"><strong>By the end:</strong> you can do the worked skill on your own.</p>
+  <div class="qcard" data-qid="1-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Scaling a sample up</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; In a random sample of <span class="math">80</span> apples, <span class="math">6</span> are bruised. What fraction of the sample is bruised, as a decimal?</div>
+      <div class="input-row"><span class="lbl">fraction =</span><input type="number" step="0.001" class="ans-input" data-answer="k1:MC4wNzU=" data-tol="0.0005"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Compare the number bruised with the size of the sample.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; The orchard picked <span class="math">4,000</span> apples. Estimate how many are bruised.</div>
+      <div class="input-row"><span class="lbl">estimate =</span><input type="number" step="1" class="ans-input" data-answer="k1:MzAw" data-tol="0"/><span class="lbl">apples</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
 
-  <div class="tcard">
-    <h3>Teach card + worked example</h3>
-    <p>State the idea simply, then show one fully worked example before asking the student to try.</p>
-    <div class="worked"><div class="wl">Worked example</div>
-      <p><span class="math">1/2 + 1/4</span>: rewrite with a common denominator &rarr; <span class="math">2/4 + 1/4 = 3/4</span>.</p>
-    </div>
-    <div class="keyfact"><strong>Tip:</strong> answers can be entered in any equivalent form; the checker accepts them and nudges to simplify.</div>
-  </div>
-
-  <div class="qcard" data-qid="d2">
-    <div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Single multiple-choice</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q2 &middot; Which is greater?</div>
-        <div class="mc-group">
-          <button class="mc-option" data-k="k1:MHwx">-3</button>
-          <button class="mc-option" data-k="k1:MXww">-5</button>
-        </div>
-        <div class="mc-feedback">-3 is closer to zero, so it is greater.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="qcard" data-qid="d1">
-    <div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Your turn (fill-in)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q1 &middot; <span class="math">1/2 + 1/4</span> = (lowest terms)</div>
-        <div class="input-row"><input type="text" class="ans-input" data-type="text" data-answer="k1:My80"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-        <button class="hint-btn">Hint</button>
-        <div class="hint-content">Common denominator first: rewrite <span class="math">1/2</span> in quarters, then add the numerators. An equivalent fraction is accepted, with a nudge to simplify.</div>
-      </div>
-    </div>
-  </div>
+  <div class="qcard" data-qid="1-3" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; estimating from a sample</span></div><div class="qbody">
+    <div class="step"><div class="step-label">MCAP item &middot; A company produces <span class="math">25,000</span> cans of soup per day that should each contain <span class="math">8</span> ounces of soup. A quality control employee selects a random sample of <span class="math">50</span> cans of soup each day and determines if those cans contain <span class="math">8</span> ounces of soup. On a certain day, <span class="math">2</span> cans in the sample contained less than <span class="math">8</span> ounces of soup.<br/><br/>Based on this sample, which value is the best estimate for the number of cans of soup produced on this day that will contain less than <span class="math">8</span> ounces?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:NXwx">1000</button><button class="mc-option" data-k="k1:Nnww">100</button><button class="mc-option" data-k="k1:N3ww">250</button><button class="mc-option" data-k="k1:OHww">500</button></div>
+      <div class="mc-feedback"><span class="math">2</span> out of <span class="math">50</span> is <span class="math">0.04</span>, or <span class="math">4%</span>. Applying that rate to the whole day: <span class="math">0.04 &times; 25,000 = 1,000</span> cans.</div></div>
+  </div></div>
 
   </section>
 
-  <section class="topic" id="formats">
-  <h2>2 &middot; Formats showcase</h2>
-  <p class="intro">The remaining interaction types, all on the same engine.</p>
-  <p class="objective"><strong>By the end:</strong> you can use multi-select, two-part, constructed-response and exam items.</p>
-
-  <div class="qcard" data-qid="d3">
-    <div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Multi-select (&ldquo;select all&rdquo;)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q3 &middot; Select every expression equal to 12.</div>
-        <div class="ms-group">
-          <button class="ms-option" data-k="k1:Mnwx"><span class="box"></span>3 &times; 4</button>
-          <button class="ms-option" data-k="k1:M3wx"><span class="box"></span>6 + 6</button>
-          <button class="ms-option" data-k="k1:NHww"><span class="box"></span>5 &times; 3</button>
-          <button class="ms-option" data-k="k1:NXwx"><span class="box"></span>10 + 2</button>
-        </div>
-        <button class="check-btn ms-check">Check</button>
-        <button class="hint-btn">Hint</button>
-        <div class="hint-content">There are three correct choices.</div>
-      </div>
-    </div>
+  <section class="topic" id="compare">
+  <h2>2 &middot; Comparing Two Groups</h2>
+  <p class="intro">Two groups rarely differ by everything. Centre says where; variability says how spread out.</p>
+  <p class="objective"><strong>By the end:</strong> you can compare two data sets using median, mean and mean absolute deviation.</p>
+  <div class="tcard"><h3>Centre and spread</h3>
+    <ul><li><strong>Median</strong> &mdash; the middle value in order. With an even count, average the middle two.</li>
+    <li><strong>Mean</strong> &mdash; the total shared out equally.</li>
+    <li><strong>Mean absolute deviation (MAD)</strong> &mdash; the average distance from the mean. Small MAD = tightly clustered.</li>
+    <li>To compare two groups, look at the gap between centres <em>relative to</em> the MAD. A gap much bigger than the MAD is a real difference; a gap smaller than the MAD is noise.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; MAD of <span class="math">4, 6, 7, 9, 9</span></div>
+      <p>Mean: <span class="math">(4 + 6 + 7 + 9 + 9) &divide; 5 = 35 &divide; 5 = 7</span>.</p>
+      <p>Distances from <span class="math">7</span>: <span class="math">3, 1, 0, 2, 2</span>. These are <em>distances</em>, so never negative.</p>
+      <p>MAD: <span class="math">(3 + 1 + 0 + 2 + 2) &divide; 5 = 8 &divide; 5 = 1.6</span>.</p></div>
   </div>
+  <div class="qcard" data-qid="2-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Median and mean</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; Find the median of <span class="math">3, 7, 8, 12, 15, 21</span>.</div>
+      <div class="input-row"><span class="lbl">median =</span><input type="number" step="0.5" class="ans-input" data-answer="k1:MTA=" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Six values, so there is no single middle one &mdash; look at the two in the middle.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; Find the mean of the same six values.</div>
+      <div class="input-row"><span class="lbl">mean =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MTE=" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
 
-  <div class="qcard" data-qid="d4">
-    <div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Two-part (A unlocks B)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Part A &middot; <span class="math">7 &times; 8</span> =</div>
-        <div class="input-row"><input type="number" class="ans-input" data-answer="k1:NTY=" data-tol="0"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-      </div>
-      <div class="step locked">
-        <div class="step-label">Part B &middot; use Part A: <span class="math">56 &divide; 8</span> =</div>
-        <div class="input-row"><input type="number" class="ans-input" data-answer="k1:Nw==" data-tol="0"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-      </div>
-    </div>
-  </div>
+  <div class="qcard" data-qid="2-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Mean absolute deviation</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Find the MAD of <span class="math">2, 4, 6, 8</span>.</div>
+      <div class="input-row"><span class="lbl">MAD =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:Mg==" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Find the mean first, then average the <em>distances</em> from it &mdash; drop the minus signs.</div></div>
+  </div></div>
 
-  <div class="qcard" data-qid="d5">
-    <div class="qhead"><span class="qtag stretch">Reasoning</span><span class="qtitle">Constructed-response (teacher-reviewed)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q5 &middot; Explain, in your own words, why a negative times a negative is positive.</div>
-        <textarea class="cr-area" placeholder="Type your reasoning..."></textarea>
-        <button class="check-btn cr-save">Save response</button>
-      </div>
-    </div>
-  </div>
+  <div class="qcard" data-qid="2-3"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Which team is more consistent?</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Two teams both average <span class="math">20</span> points. Team A scored <span class="math">18, 19, 20, 21, 22</span>; Team B scored <span class="math">10, 15, 20, 25, 30</span>.<br/>Step 1 &middot; MAD of Team A</div>
+      <div class="input-row"><span class="lbl">MAD =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MS4y" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Same mean for both, so the means tell you nothing here &mdash; the spread is the whole story.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; MAD of Team B</div>
+      <div class="input-row"><span class="lbl">MAD =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:Ng==" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Step 3 &middot; Which team is more consistent?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:OXwx">Team A &mdash; its scores sit closer to the mean</button><button class="mc-option" data-k="k1:MTB8MA==">Team B &mdash; it has the higher single score</button><button class="mc-option" data-k="k1:MTF8MA==">Neither &mdash; the means are equal, so they are equally consistent</button><button class="mc-option" data-k="k1:MTJ8MA==">There is not enough information</button></div>
+      <div class="mc-feedback">Equal means, very different MADs: <span class="math">1.2</span> against <span class="math">6</span>. Team A is five times more tightly clustered. Consistency is a question about spread, not centre.</div></div>
+  </div></div>
 
-  <div class="qcard" data-qid="d6" data-exam="1">
-    <div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-grade capstone (tracked separately)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q6 &middot; <span class="math">-8 + 3</span> =</div>
-        <div class="input-row"><input type="number" class="ans-input" data-answer="k1:LTU=" data-tol="0"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-      </div>
-    </div>
+  <div class="qcard" data-qid="2-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; comparing with dot plots</span></div><div class="qbody">
+      <p>A sports organization collected data about the shoe sizes of soccer players and hockey players. The dot plots show the data that was collected.</p>
+      <div class="figure" style="display:flex;gap:.6rem;flex-wrap:wrap"><svg width="360" height="165" viewBox="0 0 360 165" role="img" aria-label="Dot plot of Soccer Players shoe sizes" style="max-width:100%"><text x="180" y="16" font-size="12" text-anchor="middle" font-weight="700" fill="#0F3D22">Soccer Players</text><line x1="22" y1="118" x2="328" y2="118" stroke="#0F3D22" stroke-width="1.8"/><line x1="40" y1="118" x2="40" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="40" y="139" font-size="11" text-anchor="middle" fill="#0F172A">6</text><line x1="70" y1="118" x2="70" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="70" y="139" font-size="11" text-anchor="middle" fill="#0F172A">7</text><line x1="100" y1="118" x2="100" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="100" y="139" font-size="11" text-anchor="middle" fill="#0F172A">8</text><line x1="130" y1="118" x2="130" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="130" y="139" font-size="11" text-anchor="middle" fill="#0F172A">9</text><line x1="160" y1="118" x2="160" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="160" y="139" font-size="11" text-anchor="middle" fill="#0F172A">10</text><line x1="190" y1="118" x2="190" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="190" y="139" font-size="11" text-anchor="middle" fill="#0F172A">11</text><line x1="220" y1="118" x2="220" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="220" y="139" font-size="11" text-anchor="middle" fill="#0F172A">12</text><line x1="250" y1="118" x2="250" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="250" y="139" font-size="11" text-anchor="middle" fill="#0F172A">13</text><line x1="280" y1="118" x2="280" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="280" y="139" font-size="11" text-anchor="middle" fill="#0F172A">14</text><line x1="310" y1="118" x2="310" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="310" y="139" font-size="11" text-anchor="middle" fill="#0F172A">15</text><circle cx="100" cy="106" r="5" fill="#0F172A"/><circle cx="130" cy="106" r="5" fill="#0F172A"/><circle cx="160" cy="106" r="5" fill="#0F172A"/><circle cx="160" cy="92" r="5" fill="#0F172A"/><circle cx="160" cy="78" r="5" fill="#0F172A"/><circle cx="190" cy="106" r="5" fill="#0F172A"/><circle cx="190" cy="92" r="5" fill="#0F172A"/><circle cx="250" cy="106" r="5" fill="#0F172A"/><circle cx="250" cy="92" r="5" fill="#0F172A"/><circle cx="310" cy="106" r="5" fill="#0F172A"/><text x="180" y="158" font-size="11" text-anchor="middle" fill="#475569">Shoe Sizes</text></svg><svg width="360" height="165" viewBox="0 0 360 165" role="img" aria-label="Dot plot of Hockey Players shoe sizes" style="max-width:100%"><text x="180" y="16" font-size="12" text-anchor="middle" font-weight="700" fill="#0F3D22">Hockey Players</text><line x1="22" y1="118" x2="328" y2="118" stroke="#0F3D22" stroke-width="1.8"/><line x1="40" y1="118" x2="40" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="40" y="139" font-size="11" text-anchor="middle" fill="#0F172A">6</text><line x1="70" y1="118" x2="70" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="70" y="139" font-size="11" text-anchor="middle" fill="#0F172A">7</text><line x1="100" y1="118" x2="100" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="100" y="139" font-size="11" text-anchor="middle" fill="#0F172A">8</text><line x1="130" y1="118" x2="130" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="130" y="139" font-size="11" text-anchor="middle" fill="#0F172A">9</text><line x1="160" y1="118" x2="160" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="160" y="139" font-size="11" text-anchor="middle" fill="#0F172A">10</text><line x1="190" y1="118" x2="190" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="190" y="139" font-size="11" text-anchor="middle" fill="#0F172A">11</text><line x1="220" y1="118" x2="220" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="220" y="139" font-size="11" text-anchor="middle" fill="#0F172A">12</text><line x1="250" y1="118" x2="250" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="250" y="139" font-size="11" text-anchor="middle" fill="#0F172A">13</text><line x1="280" y1="118" x2="280" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="280" y="139" font-size="11" text-anchor="middle" fill="#0F172A">14</text><line x1="310" y1="118" x2="310" y2="125" stroke="#0F3D22" stroke-width="1.4"/><text x="310" y="139" font-size="11" text-anchor="middle" fill="#0F172A">15</text><circle cx="70" cy="106" r="5" fill="#0F172A"/><circle cx="130" cy="106" r="5" fill="#0F172A"/><circle cx="160" cy="106" r="5" fill="#0F172A"/><circle cx="160" cy="92" r="5" fill="#0F172A"/><circle cx="220" cy="106" r="5" fill="#0F172A"/><circle cx="220" cy="92" r="5" fill="#0F172A"/><circle cx="220" cy="78" r="5" fill="#0F172A"/><circle cx="220" cy="64" r="5" fill="#0F172A"/><circle cx="250" cy="106" r="5" fill="#0F172A"/><circle cx="250" cy="92" r="5" fill="#0F172A"/><text x="180" y="158" font-size="11" text-anchor="middle" fill="#475569">Shoe Sizes</text></svg><div class="caption">Data from MCAP Math 7 2024 Release, Question 27.</div></div>
+    <div class="step"><div class="step-label">Step 1 &middot; What is the <strong>median</strong> shoe size for the hockey players?</div>
+      <div class="input-row"><span class="lbl">median =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MTI=" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; What is the <strong>median</strong> shoe size for the soccer players?</div>
+      <div class="input-row"><span class="lbl">median =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MTAuNQ==" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Step 3 &middot; Both data sets have the same MAD. Find it.</div>
+      <div class="input-row"><span class="lbl">MAD =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MS42" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  </section>
+
+  <section class="topic" id="probability">
+  <h2>3 &middot; Probability of a Simple Event</h2>
+  <p class="intro">A probability is a number from 0 to 1 saying how likely something is.</p>
+  <p class="objective"><strong>By the end:</strong> you can find the probability of a simple event and describe it in words.</p>
+  <div class="tcard"><h3>The scale, and how to read it</h3>
+    <ul><li><span class="math">P(event) = (favourable outcomes) &divide; (all equally likely outcomes)</span>.</li>
+    <li><span class="math">0</span> = impossible, <span class="math">1</span> = certain, <span class="math">1/2</span> = as likely as not.</li>
+    <li>Near <span class="math">0</span> is <strong>unlikely</strong>; near <span class="math">1</span> is <strong>likely</strong>; around <span class="math">1/2</span> is <strong>neither likely nor unlikely</strong>.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; a bag of counters</div>
+      <p>A bag holds <span class="math">3</span> red, <span class="math">5</span> blue and <span class="math">2</span> green counters &mdash; <span class="math">10</span> in total.</p>
+      <p><span class="math">P(red) = 3/10 = 0.3</span> &mdash; unlikely, but far from impossible.</p>
+      <p><span class="math">P(not green) = 8/10 = 0.8</span> &mdash; likely. Notice <span class="math">P(green) + P(not green) = 1</span>.</p></div>
   </div>
+  <div class="qcard" data-qid="3-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Counting outcomes</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A bag holds <span class="math">4</span> red, <span class="math">6</span> blue and <span class="math">10</span> yellow counters.<br/>Step 1 &middot; <span class="math">P(blue)</span>, as a decimal</div>
+      <div class="input-row"><span class="lbl">P =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MC4z" data-tol="0.005"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Count everything in the bag first &mdash; that total is the denominator.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; <span class="math">P(not yellow)</span>, as a decimal</div>
+      <div class="input-row"><span class="lbl">P =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MC41" data-tol="0.005"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="3-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Putting it in words</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; An event has probability <span class="math">0.05</span>. Which word describes it best?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MTN8MQ==">Unlikely</button><button class="mc-option" data-k="k1:MTR8MA==">Likely</button><button class="mc-option" data-k="k1:MTV8MA==">Impossible</button><button class="mc-option" data-k="k1:MTZ8MA==">Neither likely nor unlikely</button></div>
+      <div class="mc-feedback"><span class="math">0.05</span> is close to <span class="math">0</span> but not equal to it &mdash; so it is unlikely, not impossible. Impossible means it can never happen at all.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="3-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; a twelve-section spinner</span></div><div class="qbody">
+      <p>A spinner has <span class="math">12</span> sections of equal size, numbered from <span class="math">1</span> to <span class="math">12</span>, as shown.</p>
+    <div class="figure"><svg width="250" height="250" viewBox="0 0 250 250" role="img" aria-label="A spinner divided into twelve equal sections numbered 1 to 12" style="max-width:100%;margin:.2rem 0 .5rem"><circle cx="120" cy="120" r="92" fill="#F4F8F5" stroke="#0F3D22" stroke-width="3"/><line x1="120" y1="120" x2="120.0" y2="28.0" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="166.0" y2="40.3" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="199.7" y2="74.0" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="212.0" y2="120.0" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="199.7" y2="166.0" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="166.0" y2="199.7" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="120.0" y2="212.0" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="74.0" y2="199.7" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="40.3" y2="166.0" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="28.0" y2="120.0" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="40.3" y2="74.0" stroke="#0F3D22" stroke-width="1.4"/><line x1="120" y1="120" x2="74.0" y2="40.3" stroke="#0F3D22" stroke-width="1.4"/><text x="139.2" y="53.5" font-size="13" text-anchor="middle" fill="#0F172A">1</text><text x="172.3" y="72.7" font-size="13" text-anchor="middle" fill="#0F172A">2</text><text x="191.5" y="105.8" font-size="13" text-anchor="middle" fill="#0F172A">3</text><text x="191.5" y="144.2" font-size="13" text-anchor="middle" fill="#0F172A">4</text><text x="172.3" y="177.3" font-size="13" text-anchor="middle" fill="#0F172A">5</text><text x="139.2" y="196.5" font-size="13" text-anchor="middle" fill="#0F172A">6</text><text x="100.8" y="196.5" font-size="13" text-anchor="middle" fill="#0F172A">7</text><text x="67.7" y="177.3" font-size="13" text-anchor="middle" fill="#0F172A">8</text><text x="48.5" y="144.2" font-size="13" text-anchor="middle" fill="#0F172A">9</text><text x="48.5" y="105.8" font-size="13" text-anchor="middle" fill="#0F172A">10</text><text x="67.7" y="72.7" font-size="13" text-anchor="middle" fill="#0F172A">11</text><text x="100.8" y="53.5" font-size="13" text-anchor="middle" fill="#0F172A">12</text><line x1="120" y1="120" x2="146" y2="52" stroke="#0F172A" stroke-width="4"/><circle cx="120" cy="120" r="6" fill="#0F172A"/></svg><div class="caption">Twelve equal sections, numbered 1 to 12.</div></div>
+    <div class="step"><div class="step-label">MCAP item &middot; The arrow will be spun once. <strong>Event J</strong> is that the arrow stops in a section with an <strong>even</strong> number. How would you best describe its probability?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MTd8MQ==">Neither likely nor unlikely</button><button class="mc-option" data-k="k1:MTh8MA==">Unlikely</button><button class="mc-option" data-k="k1:MTl8MA==">Likely</button></div>
+      <div class="mc-feedback">Six of the twelve sections are even, so <span class="math">P(J) = 6/12 = 1/2</span> &mdash; squarely in the middle.</div></div>
+    <div class="step locked"><div class="step-label"><strong>Event K</strong> is that the arrow stops in a section with a number <strong>greater than 2</strong>.</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MjB8MQ==">Likely</button><button class="mc-option" data-k="k1:MjF8MA==">Neither likely nor unlikely</button><button class="mc-option" data-k="k1:MjJ8MA==">Unlikely</button></div>
+      <div class="mc-feedback">Only <span class="math">1</span> and <span class="math">2</span> fail, so <span class="math">P(K) = 10/12</span> &mdash; close to <span class="math">1</span>.</div></div>
+    <div class="step locked"><div class="step-label"><strong>Event L</strong> is that the arrow stops in the section with the number <strong>10</strong>.</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MjN8MQ==">Unlikely</button><button class="mc-option" data-k="k1:MjR8MA==">Neither likely nor unlikely</button><button class="mc-option" data-k="k1:MjV8MA==">Likely</button></div>
+      <div class="mc-feedback">One section out of twelve: <span class="math">P(L) = 1/12</span>, close to <span class="math">0</span>.</div></div>
+  </div></div>
+
+  </section>
+
+  <section class="topic" id="models">
+  <h2>4 &middot; Predicted vs Observed</h2>
+  <p class="intro">What the model says should happen, against what actually happened.</p>
+  <p class="objective"><strong>By the end:</strong> you can compare a theoretical probability with experimental results and say why they differ.</p>
+  <div class="tcard"><h3>Two kinds of probability</h3>
+    <ul><li><strong>Theoretical</strong> &mdash; worked out from the setup: a fair die gives <span class="math">P(4) = 1/6</span>.</li>
+    <li><strong>Experimental</strong> &mdash; measured from trials: rolled <span class="math">4</span> nine times in <span class="math">60</span> rolls &rarr; <span class="math">9/60 = 0.15</span>.</li>
+    <li>They rarely match exactly, and that is expected. <strong>More trials pulls them closer.</strong></li>
+    <li>A large, persistent gap is evidence the model is wrong &mdash; a loaded die, a bent spinner.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; how many should I expect?</div>
+      <p>A fair die is rolled <span class="math">300</span> times. How many <span class="math">4</span>s should you expect?</p>
+      <p><span class="math">P(4) = 1/6</span>, so expect <span class="math">(1/6) &times; 300 = 50</span>.</p>
+      <p>Getting <span class="math">44</span> or <span class="math">57</span> would be unremarkable. Getting <span class="math">120</span> would not &mdash; that is far too many to blame on chance.</p></div>
+  </div>
+  <div class="qcard" data-qid="4-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Theoretical and experimental</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A spinner has <span class="math">5</span> equal sections, one of them red.<br/>Step 1 &middot; Theoretical <span class="math">P(red)</span>, as a decimal</div>
+      <div class="input-row"><span class="lbl">P =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MC4y" data-tol="0.005"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; In <span class="math">60</span> spins it landed on red <span class="math">15</span> times. Experimental probability, as a decimal</div>
+      <div class="input-row"><span class="lbl">P =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MC4yNQ==" data-tol="0.005"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="4-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Expected counts</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A fair coin is flipped <span class="math">250</span> times. How many heads would you expect?</div>
+      <div class="input-row"><span class="lbl">expected =</span><input type="number" step="1" class="ans-input" data-answer="k1:MTI1" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="4-3"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Is the model wrong?</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A spinner is meant to have four equal sections, A to D. In <span class="math">400</span> spins, section A came up <span class="math">104</span> times. What does that suggest?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MjZ8MQ==">Nothing is wrong &mdash; <span class="math">104</span> is close to the <span class="math">100</span> expected</button><button class="mc-option" data-k="k1:Mjd8MA==">The spinner is faulty &mdash; it should have been exactly <span class="math">100</span></button><button class="mc-option" data-k="k1:Mjh8MA==">The spinner is faulty &mdash; section A is too large</button><button class="mc-option" data-k="k1:Mjl8MA==">More sections must have been added during the experiment</button></div>
+      <div class="mc-feedback">Expected: <span class="math">(1/4) &times; 400 = 100</span>. Getting <span class="math">104</span> is ordinary variation &mdash; experimental results scatter around the theoretical value and only settle onto it over many more trials. A result like <span class="math">260</span> would be a different matter.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="4-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; expected number</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A standard six-sided die is rolled <span class="math">420</span> times. How many times would you expect to roll a number greater than <span class="math">4</span>?</div>
+      <div class="input-row"><span class="lbl">expected =</span><input type="number" step="1" class="ans-input" data-answer="k1:MTQw" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  </section>
+
+  <section class="topic" id="compound">
+  <h2>5 &middot; Compound Events</h2>
+  <p class="intro">Two things happening together &mdash; a coin and a die, two spinners, two draws.</p>
+  <p class="objective"><strong>By the end:</strong> you can count the outcomes of a compound event and find its probability.</p>
+  <div class="tcard"><h3>Counting the whole sample space</h3>
+    <ul><li>The <strong>sample space</strong> is every outcome that could happen.</li>
+    <li>For two independent events, the number of outcomes <strong>multiplies</strong>: <span class="math">4</span> spinner sections and <span class="math">2</span> coin faces give <span class="math">8</span> outcomes.</li>
+    <li>A table or a tree keeps you from missing any.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; a coin and a die</div>
+      <p>Flip a coin and roll a six-sided die. Outcomes: <span class="math">2 &times; 6 = 12</span>, all equally likely.</p>
+      <p><span class="math">P(heads and a 5) = 1/12</span> &mdash; exactly one of the twelve.</p>
+      <p><span class="math">P(heads and an even number) = 3/12 = 1/4</span> &mdash; heads paired with <span class="math">2</span>, <span class="math">4</span> or <span class="math">6</span>.</p></div>
+  </div>
+  <div class="qcard" data-qid="5-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">How many outcomes?</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; A spinner has <span class="math">3</span> equal sections. It is spun and a coin is flipped. How many outcomes are in the sample space?</div>
+      <div class="input-row"><span class="lbl">outcomes =</span><input type="number" step="1" class="ans-input" data-answer="k1:Ng==" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Each spinner result can pair with either coin face.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; <span class="math">P(section A and tails)</span>, as a decimal to <span class="math">3</span> d.p.</div>
+      <div class="input-row"><span class="lbl">P =</span><input type="number" step="0.001" class="ans-input" data-answer="k1:MC4xNjc=" data-tol="0.002"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="5-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Two coins</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Two fair coins are flipped. What is <span class="math">P(both heads)</span>, as a decimal?</div>
+      <div class="input-row"><span class="lbl">P =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MC4yNQ==" data-tol="0.005"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="5-3" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; a spinner and a die</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A spinner with <span class="math">4</span> equal sections is spun and a six-sided die is rolled.<br/>Step 1 &middot; How many outcomes are in the sample space?</div>
+      <div class="input-row"><span class="lbl">outcomes =</span><input type="number" step="1" class="ans-input" data-answer="k1:MjQ=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; <span class="math">P(section A and a 6)</span>, as a decimal to <span class="math">4</span> d.p.</div>
+      <div class="input-row"><span class="lbl">P =</span><input type="number" step="0.0001" class="ans-input" data-answer="k1:MC4wNDE3" data-tol="0.0005"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
   </section>
 
   <section class="topic" id="check">
-  <h2>3 &middot; Module Check — Show What You Know</h2>
-  <p class="intro">Every module ends with a short mixed check spanning its skills.</p>
-  <p class="objective"><strong>By the end:</strong> you can use the unit's skills on your own, without being told which to apply.</p>
-
-  <div class="qcard" data-qid="d7" data-exam="1">
-    <div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Mixed check (example)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q7 &middot; <span class="math">-6 &times; (-2)</span> =</div>
-        <div class="input-row"><input type="number" class="ans-input" data-answer="k1:MTI=" data-tol="0"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-      </div>
-    </div>
+  <h2>6 &middot; Module Check &mdash; Show What You Know</h2>
+  <p class="intro">Mixed, exam-style. Nothing new &mdash; everything here has appeared above.</p>
+  <p class="objective"><strong>By the end:</strong> you can tell a question about centre from one about spread, and a prediction from an observation.</p>
+  <div class="tcard"><h3>Before you start</h3>
+    <ul><li>Ask what the question wants: a typical value (centre), a spread (MAD/range), or a chance (probability)?</li>
+    <li>A probability is always between <span class="math">0</span> and <span class="math">1</span>. If you get more, something went wrong.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; choosing the tool</div>
+      <p>&ldquo;What shoe size is typical?&rdquo; &rarr; median or mean. &ldquo;How varied are they?&rdquo; &rarr; MAD. &ldquo;How likely is a size 12?&rdquo; &rarr; probability.</p>
+      <p>The same data set answers all three &mdash; the question decides which one you compute.</p></div>
   </div>
-
-  <div class="challenge">
-    <h3>Make your own</h3>
-    <p>Every module closes by handing ownership to the student: invent a problem of your own that uses this unit's skills, solve it, and bring it to your next session. (This is also the natural <strong>homework</strong> anchor — see below.)</p>
-  </div>
-    <div class="qcard" data-qid="d8" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Reasoning capstone (machine-scored &mdash; copy this shape)</span></div><div class="qbody">
-    <div class="step"><div class="step-label">Q &middot; A student simplifies <span class="math">3 + 4 &times; 2</span> to <span class="math">14</span>. Is that right?</div>
-      <div class="mc-group"><button class="mc-option" data-k="k1:NTAxfDE=">No &mdash; multiplication comes first, so it is <span class="math">11</span></button><button class="mc-option" data-k="k1:NTAyfDA=">Yes &mdash; work left to right, so <span class="math">14</span> is correct</button><button class="mc-option" data-k="k1:NTAzfDA=">No &mdash; it should be <span class="math">24</span></button><button class="mc-option" data-k="k1:NTA0fDA=">Yes &mdash; addition binds tighter than multiplication</button></div>
-      <div class="mc-feedback">Order of operations: <span class="math">4 &times; 2 = 8</span> first, then <span class="math">3 + 8 = 11</span>. <strong>Authoring note:</strong> a reasoning item must be <em>machine-scored</em> to count toward exam-readiness. Keep the constructed-response one as well &mdash; it does different work &mdash; but never let a strand rely on CR alone.</div></div>
+  <div class="qcard" data-qid="6-2" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; find the error</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A student rolls a fair die <span class="math">12</span> times, gets four <span class="math">6</span>s, and concludes &ldquo;this die is loaded &mdash; <span class="math">P(6)</span> is <span class="math">1/3</span>, not <span class="math">1/6</span>.&rdquo; What is wrong with that reasoning?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MzB8MQ==">Twelve rolls is far too few &mdash; small samples vary a lot by chance</button><button class="mc-option" data-k="k1:MzF8MA==">Nothing &mdash; the experimental probability is the true probability</button><button class="mc-option" data-k="k1:MzJ8MA==">They should have used the median instead</button><button class="mc-option" data-k="k1:MzN8MA=="><span class="math">P(6)</span> for a fair die is <span class="math">1/12</span>, not <span class="math">1/6</span></button></div>
+      <div class="mc-feedback">Four <span class="math">6</span>s in <span class="math">12</span> rolls is unremarkable for a fair die. Experimental probability approaches theoretical only as trials grow &mdash; declaring the model wrong after twelve rolls is reading noise as signal. Roll it <span class="math">600</span> times and a real bias would show.</div></div>
   </div></div>
 
-  <div class="qcard" data-qid="d9" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Modelling capstone (multi-part &mdash; copy this shape)</span></div><div class="qbody">
-      <p class="muted-note" style="font-size:.82rem">Several parts, one situation &mdash; this is the shape of a multi-point modelling task on the exam. Each part builds on the last.</p>
-    <div class="step"><div class="step-label">Part A &middot; A tank holds <span class="math">240</span> L and drains at <span class="math">15</span> L per minute. How much is left after <span class="math">6</span> minutes?</div>
-      <div class="input-row"><span class="lbl">volume =</span><input type="number" step="1" class="ans-input" data-answer="k1:MTUw" data-tol="0"/><span class="lbl">L</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
-    <div class="step locked"><div class="step-label">Part B &middot; After how many minutes is the tank empty?</div>
-      <div class="input-row"><span class="lbl">minutes =</span><input type="number" step="1" class="ans-input" data-answer="k1:MTY=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  <div class="qcard" data-qid="6-3" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Modelling &middot; a school survey</span></div><div class="qbody">
+      <p class="muted-note" style="font-size:.82rem">Several parts, one situation &mdash; the shape of a multi-point modelling task.</p>
+    <div class="step"><div class="step-label">Part A &middot; A school has <span class="math">1,200</span> students. In a random sample of <span class="math">75</span>, <span class="math">18</span> said they cycle to school. What fraction of the sample cycles, as a decimal?</div>
+      <div class="input-row"><span class="lbl">fraction =</span><input type="number" step="0.001" class="ans-input" data-answer="k1:MC4yNA==" data-tol="0.0005"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Part B &middot; Estimate how many students in the whole school cycle.</div>
+      <div class="input-row"><span class="lbl">estimate =</span><input type="number" step="1" class="ans-input" data-answer="k1:Mjg4" data-tol="0"/><span class="lbl">students</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Part C &middot; The school buys a cycle rack for every <span class="math">12</span> cyclists. Based on the estimate, how many racks are needed?</div>
+      <div class="input-row"><span class="lbl">racks =</span><input type="number" step="1" class="ans-input" data-answer="k1:MjQ=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="cr-6a"><div class="qhead"><span class="qtag stretch">Stretch</span><span class="qtitle">Explain your thinking</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Two classes have the same median test score, but class A has a much larger MAD than class B. Describe what that tells you about the two classes, and say which class you would rather teach and why.</div>
+      <div class="input-row"><textarea class="cr-input" rows="4" placeholder="Type your reasoning here. Your teacher will read it."></textarea></div><button class="check-btn">Submit</button><span class="feedback"></span></div>
   </div></div>
 
   </section>
@@ -325,14 +408,11 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
 </main>
 <script>
   // ===== Per-module identity (change these per unit) =====
-  const G7_TOPIC_ID='template-demo';
-  const G7_TOPIC_TITLE='Module Template (Demo)';
+  const G7_TOPIC_ID='statistics';
+  const G7_TOPIC_TITLE='Statistics & Probability';
   var G7_SYNC_HUB='grade7'; // shared-cloud namespace for this deployment (must match the hub's SYNC_HUB_ID)
-  const G7_SKILLS={'d1':'demo','d2':'demo','d3':'demo','d4':'demo','d5':'reasoning','d6':'demo','d7':'demo','d8':'reasoning','d9':'modeling'};
-  const G7_SKILL_LABELS={'modeling':'Modelling multi-step problems','demo':'Template skill','reasoning':'Reasoning & error analysis',
-    'rationals':'Rational numbers & ordering','numberline':'Number line, opposites & absolute value',
-    'addsub-int':'Adding & subtracting integers','addsub-rat':'Adding & subtracting fractions & decimals',
-    'muldiv':'Multiplying & dividing','decimals':'Decimals: forms & conversions','realworld':'Real-world multi-step problems'};
+  const G7_SKILLS={'1-1':'sampling','1-2':'sampling','1-3':'sampling','2-1':'compare','2-2':'compare','2-3':'compare','2-4':'compare','3-1':'probability','3-2':'probability','3-4':'probability','4-1':'models','4-2':'models','4-3':'models','4-4':'models','5-1':'compound','5-2':'compound','5-3':'compound','6-2':'reasoning','6-3':'modeling','cr-6a':'reasoning'};
+  const G7_SKILL_LABELS={'sampling':'Samples & populations','compare':'Comparing two groups','probability':'Probability of a simple event','models':'Predicted vs observed','compound':'Compound events','reasoning':'Reasoning & error analysis','modeling':'Modelling multi-step problems'};
 
   // ===== Shared [GRADE] Hub store =====
   function g7current(){return localStorage.getItem('g7.current')||'Guest';}

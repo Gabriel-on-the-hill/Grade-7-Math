@@ -434,7 +434,26 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     'graphs':'Graphs of proportional relationships',
     'solving':'Solving proportions & scale',
     'percent':'Percent basics',
-    'percent-app':'Percent applications'
+    'percent-app':'Percent applications',
+    'percent-change':'Percent increase, decrease & error',
+    'modeling':'Modelling multi-step problems',
+    'scale':'Scale drawings',
+    'triangles':'Building triangles',
+    'cross-sections':'Cross-sections of solids',
+    'circles':'Circles: circumference & area',
+    'angles':'Angle relationships',
+    'sa-volume':'Area, surface area & volume',
+    'sampling':'Samples & populations',
+    'compare':'Comparing two groups',
+    'probability':'Probability of a simple event',
+    'models':'Predicted vs observed',
+    'like-terms':'Building & combining like terms',
+    'distribute':'Distributive property: expand & factor',
+    'rewrite':'Rewriting expressions to reveal structure',
+    'write-eq':'Writing equations & inequalities from words',
+    'solve-eq':'Solving two-step equations',
+    'inequalities':'Solving & graphing inequalities',
+    'compound':'Compound events'
   };
 
   function svg(paths){return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+paths+'</svg>';}
@@ -455,7 +474,7 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
      IDs as-is for back-compat; give every NEW subject's topics a subject prefix
      (e.g. 'sci.life') so two subjects can never collide in a student's data. */
   var SUBJECTS=[
-    {id:'math', label:'Mathematics', tagline:'Grade 7 · MCAP-aligned', icon:IC.expr,
+    {id:'math', label:'Mathematics', icon:IC.expr,
      examLabel:'Exam-ready', examLabelLong:'Exam-readiness', skillLabels:MATH_SKILLS,
      units:[
        {unit:'Numerical Reasoning',topics:[
@@ -466,13 +485,13 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
          {id:'expressions',title:'Expressions, Equations & Inequalities',desc:'Build and solve linear equations and inequalities.',file:'Expressions_Equations_Inequalities.html',status:'available',icon:IC.expr}
        ]},
        {unit:'Geometric & Spatial Reasoning',topics:[
-         {id:'geometry',title:'Geometry Connections',desc:'Circles, angles, area, surface area and volume.',status:'soon',icon:IC.geo}
+         {id:'geometry',title:'Geometry Connections',desc:'Scale drawings, triangles, cross-sections, circles, angles, volume and surface area.',file:'Geometry_Connections.html',status:'available',icon:IC.geo}
        ]},
        {unit:'Data & Probability Reasoning',topics:[
-         {id:'statistics',title:'Statistics & Probability',desc:'Sampling, comparing data sets, and probability.',status:'soon',icon:IC.stat}
+         {id:'statistics',title:'Statistics & Probability',desc:'Sampling, comparing groups, probability models and compound events.',file:'Statistics_and_Probability.html',status:'available',icon:IC.stat}
        ]}
      ]},
-    {id:'sci', label:'Science', tagline:'Grade 7 · coming soon', icon:IC.sci,
+    {id:'sci', label:'Science', icon:IC.sci,
      examLabel:'Exam-ready', examLabelLong:'Exam-readiness', skillLabels:{},
      units:[
        {unit:'Life Science',topics:[

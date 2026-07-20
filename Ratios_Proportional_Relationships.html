@@ -180,16 +180,24 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
     <div class="step locked"><div class="step-label">Q2 &middot; $6.00 for 4 apples = price per apple ($)</div>
       <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:MS41" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
   </div></div>
-  <div class="qcard" data-qid="r1-2"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Unit rates with fractions</span></div><div class="qbody">
-    <div class="step"><div class="step-label">Q3 &middot; <span class="math">3/4</span> mile in <span class="math">1/2</span> hour = miles per hour</div>
-      <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:MS41" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
-      <button class="hint-btn">Hint</button><div class="hint-content">Dividing by <span class="math">1/2</span> is the same as multiplying by 2.</div></div>
-  </div></div>
+
   <div class="qcard" data-qid="r1-3"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Better buy</span></div><div class="qbody">
     <div class="step"><div class="step-label">Q4 &middot; Which is the better buy?</div>
       <div class="mc-group"><button class="mc-option" data-k="k1:MHwx">$3 for 5 markers</button><button class="mc-option" data-k="k1:MXww">$5 for 8 markers</button></div>
       <div class="mc-feedback">Compare unit prices: $3 &divide; 5 = $0.60 each, but $5 &divide; 8 = $0.625 each — so $3 for 5 is the better buy.</div></div>
   </div></div>
+
+  <div class="qcard" data-qid="r1-2"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Unit rates with fractions</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q3 &middot; <span class="math">3/4</span> mile in <span class="math">1/2</span> hour = miles per hour</div>
+      <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:MS41" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Dividing by <span class="math">1/2</span> is the same as multiplying by 2.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="r1-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; copies per minute</span></div><div class="qbody">
+    <div class="step"><div class="step-label">MCAP item &middot; A copy machine prints <span class="math">10</span> copies per <span class="math">1/4</span> minute. At what rate, in copies per minute, does the copy machine print?</div>
+      <div class="input-row"><input type="number" step="1" class="ans-input" data-answer="k1:NDA=" data-tol="0"/><span class="lbl">copies per minute</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
   </section>
 
   <section class="topic" id="proportions">
@@ -222,14 +230,35 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
     <ul><li>Straight line through <span class="math">(0,0)</span> &rarr; proportional.</li>
     <li>The point <span class="math">(1, r)</span> shows the unit rate <span class="math">r</span>.</li>
     <li><span class="math">k = y/x</span> for any point on the line.</li></ul>
+  <div class="worked"><div class="wl">Worked example &mdash; reading <span class="math">k</span> off a graph</div>
+      <p>A machine fills bottles at a steady rate. Its graph is a straight line through the origin passing through <span class="math">(3, 12)</span>.</p>
+      <p><strong>1.</strong> Pick any point on the line: <span class="math">(3, 12)</span>. <strong>2.</strong> <span class="math">k = y/x = 12/3 = 4</span> bottles per second.
+      <strong>3.</strong> Check it against the point at <span class="math">x = 1</span>: <span class="math">(1, 4)</span> &mdash; the unit rate is always the <span class="math">y</span>-value when <span class="math">x = 1</span>.</p>
+      <p><span class="math">(0, 0)</span> is on every proportional graph, and it means what you expect: in <span class="math">0</span> seconds the machine fills <span class="math">0</span> bottles.</p>
+      <svg width="400" height="228" viewBox="0 0 400 228" role="img" aria-label="Graph of a proportional relationship through the origin passing through the points (1, 4) and (3, 12)" style="max-width:100%;margin-top:.55rem"><line x1="50" y1="190" x2="345" y2="190" stroke="#64748B" stroke-width="1.5"/><line x1="50" y1="190" x2="50" y2="22" stroke="#64748B" stroke-width="1.5"/><line x1="120" y1="190" x2="120" y2="186" stroke="#64748B" stroke-width="1.5"/><text x="120" y="205" font-size="11" text-anchor="middle" fill="#0F172A">1</text><line x1="190" y1="190" x2="190" y2="186" stroke="#64748B" stroke-width="1.5"/><text x="190" y="205" font-size="11" text-anchor="middle" fill="#0F172A">2</text><line x1="260" y1="190" x2="260" y2="186" stroke="#64748B" stroke-width="1.5"/><text x="260" y="205" font-size="11" text-anchor="middle" fill="#0F172A">3</text><line x1="330" y1="190" x2="330" y2="186" stroke="#64748B" stroke-width="1.5"/><text x="330" y="205" font-size="11" text-anchor="middle" fill="#0F172A">4</text><line x1="50" y1="150" x2="54" y2="150" stroke="#64748B" stroke-width="1.5"/><text x="44" y="154" font-size="11" text-anchor="end" fill="#0F172A">4</text><line x1="50" y1="110" x2="54" y2="110" stroke="#64748B" stroke-width="1.5"/><text x="44" y="114" font-size="11" text-anchor="end" fill="#0F172A">8</text><line x1="50" y1="70" x2="54" y2="70" stroke="#64748B" stroke-width="1.5"/><text x="44" y="74" font-size="11" text-anchor="end" fill="#0F172A">12</text><line x1="50" y1="30" x2="54" y2="30" stroke="#64748B" stroke-width="1.5"/><text x="44" y="34" font-size="11" text-anchor="end" fill="#0F172A">16</text><line x1="50" y1="190" x2="330" y2="30" stroke="#0F3D22" stroke-width="2.5"/><circle cx="50" cy="190" r="4.5" fill="#FAC415" stroke="#0F3D22" stroke-width="1.5"/><circle cx="120" cy="150" r="4.5" fill="#FAC415" stroke="#0F3D22" stroke-width="1.5"/><circle cx="260" cy="70" r="4.5" fill="#FAC415" stroke="#0F3D22" stroke-width="1.5"/><text x="60" y="184" font-size="11" fill="#0F3D22">(0, 0)</text><text x="129" y="147" font-size="11" fill="#0F3D22">(1, 4) &#8592; unit rate</text><text x="269" y="67" font-size="11" fill="#0F3D22">(3, 12)</text><text x="197" y="222" font-size="11" text-anchor="middle" fill="#475569">seconds</text><text x="16" y="106" font-size="11" text-anchor="middle" fill="#475569" transform="rotate(-90 16 106)">bottles</text></svg></div>
   </div>
-  <div class="qcard" data-qid="r3-1" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; constant of proportionality</span></div><div class="qbody">
-    <div class="step"><div class="step-label">MCAP item &middot; A proportional relationship passes through (2, 6) and (3, 9). What is the constant of proportionality?</div>
-      <div class="input-row"><span class="lbl">k =</span><input type="number" class="ans-input" data-answer="k1:Mw==" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
-  </div></div>
   <div class="qcard" data-qid="r3-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Unit rate from a point</span></div><div class="qbody">
     <div class="step"><div class="step-label">Q &middot; A proportional line passes through (4, 10). What is the unit rate r (value at x = 1)?</div>
       <div class="input-row"><span class="lbl">r =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:Mi41" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+    <div class="qcard" data-qid="r3-3"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">What a point means</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Hours worked <span class="math">x</span>, dollars earned <span class="math">y</span>. The line passes through <span class="math">(1, 14)</span>. What does the point <span class="math">(3, 42)</span> mean?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MjF8MQ==">Working <span class="math">3</span> hours earns <span class="math">$42</span></button><button class="mc-option" data-k="k1:MjJ8MA==">Working <span class="math">42</span> hours earns <span class="math">$3</span></button><button class="mc-option" data-k="k1:MjN8MA==">The pay is <span class="math">$3</span> per hour</button><button class="mc-option" data-k="k1:MjR8MA==">It costs <span class="math">$42</span> to work <span class="math">3</span> hours</button></div>
+      <div class="mc-feedback">The first coordinate is always the <span class="math">x</span> quantity (hours), the second the <span class="math">y</span> quantity (dollars). Check it against the rate: <span class="math">3 &times; 14 = 42</span>.</div></div>
+    <div class="step locked"><div class="step-label">Q &middot; And what does <span class="math">(0, 0)</span> mean here?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MjV8MQ==">Working <span class="math">0</span> hours earns <span class="math">$0</span></button><button class="mc-option" data-k="k1:MjZ8MA==">Nothing &mdash; every graph goes through it</button><button class="mc-option" data-k="k1:Mjd8MA==">The pay rate is <span class="math">0</span></button><button class="mc-option" data-k="k1:Mjh8MA==">No data was collected</button></div>
+      <div class="mc-feedback"><span class="math">(0, 0)</span> is on every proportional graph, and it always says something real: no hours, no pay. That is what makes the relationship proportional rather than merely linear.</div></div>
+  </div></div>
+    <div class="qcard" data-qid="r3-4"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">From a description in words</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; &ldquo;A printer prints <span class="math">18</span> pages every <span class="math">2</span> minutes at a constant rate.&rdquo; Constant of proportionality (pages per minute):</div>
+      <div class="input-row"><span class="lbl">k =</span><input type="number" step="1" class="ans-input" data-answer="k1:OQ==" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">The constant of proportionality is the amount for <em>one</em> minute.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; Using <span class="math">y = kx</span>, how many pages in <span class="math">7</span> minutes?</div>
+      <div class="input-row"><span class="lbl">pages =</span><input type="number" step="1" class="ans-input" data-answer="k1:NjM=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+  <div class="qcard" data-qid="r3-1" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; constant of proportionality</span></div><div class="qbody">
+    <div class="step"><div class="step-label">MCAP item &middot; A proportional relationship passes through (2, 6) and (3, 9). What is the constant of proportionality?</div>
+      <div class="input-row"><span class="lbl">k =</span><input type="number" class="ans-input" data-answer="k1:Mw==" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
   </div></div>
   </section>
 
@@ -250,6 +279,10 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
     <div class="step locked"><div class="step-label">Q3 &middot; A recipe uses 2 cups of rice for 3 servings. Cups for 12 servings?</div>
       <div class="input-row"><input type="number" class="ans-input" data-answer="k1:OA==" data-tol="0"/><span class="lbl">cups</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
   </div></div>
+    <div class="qcard" data-qid="r4-3" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; scale drawing</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A scale drawing of a room uses <span class="math">1 cm : 2.5 m</span>. On the drawing, a wall measures <span class="math">6.4 cm</span>. How long is the actual wall?</div>
+      <div class="input-row"><span class="lbl">length =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MTY=" data-tol="0.001"/><span class="lbl">m</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
   </section>
 
   <section class="topic" id="percent">
@@ -268,17 +301,36 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
       <div class="mc-group"><button class="mc-option" data-k="k1:NHww">35%</button><button class="mc-option" data-k="k1:NXwx">60%</button><button class="mc-option" data-k="k1:Nnww">53%</button></div>
       <div class="mc-feedback"><span class="math">3/5 = 0.6 = 60%</span>.</div></div>
   </div></div>
+    <div class="qcard" data-qid="r5-3" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; find the percent</span></div><div class="qbody">
+    <div class="step"><div class="step-label"><span class="math">26</span> is what percent of <span class="math">40</span>?</div>
+      <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:NjU=" data-tol="0.001"/><span class="lbl">%</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
   </section>
 
   <section class="topic" id="percent-app">
   <h2>6 &middot; Percent Applications</h2>
-  <p class="intro">Tax, tip, discount, markup, commission, simple interest, percent change.</p>
+  <p class="intro">Tax, tip, discount, markup, markdown, commission, fees, simple interest, percent change and percent error.</p>
   <p class="objective"><strong>By the end:</strong> you can solve multi-step money problems with percents.</p>
   <div class="tcard"><h3>Key moves</h3>
     <ul><li><strong>Tax/tip/markup</strong> add on; <strong>discount</strong> takes off.</li>
     <li><strong>Simple interest:</strong> <span class="math">I = P &times; r &times; t</span>.</li>
-    <li><strong>Percent change</strong> = (change &divide; original) &times; 100.</li></ul>
-    <div class="worked"><div class="wl">Worked example</div><p>$50 with 8% tax: <span class="math">50 &times; 1.08 = 54</span>.</p></div></div>
+    <li><strong>Percent change</strong> = (change &divide; <strong>original</strong>) &times; 100.</li>
+    <li><strong>Percent error</strong> = (|estimate &minus; actual| &divide; <strong>actual</strong>) &times; 100.</li>
+    <li><strong>Commission</strong> is a percent of sales; a <strong>fee</strong> adds on like tax.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; &ldquo;20% more&rdquo; as one multiplier</div>
+    <p>A package held <span class="math">500</span> grams of cereal. The new one has <span class="math">20%</span> more. &ldquo;<span class="math">20%</span> more&rdquo; means <span class="math">20%</span> <em>of the original</em> has been added:</p>
+    <p><span class="math">500 + (0.2) &times; 500 = 600</span> grams.</p>
+    <p>And because the original is itself <span class="math">100%</span>, the new amount is <span class="math">120%</span> of it:</p>
+    <p><span class="math">500 + (0.2) &times; 500 = (1 + 0.2)500</span></p>
+    <p>That is the same move you met in Expressions: <span class="math">p + 0.2p = 1.2p</span>. One multiplier, one step.</p>
+    <div class="figure"><svg width="420" height="150" viewBox="0 0 420 150" role="img" aria-label="A tape diagram: five equal parts make 100 percent of the original 500 grams, and one more part of 20 percent brings the total to 120 percent" style="max-width:100%;margin-top:.55rem"><text x="150" y="26" font-size="12" text-anchor="middle" fill="#0F172A">100%</text><text x="330" y="26" font-size="12" text-anchor="middle" fill="#B8860B">20%</text><path d="M30 34 L30 40 L270 40 L270 34" fill="none" stroke="#64748B" stroke-width="1.2"/><path d="M282 34 L282 40 L330 40 L330 34" fill="none" stroke="#B8860B" stroke-width="1.2"/><rect x="30" y="48" width="48" height="30" fill="#F4F8F5" stroke="#0F3D22" stroke-width="1.6"/><rect x="78" y="48" width="48" height="30" fill="#F4F8F5" stroke="#0F3D22" stroke-width="1.6"/><rect x="126" y="48" width="48" height="30" fill="#F4F8F5" stroke="#0F3D22" stroke-width="1.6"/><rect x="174" y="48" width="48" height="30" fill="#F4F8F5" stroke="#0F3D22" stroke-width="1.6"/><rect x="222" y="48" width="48" height="30" fill="#F4F8F5" stroke="#0F3D22" stroke-width="1.6"/><rect x="270" y="48" width="48" height="30" fill="#7FD4E8" stroke="#0F3D22" stroke-width="1.6"/><path d="M30 86 L30 94 L318 94 L318 86" fill="none" stroke="#64748B" stroke-width="1.2"/><text x="174" y="112" font-size="12" text-anchor="middle" fill="#0F172A">120%</text><text x="30" y="140" font-size="11" fill="#475569">each part = 100 g, so the new package is 600 g</text></svg><div class="caption">Illustrative Mathematics, Grade 7 Unit 4 Lesson 6.</div></div>
+    <p style="margin-top:.5rem">For tax it works identically: <span class="math">$50</span> with <span class="math">8%</span> tax is <span class="math">50 &times; 1.08 = 54</span>.</p></div></div>
+  <div class="qcard" data-qid="r6-7"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Percent as a multiplier</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; The sales tax rate in New Mexico is <span class="math">5.125%</span>. <strong>Select all</strong> the equations that represent the sales tax, <span class="math">t</span>, you would pay in New Mexico for an item of cost <span class="math">c</span>.</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:NzA1fDE="><span class="math">t = 0.05125c</span></button><button class="mc-option" data-k="k1:NzA2fDE="><span class="math">t = (5.125/100)c</span></button><button class="mc-option" data-k="k1:NzA3fDA="><span class="math">t = 5.125c</span></button><button class="mc-option" data-k="k1:NzA4fDA="><span class="math">t = 0.5125c</span></button><button class="mc-option" data-k="k1:NzA5fDA="><span class="math">t = c &divide; 0.05125</span></button></div>
+      <div class="mc-feedback">A percent is a number of hundredths, so <span class="math">5.125%</span> means <span class="math">5.125/100 = 0.05125</span> &mdash; and those two are the same equation written two ways. <span class="math">t = 5.125c</span> would charge more than five times the price of the item, and dividing turns the multiplier upside down.</div></div>
+  </div></div>
+
   <div class="qcard" data-qid="r6-1"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Tip, discount &amp; interest</span></div><div class="qbody">
     <div class="step"><div class="step-label">Step 1 &middot; 18% tip on a $40 meal ($)</div>
       <div class="input-row"><span class="lbl">tip =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:Ny4y" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
@@ -288,6 +340,45 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
       <div class="input-row"><span class="lbl">I =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:NjA=" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
       <button class="hint-btn">Hint</button><div class="hint-content">Use <span class="math">I = p &times; r &times; t</span> with the rate written as a decimal.</div></div>
   </div></div>
+
+  <div class="qcard" data-qid="r6-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Markup, and working backwards</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q1 &middot; A car dealership pays <span class="math">$8,350</span> for a car. They mark up the price by <span class="math">17.4%</span> to get the retail price. What is the retail price of the car at this dealership?</div>
+      <div class="input-row"><span class="lbl">retail price =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:OTgwMi45MA==" data-tol="0.001"/><span class="lbl">$</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">A markup is added <em>to</em> the price the dealer paid &mdash; so the retail price is the whole original plus the markup.</div></div>
+    <div class="step locked"><div class="step-label">Q2 &middot; A store has a <span class="math">20%</span> off sale on pants. With this discount, the price of one pair of pants before tax is <span class="math">$15.20</span>. What was the original price of the pants?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:NzAxfDE="><span class="math">$19.00</span></button><button class="mc-option" data-k="k1:NzAyfDA="><span class="math">$3.04</span></button><button class="mc-option" data-k="k1:NzAzfDA="><span class="math">$12.16</span></button><button class="mc-option" data-k="k1:NzA0fDA="><span class="math">$18.24</span></button></div>
+      <div class="mc-feedback"><span class="math">$15.20</span> is not the discount &mdash; it is what is <em>left</em>, which is <span class="math">80%</span> of the original. So the original is <span class="math">15.20 &divide; 0.80 = 19.00</span>. Check: <span class="math">20%</span> of <span class="math">$19</span> is <span class="math">$3.80</span>, and <span class="math">19 - 3.80 = 15.20</span> &#10003; Taking <span class="math">20%</span> <em>off</em> <span class="math">$15.20</span> gives <span class="math">$12.16</span>, which is the trap.</div></div>
+  </div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; It does not sell, so the store marks that price down <span class="math">30%</span>. New price ($)</div>
+      <div class="input-row"><span class="lbl">price =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:NDAuNjA=" data-tol="0.001"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Take the markdown off the <em>marked-up</em> price, not the original.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="r6-3"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Commission</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Lin hears a salesperson say her commission is <span class="math">5 1/2 %</span> of the selling price.<br/>Q1 &middot; How much commission will the salesperson earn by selling a couch for <span class="math">$495</span>?</div>
+      <div class="input-row"><span class="lbl">commission =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MjcuMjM=" data-tol="0.01"/><span class="lbl">$</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Write the percent as a decimal first &mdash; <span class="math">5 1/2 %</span> is not <span class="math">5.5</span>.</div></div>
+    <div class="step locked"><div class="step-label">Q2 &middot; How much money will the store get from the sale of the couch?</div>
+      <div class="input-row"><span class="lbl">store receives =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:NDY3Ljc4" data-tol="0.01"/><span class="lbl">$</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="r6-4"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Percent increase &amp; decrease</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; Attendance rose from <span class="math">250</span> to <span class="math">320</span>. Percent increase?</div>
+      <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:Mjg=" data-tol="0.001"/><span class="lbl">%</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Find the change first, then compare it to the <em>original</em> amount &mdash; not to the new one.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; A price fell from <span class="math">$80</span> to <span class="math">$68</span>. Percent decrease?</div>
+      <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:MTU=" data-tol="0.001"/><span class="lbl">%</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="r6-6"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Agree or disagree?</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q1 &middot; &ldquo;Employee A gets a pay raise of <span class="math">50%</span>. Employee B gets a pay raise of <span class="math">45%</span>. So Employee A gets the bigger pay raise.&rdquo; Do you agree?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:NjAxfDE=">Disagree &mdash; it depends on what each of them earned to begin with</button><button class="mc-option" data-k="k1:NjAyfDA=">Agree &mdash; <span class="math">50%</span> is more than <span class="math">45%</span></button><button class="mc-option" data-k="k1:NjAzfDA=">Agree &mdash; a percent raise is the same for everyone</button><button class="mc-option" data-k="k1:NjA0fDA=">Disagree &mdash; percent raises cannot be compared at all</button></div>
+      <div class="mc-feedback">A percentage is always a percentage <em>of something</em>. <span class="math">50%</span> of <span class="math">$20,000</span> is <span class="math">$10,000</span>, but <span class="math">45%</span> of <span class="math">$60,000</span> is <span class="math">$27,000</span>. Without the starting salaries the comparison cannot be made &mdash; though it is fair to say A&rsquo;s raise is the bigger <em>proportion</em>.</div></div>
+    <div class="step locked"><div class="step-label">Q2 &middot; Shirts are <span class="math">20%</span> off. You buy two. The cashier says &ldquo;<span class="math">20%</span> off each shirt means <span class="math">40%</span> off the total.&rdquo; Do you agree?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:NjA1fDE=">Disagree &mdash; the total is still <span class="math">20%</span> off</button><button class="mc-option" data-k="k1:NjA2fDA=">Agree &mdash; two shirts, so double the discount</button><button class="mc-option" data-k="k1:NjA3fDA=">Agree &mdash; but only if both shirts cost the same</button><button class="mc-option" data-k="k1:NjA4fDA=">Disagree &mdash; the total is <span class="math">10%</span> off</button></div>
+      <div class="mc-feedback">Two shirts at <span class="math">$30</span> each cost <span class="math">$60</span>; at <span class="math">20%</span> off, each costs <span class="math">$24</span>, so the total is <span class="math">$48</span>. That is <span class="math">$12</span> off <span class="math">$60</span> &mdash; still <span class="math">20%</span>. Discounts apply to each price, so buying more never deepens the rate.</div></div>
+  </div></div>
+
   <div class="qcard" data-qid="r6-ex" data-exam="1"><div class="qhead"><span class="qtag exam">Exam &middot; select all</span><span class="qtitle">MCAP &middot; meal with 15% tip</span></div><div class="qbody">
     <p>A meal costs <span class="math">p</span> dollars. A 15% tip is added. Which expressions give the <strong>total cost</strong>? Select all that apply.</p>
     <div class="step"><div class="step-label">MCAP item &middot; select all that apply</div>
@@ -300,6 +391,12 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
       </div>
       <button class="check-btn ms-check">Check</button></div>
   </div></div>
+
+  <div class="qcard" data-qid="r6-5" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; percent error</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A student estimates a jar holds <span class="math">45</span> beans. It actually holds <span class="math">50</span>. What is the percent error?</div>
+      <div class="input-row"><input type="number" step="0.01" class="ans-input" data-answer="k1:MTA=" data-tol="0.001"/><span class="lbl">%</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
   </section>
 
   <section class="topic" id="realworld">
@@ -335,6 +432,22 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
       <div class="input-row"><span class="lbl">y =</span><input type="number" class="ans-input" data-answer="k1:NjM=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
   </div></div>
   <div class="challenge"><h3>Make your own</h3><p>Invent a real shopping problem that uses a discount <em>and</em> a tax (or a tip), solve it, and bring it to your next session.</p></div>
+    <div class="qcard" data-qid="r8-3" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; find the error</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A student says the table <span class="math">x: 2, 4, 6</span> with <span class="math">y: 5, 10, 16</span> is proportional, &ldquo;because <span class="math">y</span> goes up whenever <span class="math">x</span> goes up.&rdquo; What is wrong with that reasoning?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MzAxfDE=">Going up together is not enough &mdash; every <span class="math">y/x</span> must be the <em>same</em>, and <span class="math">16/6</span> is not <span class="math">5/2</span></button><button class="mc-option" data-k="k1:MzAyfDA=">Nothing is wrong &mdash; the table is proportional</button><button class="mc-option" data-k="k1:MzAzfDA=">It fails because the <span class="math">x</span> values are not <span class="math">1, 2, 3</span></button><button class="mc-option" data-k="k1:MzA0fDA=">It fails because <span class="math">y</span> is larger than <span class="math">x</span> every time</button></div>
+      <div class="mc-feedback"><span class="math">5/2 = 2.5</span> and <span class="math">10/4 = 2.5</span>, but <span class="math">16/6 &asymp; 2.67</span>. A relationship can increase steadily and still not be proportional &mdash; the constant ratio is the test, not the direction.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="r8-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Modelling &middot; three months of sales</span></div><div class="qbody">
+      <p class="muted-note" style="font-size:.82rem">Several parts, one situation &mdash; this is the shape of a multi-point modelling task on the exam. Each part builds on the last.</p>
+    <div class="step"><div class="step-label">Part A &middot; A shop takes <span class="math">$12,400</span> in January. February is <span class="math">15%</span> higher. February sales ($)</div>
+      <div class="input-row"><span class="lbl">February =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MTQyNjA=" data-tol="0.001"/><span class="lbl">$</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Part B &middot; March is <span class="math">8%</span> <em>lower</em> than February. March sales ($)</div>
+      <div class="input-row"><span class="lbl">March =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MTMxMTkuMjA=" data-tol="0.001"/><span class="lbl">$</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Part C &middot; Percent change from January to March, to <span class="math">1</span> decimal place</div>
+      <div class="input-row"><span class="lbl">change =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:NS44" data-tol="0.06"/><span class="lbl">%</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
   </section>
 
   <footer>Grade 7 · Unit 2 — Ratios &amp; Proportional Relationships (7.RP). Built on the curriculum ∪ MCAP focus.</footer>
@@ -344,8 +457,8 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
   const G7_TOPIC_ID='ratios';
   const G7_TOPIC_TITLE='Ratios & Proportional Relationships';
   var G7_SYNC_HUB='grade7'; // shared-cloud namespace for this deployment (must match the hub's SYNC_HUB_ID)
-  const G7_SKILLS={'r1-1':'rates','r1-2':'rates','r1-3':'rates','r2-1':'proportions','r2-2':'proportions','r3-1':'graphs','r3-2':'graphs','r4-1':'solving','r4-2':'solving','r5-1':'percent','r5-2':'percent','r6-1':'percent-app','r6-ex':'percent-app','r7-1':'realworld','r7-ex':'realworld','r8-1':'percent-app','r8-2':'proportions'};
-  const G7_SKILL_LABELS={'rates':'Ratios, rates & unit rates','proportions':'Proportional relationships','graphs':'Graphs of proportional relationships','solving':'Solving proportions & scale','percent':'Percent basics','percent-app':'Percent applications','realworld':'Real-world multi-step problems','reasoning':'Reasoning & error analysis'};
+  const G7_SKILLS={'r1-1':'rates','r1-2':'rates','r1-3':'rates','r2-1':'proportions','r2-2':'proportions','r3-1':'graphs','r3-2':'graphs','r4-1':'solving','r4-2':'solving','r5-1':'percent','r5-2':'percent','r6-1':'percent-app','r6-ex':'percent-app','r7-1':'realworld','r7-ex':'realworld','r8-1':'percent-app','r8-2':'proportions','r1-4':'rates','r3-3':'graphs','r3-4':'proportions','r4-3':'solving','r5-3':'percent','r6-2':'percent-app','r6-3':'percent-app','r6-4':'percent-change','r6-5':'percent-change','r8-3':'reasoning','r8-4':'modeling','r6-6':'percent-change','r6-7':'percent-app'};
+  const G7_SKILL_LABELS={'modeling':'Modelling multi-step problems','rates':'Ratios, rates & unit rates','proportions':'Proportional relationships','graphs':'Graphs of proportional relationships','solving':'Solving proportions & scale','percent':'Percent basics','percent-app':'Percent applications','percent-change':'Percent increase, decrease & error','realworld':'Real-world multi-step problems','reasoning':'Reasoning & error analysis'};
 
   // ===== Shared [GRADE] Hub store =====
   function g7current(){return localStorage.getItem('g7.current')||'Guest';}

@@ -10,8 +10,8 @@
 >   - **Number System Connections (7.NS)** — operations with all rational numbers (integers, fractions, decimals); number line, opposites & absolute value; adding/subtracting/multiplying/dividing rationals; decimal forms & conversions; real-world multi-step problems. *(BUILT — first unit.)*
 >   - **Ratios & Proportional Relationships (7.RP)** — unit rates, proportional relationships, graphs of proportions, solving proportions & scale, percent basics & applications. *(BUILT — second unit.)*
 >   - **Expressions, Equations & Inequalities (7.EE)** — combine like terms; distributive expand/factor; rewrite expressions to reveal structure; write & solve two-step equations (`px+q=r`, `p(x+q)=r`); solve & graph inequalities. *(BUILT — third unit.)*
->   - **Geometry Connections (7.G)** — circles, angles, area, surface area, volume. *(coming soon)*
->   - **Statistics & Probability (7.SP)** — sampling, comparing data sets, probability. *(coming soon)*
+>   - **Geometry Connections (7.G)** — scale drawings, triangle conditions, cross-sections, circles, angles, surface area & volume. *(BUILT — fourth unit, 2026-07-20.)*
+>   - **Statistics & Probability (7.SP)** — sampling, comparing groups, probability models, compound events. *(BUILT — fifth unit, 2026-07-20.)*
 > - **Textbooks / source materials in folder (consult every unit):** enVision Mathematics Grade 7, Illustrative Mathematics Grade 7 (Units 4–6 Student, Units 7–9 Teacher Guide), Spectrum Grade 7, Glencoe Georgia Math Grade 7, `Math_Standards.pdf`, `Grade_7_MCAP_Public_Blueprint-A.pdf`, `MCAP Grade 7.pdf` + Answer Key, the Rising/Accelerated summer packets, and the `MCAP RELEASES PER TOPIC/` item sets. Scan the folder for source PDFs at the start of each unit. **Note:** one enVision file in the folder (isbn 9780768567779, "Berry") is *Grade 7 Volume 2* content — usable here, unlike in the Grade 8 project where it is misfiled.
 
 ---
@@ -28,6 +28,9 @@ A Grade 7 Mathematics **study & practice hub** for a teacher with one or more st
 6. **Don't bog the student down.** Strategic and lean; quality over quantity.
 7. **Professional, not "AI".** No emoji, no gradient/clichéd styling. Clean, real-product look — pitch-green `#14532D` + gold `#FAC415` identity.
 8. **On grade.** Match Grade 7; shelve/rebuild anything above or below grade (e.g., any HL grouped-frequency statistics content is NOT Grade 7).
+9. **The MCAP label is a claim of fact, and it is never applied to an item we wrote.** An item may be titled `MCAP ·` only if it is a **real released MCAP item** and only if it is listed in [MCAP_PROVENANCE.md](MCAP_PROVENANCE.md) with its packet and question number. "Written in the MCAP style" is *not* MCAP — label those `Exam-style ·`. A false MCAP label misrepresents the material a student is practising with, and it launders credibility from the genuinely sourced capstones beside it. Enforced by `tests/mcap_provenance.test.js`, which fails both on an unbacked label and on a stale manifest row.
+   **Watch the pressure that produces this.** `exam_coverage.test.js` requires every skill to carry an exam-grade item. A guard that rewards *having* a capstone creates pressure to manufacture one, and the cheapest way to manufacture one is to copy the format — label included — of the real capstone next to it. That is exactly how 19 false labels shipped on 2026-07-20. Close a coverage gap with a **sourced** item or an **honestly-labelled** one; never by relabelling. If a real item cannot be found, say so and leave the gap visible.
+   **Figure-dependent released items may not be reproduced from extracted text.** Several packet items lose their figure to `pdftotext` (a graph, a dot plot, a solid). Rebuilding one from the text stub invents the figure and makes the item wrong while still claiming to be MCAP. Render the PDF page and rebuild the figure, or do not use the item.
 
 ## 3. Files
 - `Grade_7_Math_Hub.html` — the home hub. Multi-subject (`SUBJECTS → units → topics`): Mathematics (built) + Science (coming soon); one sign-in, one roster, one teacher dashboard across subjects.
@@ -35,6 +38,8 @@ A Grade 7 Mathematics **study & practice hub** for a teacher with one or more st
 - `Number_System_Connections.html` — Unit 1 (7.NS), built.
 - `Ratios_Proportional_Relationships.html` — Unit 2 (7.RP), built.
 - `Expressions_Equations_Inequalities.html` — Unit 3 (7.EE), built.
+- `Geometry_Connections.html` — Unit 4 (7.G), built 2026-07-20.
+- `Statistics_and_Probability.html` — Unit 5 (7.SP), built 2026-07-20.
 - `Probability_Lesson.html` — standalone probability lesson on a **legacy engine**; not wired into the hub and pending a grade-level + engine review before adoption. Do not treat as template-parity.
 - `index.html` — redirect to the hub. `.gitignore` — blocks copyrighted PDFs + private data from publishing.
 - `Starter_Kit/` — `Hub_Template.html`, `Module_Template.html` (generic engine copies), setup docs.
@@ -70,6 +75,10 @@ Auto-suggested from each student's weakest concepts (requires **≥2 misses per 
 1. **Consult the sources first** (scan folder, read chapters/items); build from the best.
 2. Author from the template; lean, best-of. **Never hand-roll the answer-checking handlers** — they carry the integrity invariants (§8).
 3. **Verify every build:** `node --check` every extracted `<script>`; structure checks (`</html>` present, one `<body>`/`</head>`, balanced script tags, qid uniqueness, every qid covered in `G7_SKILLS`); **audit every static `getElementById` target against the markup ids** (this catches the null-binding crash class); recompute every answer key by hand or by code.
+3b. **Run every guard in `tests/`, not just the behavioural suite** (added 2026-07-20). `exam_coverage` (every skill has a
+   machine-scored exam item), `module_integrity` (hint/answer leakage, chip-vs-flag, capstone hints, worked example per
+   teach card, climb order), `mcap_provenance` (every MCAP label cited), `math_formatting`, `module_smoke` (every module
+   actually boots and grades). Each was written because the defect it catches had already shipped.
 4. **Behavioral verification (required for hub or engine changes):** run the standing jsdom suite `tests/behavioral_test_suite.js` (53 assertions: gate, sign-in → PIN → app, device binding, teacher modal + dashboard, settings gate, module wrong → retry → correct, struggle logging, exam first-attempt-only, fraction equivalence, locked steps, persistence, content-fix regressions). Usage: `npm install jsdom` once, then `node tests/behavioral_test_suite.js <folder with the HTML files>`. Extend the suite whenever engine behavior changes. **A page that parses can still be dead on arrival** — only a behavioral test (or, at minimum, the getElementById-target audit in step 3) catches that.
 5. **Large HTML files (>~35 KB): do NOT use editor Write/Edit tools** — an after-save reformat can truncate the file mid-`<script>` (the Write cap is ~72 KB, and the corruption is silent). Regenerate via a bash `python3` heredoc doing string `.replace()`/`re.sub()` on the intact file, asserting each replacement matched **exactly once**, then re-verify (steps 3–4). Keep a `*.v1bak` copy before transforming.
 6. Keep this standard updated; log every build in §10.
@@ -106,6 +115,50 @@ Do not fork the engine per grade/subject; improve in one place and re-propagate 
 - **2026-07-17** — **Unit 3 built: Expressions, Equations & Inequalities (7.EE).** Third content module, stamped from `Module_Template.html` (engine v1.4.3 unchanged — a content build, not an engine change) with `G7_TOPIC_ID='expressions'`. Seven sections in build-up order: (1) combining like terms → (2) distributive expand/factor → (3) rewriting to reveal structure (`p−0.20p=0.80p`) → (4) words-to-equations → (5) solving two-step equations (`px+q=r`, `p(x+q)=r`, plus a compare-methods constructed response) → (6) inequalities (solve, graph with an inline number-line SVG, sign-flip on negative divide) → (7) mixed multi-step module check. Covers 7.EE.1–4, curriculum ∪ MCAP. **Six real capstones** woven in from the MSDE `Expressions and Equations` + `Modeling` release packets: 15%-tip select-all (7.EE.2), `−2(w−3)+5(6w+4)=28w+26` (7.EE.1), `5x+3=26` area-of-a-face (7.EE.4a), battery-pack equation select-all (7.EE.4a), `48(x+1)≥120` meaning-of-x (7.EE.4b), salesperson `25+0.05x>50` select-all (7.EE.4b), and the +60%/CA-stores multi-step (7.EE.3). Expression-building items use numeric **coefficient/constant boxes** — faithful to MCAP's "move a number into each box" and sidesteps free-text algebra ambiguity in `normalizeText`. Hints strategy-only; none on capstones. Wired into the hub (`expressions` → `available` + `file`). Verified: `node --check`, structure + qid-uniqueness + `G7_SKILLS`-coverage + getElementById audits, every answer key decoded and recomputed by script, and the jsdom behavioral suite (**198 assertions**) — all green. Encode pass runs inside the generator, so no plaintext key ships. Grade-7-only content, so no Grade 8 port. Generated deterministically via a build script (per §7.5, no editor Write/Edit on the 79 KB output).
 
 - **2026-07-18** — **7.EE follow-up: load-bearing bar model in the two-step-equation teach card.** A textbook + pedagogy reconciliation (IM Grade 7 **Unit 6** — which *is* this unit — enVision Vol. 2 Topics 4–5, the APS curriculum's algebra-tiles / multi-modal-representation mandate, and handbook `CL-4` "dual-code: a load-bearing visual for every concept, including abstract ones" + the `PEDAGOGY_ALIGNMENT` "representation before operations" bar) found the module well-aligned on content but with Section 5 (solving equations) shipping as the one abstract topic that was **text-only** — exactly what `CL-4`'s review criterion says to flag. Added a tape/bar model (inline SVG) for `3x+4=19` to the worked example, plus a bar-model framing line. **No new items** (`AS-4` restraint — a representation, not extra drill); it lives in the teach card, so review mode strips it (`CL-5` fade). Inequalities already had its load-bearing number-line SVG. Re-verified: structure/qid/`G7_SKILLS`/getElementById audits, every key recomputed, both inline SVGs parse as well-formed XML, and the jsdom suite (198) — all green.
+
+- **2026-07-20** — **Curriculum-alignment release: two new units, a provenance regime, and four new guards.**
+  A full audit against `Math_Standards.pdf` (CCSS verbatim), the APS Grade 7 curriculum, the MCAP blueprint and the
+  DC CAPE blueprint, recorded item-by-item in [STANDARDS_COVERAGE_MATRIX.md](STANDARDS_COVERAGE_MATRIX.md).
+  **All five math domains are now built; every requirement row in that matrix is met.** 163 items, 52 exam-grade (32%), 33 skills.
+
+  *Integrity fixes.* `8-4` in Number System shipped a hint reading "Deepest = most negative = -20.25 → Cyra" against the
+  key `cyra` — a live answer key behind a Hint button, on a card that also carried the Exam chip. `8-5` had a second
+  giveaway. Three cards (`6-8`, `8-4`, `8-5`) carried the Exam chip without `data-exam="1"`, so exam-readiness ignored
+  them while `g7level()` booked them as Level 3 — the dashboard's two readouts disagreed. All three now flagged; 7.NS exam
+  density 10% → 24%. `Module_Template.html` (and both Starter Kit copies, including Grade 8's) shipped a hint stating its
+  own answer, so every stamped module inherited that as the pattern to copy.
+
+  *Content.* Number System had **six teach cards and zero worked examples** (§5 anatomy, `CL-2`, `LD-1`); all six authored
+  from IM Unit 5, including IM's distributive derivation of the sign rule (closes 7.NS.2a, which had no coverage at all)
+  and long division for terminating/repeating (7.NS.2d had been **inverted** — the module told the student "no long
+  division needed"). 7.RP.3 was missing markup, markdown, commission, fee, percent increase/decrease and percent error
+  while its section intro *named* them; all now present, mostly lifted from IM Unit 4 Lessons 10–11. 7.EE was
+  integer-only against a standard that says "specific rational numbers", and 7.EE.3's estimation clause had no coverage;
+  both closed. `rationals` and `decimals` were practice×4 with no climb; both now Guided → Practice → Apply → Exam.
+
+  *New units.* **`Geometry_Connections.html`** (7.G.1–7.G.6, 28 items) and **`Statistics_and_Probability.html`**
+  (7.SP.1–7.SP.8, 20 items), both stamped from `Module_Template.html`, both wired into the hub. Geometry was the one
+  domain with no positive evidence on the student's record. `Probability_Lesson.html` was **not** reused — it remains on
+  the legacy engine, unwired, per §3.
+
+  *Reasoning & modelling.* Against DC CAPE, 42% of the 52 points are multi-point Type 2/3 tasks. There was no `modeling`
+  skill anywhere and `reasoning` was stretch-only and never machine-scored, so it could not register readiness. Every
+  module now carries a machine-scored reasoning capstone and a multi-part modelling capstone. `exam_coverage.test.js`,
+  failing on purpose since 18 Jul, is **green**.
+
+  *MCAP provenance — see §2.9.* 19 capstones authored in this pass were titled `MCAP ·` because that was the surrounding
+  convention. They were MCAP-*shaped*, not MCAP-*sourced*. All 19 relabelled `Exam-style ·`; all 14 pre-existing MCAP
+  claims verified against the rendered packets (every one genuine); five real released items lifted verbatim —
+  Geometry Q20 and Q28, Ratios Q14, Statistics Q19 and Q34, with figures rebuilt from pages rendered at 125–400 dpi.
+  [MCAP_PROVENANCE.md](MCAP_PROVENANCE.md) now cites every MCAP label, plus textbook lifts and one data-only reuse.
+
+  *New guards, all mutation-checked.* `tests/module_integrity.test.js` (hint never contains its own step's answer; phase
+  chip agrees with `data-exam`; no hints on capstones; every teach card has a worked example; **the climb within a section
+  never runs backwards** — which found 12 violations, six of them introduced by this pass's own appends).
+  `tests/mcap_provenance.test.js` (every MCAP claim cited, no stale rows; distinguishes a claim from honest attribution).
+  `tests/module_smoke.test.js` (every module boots in jsdom, binds, locks and grades). `module_integrity` ported to Grade 8,
+  where it passes clean. **All 8 test files green; behavioural suite 199 assertions.** Answer keys for every new item
+  recomputed independently with exact rational arithmetic.
 
 ## 11. Deployment & publishing rules
 - A git repo → GitHub Pages, branch `main`, root; `index.html` redirects to `Grade_7_Math_Hub.html`. Repo: `github.com/Gabriel-on-the-hill/Grade-7-Math` (this folder is the repo).

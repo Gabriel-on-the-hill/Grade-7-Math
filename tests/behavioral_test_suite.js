@@ -413,7 +413,15 @@ function load(file,seed,rnd,qs){   // qs: query string, e.g. '?review=numberline
   ok(!!panel,'p3: review panel is rendered');
   const cards=[...panel.querySelectorAll('.qcard[data-qid]')];
   ok(cards.length>0&&cards.length<=4,'p3: review draws a short set (<=4) from the authored pool');
-  ok(cards.every(c=>['2-1','2-2','2-3','2-4','ex-2a'].includes(c.dataset.qid)),'p3: review set is only the due skill');
+  // Derive the expected set from the module's own G7_SKILLS rather than hardcoding qids: a hardcoded
+  // list goes stale the moment a legitimate item is added to the skill (it did, when 2-5 joined
+  // `numberline`), and a stale list fails in a way that looks like a review-mode regression.
+  const nsSkills={};
+  for(const mm of fs.readFileSync(path.join(DIR,'Number_System_Connections.html'),'utf8')
+        .match(/const G7_SKILLS=\{[\s\S]*?\};/)[0].matchAll(/'([^']+)'\s*:\s*'([^']+)'/g)) nsSkills[mm[1]]=mm[2];
+  const expected=Object.keys(nsSkills).filter(q=>nsSkills[q]==='numberline');
+  ok(expected.length>0,'p3: the numberline skill has authored items to draw from');
+  ok(cards.every(c=>expected.includes(c.dataset.qid)),'p3: review set is only the due skill');
   ok([...panel.querySelectorAll('.ans-input')].filter(i=>i.value.trim()!=='').length===0,
      'p3: review mode never pre-fills an answer — the fix for the answer-key revisit');
   ok(panel.querySelectorAll('.step.completed').length===0,'p3: review items are cleared for a real attempt');

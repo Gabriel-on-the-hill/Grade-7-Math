@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Module Template — Grade 7 Hub</title>
+<title>Geometry Connections &middot; Grade 7</title>
 <style>
 :root{
   --pitch-green:#14532D; --gold:#FAC415; --navy:#0F172A; --bg:#F5F4EE; --card:#FFFFFF; --muted:#64748B;
@@ -131,8 +131,8 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
 
 
 <header class="mod">
-  <h1>Module Template</h1>
-  <p>Grade 7 Hub &middot; reusable module skeleton &amp; format showcase</p>
+  <h1>Geometry Connections</h1>
+  <p>Grade 7 Hub &middot; Unit 4 &middot; 7.G.1&ndash;7.G.6 &middot; scale drawings, triangles, cross-sections, circles, angles, volume &amp; surface area</p>
 </header>
 
 <div id="g7bar">
@@ -141,10 +141,13 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
 </div>
 
 <nav class="topics" id="topnav">
-  <a href="#guide" class="navlink">Guide</a>
-  <a href="#concept" class="navlink">1 · Concept</a>
-  <a href="#formats" class="navlink">2 · Formats</a>
-  <a href="#check" class="navlink">3 · Module Check</a>
+  <a href="#scale" class="navlink">1 &middot; Scale</a>
+  <a href="#triangles" class="navlink">2 &middot; Triangles</a>
+  <a href="#cross-sections" class="navlink">3 &middot; Slicing</a>
+  <a href="#circles" class="navlink">4 &middot; Circles</a>
+  <a href="#angles" class="navlink">5 &middot; Angles</a>
+  <a href="#sa-volume" class="navlink">6 &middot; Volume &amp; SA</a>
+  <a href="#check" class="navlink">7 &middot; Module Check</a>
 </nav>
 
 <main>
@@ -162,161 +165,283 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
     </div>
   </div>
 
-  <section class="topic" id="guide">
-  <h2>Template guide</h2>
-  <p class="intro">This file is the canonical module skeleton. Every Grade 7 unit is stamped from it for consistency.</p>
-  <div class="guide">
-    <h3>Anatomy of a module (the baseline)</h3>
-    <p>Header (title · unit · standard · objectives) → hub bar → progress → <strong>5–8 sections</strong>, each = an <em>objective</em>, a <em>teach card + worked example</em>, then a climb of questions: <code>Learn → Guided → Practice → Apply → Exam</code> (with hints, step-locking) → <strong>module check</strong> → <strong>make-your-own</strong> challenge → export/reset.</p>
-    <h3>Rules baked in</h3>
-    <ul>
-      <li><strong>Curriculum &cup; MCAP:</strong> teach every required concept; weave real MCAP items on top as <code>Exam</code> capstones (<code>data-exam="1"</code>).</li>
-      <li><strong>Flow:</strong> representation before operations; no advanced concept before its prerequisite.</li>
-      <li><strong>One data contract:</strong> set <code>G7_TOPIC_ID</code>, <code>G7_TOPIC_TITLE</code>, and the concept <code>G7_SKILLS</code> map; everything else is shared with the hub.</li>
-      <li><strong>Best-of curation:</strong> pull the strongest explanation and exercises from the source set — no filler.</li>
-    </ul>
-    <h3>Five question formats (shown live below)</h3>
-    <p>Fill-in (accepts equivalent fractions), single multiple-choice, multi-select (&ldquo;select all&rdquo;), two-part (A unlocks B), and constructed-response (typed, logged to the teacher).</p>
+  <section class="topic" id="scale">
+  <h2>1 &middot; Scale Drawings</h2>
+  <p class="intro">A scale tells you how many real units one drawn unit stands for.</p>
+  <p class="objective"><strong>By the end:</strong> you can find real lengths and areas from a scale drawing, and redraw one at a new scale.</p>
+  <div class="tcard"><h3>Reading a scale</h3>
+    <ul><li>A scale <span class="math">1 cm : 4 m</span> means every <span class="math">1 cm</span> drawn is <span class="math">4 m</span> real.</li>
+    <li><strong>Drawn &rarr; real:</strong> multiply. <strong>Real &rarr; drawn:</strong> divide.</li>
+    <li><strong>Areas do not scale the same way.</strong> If lengths are <span class="math">&times;4</span>, areas are <span class="math">&times;16</span> &mdash; because area uses two dimensions.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; a room at <span class="math">1 cm : 4 m</span></div>
+      <p>On the drawing the room is <span class="math">5.5 cm</span> by <span class="math">3 cm</span>.</p>
+      <p>Real length: <span class="math">5.5 &times; 4 = 22 m</span>. Real width: <span class="math">3 &times; 4 = 12 m</span>.</p>
+      <p>Real area: <span class="math">22 &times; 12 = 264 m&#178;</span>. Notice the drawn area was <span class="math">16.5 cm&#178;</span>, and <span class="math">16.5 &times; 16 = 264</span> &mdash; the <em>square</em> of the scale factor.</p></div>
   </div>
-  </section>
+  <div class="qcard" data-qid="1-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Drawn to real</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; Scale <span class="math">1 in : 6 ft</span>. A wall is <span class="math">4.5 in</span> on the drawing. Real length?</div>
+      <div class="input-row"><span class="lbl">length =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:Mjc=" data-tol="0.001"/><span class="lbl">ft</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Every drawn inch stands for <span class="math">6</span> real feet &mdash; so multiply.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; Same scale. A real hallway is <span class="math">45 ft</span> long. How long on the drawing?</div>
+      <div class="input-row"><span class="lbl">length =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:Ny41" data-tol="0.001"/><span class="lbl">in</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
 
-  <section class="topic" id="concept">
-  <h2>1 &middot; Concept</h2>
-  <p class="intro">Each section opens by teaching, then climbs into practice.</p>
-  <p class="objective"><strong>By the end:</strong> you can do the worked skill on your own.</p>
+  <div class="qcard" data-qid="1-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">A different scale</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Scale <span class="math">1 cm : 250 km</span>. Two cities are <span class="math">3.4 cm</span> apart on the map. Real distance?</div>
+      <div class="input-row"><span class="lbl">distance =</span><input type="number" step="1" class="ans-input" data-answer="k1:ODUw" data-tol="0"/><span class="lbl">km</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
 
-  <div class="tcard">
-    <h3>Teach card + worked example</h3>
-    <p>State the idea simply, then show one fully worked example before asking the student to try.</p>
-    <div class="worked"><div class="wl">Worked example</div>
-      <p><span class="math">1/2 + 1/4</span>: rewrite with a common denominator &rarr; <span class="math">2/4 + 1/4 = 3/4</span>.</p>
-    </div>
-    <div class="keyfact"><strong>Tip:</strong> answers can be entered in any equivalent form; the checker accepts them and nudges to simplify.</div>
-  </div>
+  <div class="qcard" data-qid="1-3"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Scaling an area</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A garden is drawn <span class="math">3 cm</span> by <span class="math">5 cm</span> at a scale of <span class="math">1 cm : 2 m</span>. What is its real area?</div>
+      <div class="input-row"><span class="lbl">area =</span><input type="number" step="1" class="ans-input" data-answer="k1:NjA=" data-tol="0"/><span class="lbl">m&#178;</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Find both real side lengths first, then multiply them &mdash; do not scale the drawn area directly unless you square the factor.</div></div>
+  </div></div>
 
-  <div class="qcard" data-qid="d2">
-    <div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Single multiple-choice</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q2 &middot; Which is greater?</div>
-        <div class="mc-group">
-          <button class="mc-option" data-k="k1:MHwx">-3</button>
-          <button class="mc-option" data-k="k1:MXww">-5</button>
-        </div>
-        <div class="mc-feedback">-3 is closer to zero, so it is greater.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="qcard" data-qid="d1">
-    <div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Your turn (fill-in)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q1 &middot; <span class="math">1/2 + 1/4</span> = (lowest terms)</div>
-        <div class="input-row"><input type="text" class="ans-input" data-type="text" data-answer="k1:My80"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-        <button class="hint-btn">Hint</button>
-        <div class="hint-content">Common denominator first: rewrite <span class="math">1/2</span> in quarters, then add the numerators. An equivalent fraction is accepted, with a nudge to simplify.</div>
-      </div>
-    </div>
-  </div>
+  <div class="qcard" data-qid="1-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; redraw at a new scale</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A plan is drawn at <span class="math">1 : 50</span>. A wall measures <span class="math">4 cm</span> on it. The plan is redrawn at <span class="math">1 : 20</span>. How long is that wall on the new plan?</div>
+      <div class="input-row"><span class="lbl">length =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MTA=" data-tol="0.001"/><span class="lbl">cm</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
 
   </section>
 
-  <section class="topic" id="formats">
-  <h2>2 &middot; Formats showcase</h2>
-  <p class="intro">The remaining interaction types, all on the same engine.</p>
-  <p class="objective"><strong>By the end:</strong> you can use multi-select, two-part, constructed-response and exam items.</p>
-
-  <div class="qcard" data-qid="d3">
-    <div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Multi-select (&ldquo;select all&rdquo;)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q3 &middot; Select every expression equal to 12.</div>
-        <div class="ms-group">
-          <button class="ms-option" data-k="k1:Mnwx"><span class="box"></span>3 &times; 4</button>
-          <button class="ms-option" data-k="k1:M3wx"><span class="box"></span>6 + 6</button>
-          <button class="ms-option" data-k="k1:NHww"><span class="box"></span>5 &times; 3</button>
-          <button class="ms-option" data-k="k1:NXwx"><span class="box"></span>10 + 2</button>
-        </div>
-        <button class="check-btn ms-check">Check</button>
-        <button class="hint-btn">Hint</button>
-        <div class="hint-content">There are three correct choices.</div>
-      </div>
-    </div>
+  <section class="topic" id="triangles">
+  <h2>2 &middot; Building Triangles</h2>
+  <p class="intro">Some sets of measurements fix exactly one triangle. Some allow many. Some allow none at all.</p>
+  <p class="objective"><strong>By the end:</strong> you can decide whether given measurements make a unique triangle, more than one, or none.</p>
+  <div class="tcard"><h3>Three outcomes, and how to tell</h3>
+    <ul><li><strong>Triangle inequality:</strong> the two shorter sides must add to <em>more</em> than the longest. Equal is not enough &mdash; that lies flat.</li>
+    <li><strong>Three sides (SSS)</strong> that pass the test &rarr; exactly <strong>one</strong> triangle.</li>
+    <li><strong>Three angles</strong> summing to <span class="math">180&#176;</span> &rarr; <strong>infinitely many</strong> &mdash; same shape, any size.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; sides <span class="math">4</span>, <span class="math">5</span>, <span class="math">12</span></div>
+      <p>Add the two shorter sides: <span class="math">4 + 5 = 9</span>. Compare with the longest: <span class="math">9 &lt; 12</span>.</p>
+      <p>The short sides cannot reach across the long one, so <strong>no triangle</strong> can be built. Try it with sides <span class="math">4</span>, <span class="math">5</span>, <span class="math">8</span> instead: <span class="math">9 &gt; 8</span>, and exactly one triangle closes up.</p></div>
   </div>
+  <div class="qcard" data-qid="2-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Does it close?</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Can a triangle have sides <span class="math">3</span>, <span class="math">4</span> and <span class="math">8</span>?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MXwx">No &mdash; <span class="math">3 + 4 = 7</span>, which is less than <span class="math">8</span></button><button class="mc-option" data-k="k1:Mnww">Yes &mdash; all three lengths are different</button><button class="mc-option" data-k="k1:M3ww">Yes &mdash; any three positive lengths work</button><button class="mc-option" data-k="k1:NHww">Only if the angles are known as well</button></div>
+      <div class="mc-feedback">The two shorter sides together are shorter than the longest, so they cannot meet. No triangle.</div></div>
+  </div></div>
 
-  <div class="qcard" data-qid="d4">
-    <div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Two-part (A unlocks B)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Part A &middot; <span class="math">7 &times; 8</span> =</div>
-        <div class="input-row"><input type="number" class="ans-input" data-answer="k1:NTY=" data-tol="0"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-      </div>
-      <div class="step locked">
-        <div class="step-label">Part B &middot; use Part A: <span class="math">56 &divide; 8</span> =</div>
-        <div class="input-row"><input type="number" class="ans-input" data-answer="k1:Nw==" data-tol="0"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-      </div>
-    </div>
-  </div>
+  <div class="qcard" data-qid="2-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Select all that work</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; <strong>Select all</strong> the side sets that form a triangle.</div>
+      <div class="mc-group" data-multi="1"><button class="mc-option" data-k="k1:NXwx"><span class="math">5, 6, 10</span></button><button class="mc-option" data-k="k1:Nnwx"><span class="math">7, 7, 7</span></button><button class="mc-option" data-k="k1:N3ww"><span class="math">2, 3, 5</span></button><button class="mc-option" data-k="k1:OHww"><span class="math">1, 2, 9</span></button></div>
+      <div class="mc-feedback"><span class="math">5 + 6 = 11 &gt; 10</span> &#10003; and <span class="math">7 + 7 = 14 &gt; 7</span> &#10003;. But <span class="math">2 + 3 = 5</span>, exactly equal &mdash; that collapses into a straight line, not a triangle. <span class="math">1 + 2 = 3</span>, far short of <span class="math">9</span>.</div></div>
+  </div></div>
 
-  <div class="qcard" data-qid="d5">
-    <div class="qhead"><span class="qtag stretch">Reasoning</span><span class="qtitle">Constructed-response (teacher-reviewed)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q5 &middot; Explain, in your own words, why a negative times a negative is positive.</div>
-        <textarea class="cr-area" placeholder="Type your reasoning..."></textarea>
-        <button class="check-btn cr-save">Save response</button>
-      </div>
-    </div>
-  </div>
+  <div class="qcard" data-qid="2-3"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">How many triangles?</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A triangle must have angles <span class="math">60&#176;</span>, <span class="math">60&#176;</span> and <span class="math">60&#176;</span>. How many different triangles fit?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:OXwx">Infinitely many &mdash; the same shape at any size</button><button class="mc-option" data-k="k1:MTB8MA==">Exactly one</button><button class="mc-option" data-k="k1:MTF8MA==">None &mdash; the angles are impossible</button><button class="mc-option" data-k="k1:MTJ8MA==">Exactly three</button></div>
+      <div class="mc-feedback">The angles add to <span class="math">180&#176;</span>, so triangles exist &mdash; but nothing fixes the <em>size</em>. Angles alone give you the shape; you need at least one side to pin down which triangle.</div></div>
+  </div></div>
 
-  <div class="qcard" data-qid="d6" data-exam="1">
-    <div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-grade capstone (tracked separately)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q6 &middot; <span class="math">-8 + 3</span> =</div>
-        <div class="input-row"><input type="number" class="ans-input" data-answer="k1:LTU=" data-tol="0"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-      </div>
-    </div>
+  <div class="qcard" data-qid="2-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; unique, many, or none</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A triangle has sides <span class="math">8 cm</span>, <span class="math">15 cm</span> and <span class="math">17 cm</span>. How many such triangles exist?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MTN8MQ==">Exactly one</button><button class="mc-option" data-k="k1:MTR8MA==">More than one</button><button class="mc-option" data-k="k1:MTV8MA==">None</button><button class="mc-option" data-k="k1:MTZ8MA==">Not enough information</button></div>
+      <div class="mc-feedback"><span class="math">8 + 15 = 23 &gt; 17</span>, so it closes. Three fixed side lengths leave no freedom at all &mdash; the triangle is unique (up to sliding or turning it).</div></div>
+  </div></div>
+
+  </section>
+
+  <section class="topic" id="cross-sections">
+  <h2>3 &middot; Slicing Solids</h2>
+  <p class="intro">Cut through a 3-D solid and the flat face you expose is a 2-D shape.</p>
+  <p class="objective"><strong>By the end:</strong> you can name the two-dimensional shape produced by slicing a prism, a pyramid or a cylinder.</p>
+  <div class="tcard"><h3>What the cut leaves behind</h3>
+    <ul><li><strong>Parallel to the base</strong> of a <em>prism</em> or <em>cylinder</em>: the slice matches the base exactly.</li>
+    <li><strong>Parallel to the base</strong> of a <em>pyramid</em>: the same shape as the base, but <em>smaller</em>.</li>
+    <li><strong>Perpendicular to the base</strong> (a vertical cut): usually a rectangle.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; a rectangular prism, cut flat</div>
+      <p>Slice a right rectangular prism with a horizontal cut. Every such slice is a rectangle the same size as the base &mdash; the prism is that base, repeated all the way up.</p>
+      <p>Now stand the cut upright instead, straight down through the solid: that face is a rectangle too, but its dimensions come from the height and one base edge.</p></div>
+    <div class="figure"><svg width="340" height="185" viewBox="0 0 340 185" role="img" aria-label="A rectangular prism with a horizontal slice parallel to its base, showing the cross-section is a rectangle" style="max-width:100%;margin-top:.5rem"><polygon points="40,60 150,60 190,30 80,30" fill="#E7F0EA" stroke="#0F3D22" stroke-width="2"/><polygon points="40,60 150,60 150,150 40,150" fill="#F4F8F5" stroke="#0F3D22" stroke-width="2"/><polygon points="150,60 190,30 190,120 150,150" fill="#DCE9E1" stroke="#0F3D22" stroke-width="2"/><polygon points="40,105 150,105 190,75 80,75" fill="#FAC415" fill-opacity="0.45" stroke="#B8860B" stroke-width="2" stroke-dasharray="5 3"/><text x="205" y="82" font-size="12" fill="#B8860B" font-weight="700">the slice</text><text x="205" y="100" font-size="11" fill="#475569">a rectangle,</text><text x="205" y="115" font-size="11" fill="#475569">same as the base</text></svg><div class="caption">Cut parallel to the base of a prism and the face you expose matches the base exactly.</div></div>
   </div>
+  <div class="qcard" data-qid="3-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Cutting a prism</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A right rectangular prism is sliced <strong>parallel to its base</strong>. What shape is the slice?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MTd8MQ==">A rectangle congruent to the base</button><button class="mc-option" data-k="k1:MTh8MA==">A smaller rectangle than the base</button><button class="mc-option" data-k="k1:MTl8MA==">A triangle</button><button class="mc-option" data-k="k1:MjB8MA==">A circle</button></div>
+      <div class="mc-feedback">A prism is its base repeated at every height, so a horizontal slice reproduces the base exactly.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="3-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Cutting a pyramid</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A right rectangular <strong>pyramid</strong> is sliced parallel to its base, halfway up. What shape is the slice?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MjF8MQ==">A rectangle smaller than the base</button><button class="mc-option" data-k="k1:MjJ8MA==">A rectangle congruent to the base</button><button class="mc-option" data-k="k1:MjN8MA==">A triangle</button><button class="mc-option" data-k="k1:MjR8MA==">A trapezoid</button></div>
+      <div class="mc-feedback">A pyramid narrows towards its apex, so a parallel slice keeps the base&rsquo;s shape but shrinks it.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="3-3"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Cutting a cylinder</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A right circular cylinder is sliced <strong>vertically, straight through the centre</strong>. What shape is exposed?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MjV8MQ==">A rectangle</button><button class="mc-option" data-k="k1:MjZ8MA==">A circle</button><button class="mc-option" data-k="k1:Mjd8MA==">A triangle</button><button class="mc-option" data-k="k1:Mjh8MA==">An oval</button></div>
+      <div class="mc-feedback">Horizontally you would get a circle. Cut straight down through the middle and you get a rectangle: the height of the cylinder by the full diameter.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="3-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; cross-section of a cube</span></div><div class="qbody">
+      <div class="figure"><svg width="230" height="200" viewBox="0 0 230 200" role="img" aria-label="A cube drawn in three dimensions" style="max-width:100%;margin:.2rem 0 .6rem"><polygon points="45,70 140,70 185,35 90,35" fill="#E7F0EA" stroke="#0F3D22" stroke-width="2"/><polygon points="45,70 140,70 140,165 45,165" fill="#F4F8F5" stroke="#0F3D22" stroke-width="2"/><polygon points="140,70 185,35 185,130 140,165" fill="#DCE9E1" stroke="#0F3D22" stroke-width="2"/></svg><div class="caption">A cube. The slicing plane meets exactly four of its faces, and misses every corner where three faces meet.</div></div>
+    <div class="step"><div class="step-label">MCAP item &middot; The cube shown will be sliced by a plane. The plane will intersect <strong>exactly four</strong> faces of the cube and will <strong>not</strong> contain any point where three faces meet. Which polygons could represent the shape of the region where the plane intersects the cube? <strong>Select all that apply.</strong></div>
+      <div class="mc-group" data-multi="1"><button class="mc-option" data-k="k1:OTAxfDE=">A square</button><button class="mc-option" data-k="k1:OTAyfDA=">A hexagon</button><button class="mc-option" data-k="k1:OTAzfDE=">A rectangle that is not a square</button><button class="mc-option" data-k="k1:OTA0fDA=">A triangle with 3 equal side lengths</button><button class="mc-option" data-k="k1:OTA1fDA=">A triangle with 3 different side lengths</button></div>
+      <div class="mc-feedback">Count the faces: the slice meets four of them, so the cross-section has <strong>four</strong> sides. A cut parallel to a face gives a <strong>square</strong>; a cut parallel to one edge but tilted gives a <strong>rectangle that is not square</strong>. A hexagon would need six faces, and either triangle would need only three &mdash; and the equilateral one is exactly the corner cut the question rules out.</div></div>
+  </div></div>
+  </div></div>
+
+  </section>
+
+  <section class="topic" id="circles">
+  <h2>4 &middot; Circles: Circumference &amp; Area</h2>
+  <p class="intro">Two different questions about a circle &mdash; how far around, and how much inside.</p>
+  <p class="objective"><strong>By the end:</strong> you can find circumference and area from a radius or a diameter, and say which one a problem needs.</p>
+  <div class="tcard"><h3>The two formulas, and how they relate</h3>
+    <ul><li><strong>Circumference</strong> (distance around): <span class="math">C = 2&#960;r</span>, or <span class="math">C = &#960;d</span>.</li>
+    <li><strong>Area</strong> (space inside): <span class="math">A = &#960;r&#178;</span>.</li>
+    <li><span class="math">&#960;</span> is the same for every circle: <span class="math">C &divide; d &#8776; 3.14</span>. Use <span class="math">3.14</span> here.</li>
+    <li><strong>Why they are related:</strong> cut a circle into thin wedges and lay them alternately &mdash; they form a near-rectangle of height <span class="math">r</span> and width half the circumference. So <span class="math">A = (1/2) &times; C &times; r</span>, which is exactly <span class="math">&#960;r&#178;</span>.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; a circle of radius <span class="math">7</span></div>
+      <p><span class="math">C = 2 &times; 3.14 &times; 7 = 43.96</span> units around.</p>
+      <p><span class="math">A = 3.14 &times; 7&#178; = 3.14 &times; 49 = 153.86</span> square units.</p>
+      <p>Different units, different questions: fencing a round garden needs <span class="math">C</span>; turfing it needs <span class="math">A</span>.</p></div>
+    <div class="figure"><svg width="330" height="200" viewBox="0 0 330 200" role="img" aria-label="A circle with centre marked, a radius of 7 drawn to the edge and the diameter across it" style="max-width:100%;margin-top:.5rem"><circle cx="120" cy="100" r="72" fill="#E7F0EA" stroke="#0F3D22" stroke-width="2.5"/><line x1="48" y1="100" x2="192" y2="100" stroke="#0F3D22" stroke-width="1.5" stroke-dasharray="4 3"/><line x1="120" y1="100" x2="192" y2="100" stroke="#B8860B" stroke-width="3"/><circle cx="120" cy="100" r="3.5" fill="#0F3D22"/><text x="152" y="93" font-size="13" fill="#B8860B" font-weight="700">r = 7</text><text x="96" y="122" font-size="12" fill="#0F3D22">d = 14</text><text x="215" y="72" font-size="12" fill="#475569">C = 2&#960;r</text><text x="215" y="94" font-size="12" fill="#475569">A = &#960;r&#178;</text><text x="215" y="120" font-size="11" fill="#475569">&#960; &#8776; 3.14</text></svg><div class="caption">Radius to the edge, diameter all the way across: <span class="math">d = 2r</span>.</div></div>
+  </div>
+  <div class="qcard" data-qid="4-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Around the circle</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; A circle has radius <span class="math">5 cm</span>. Circumference? (Use <span class="math">&#960; = 3.14</span>.)</div>
+      <div class="input-row"><span class="lbl">C =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MzEuNA==" data-tol="0.001"/><span class="lbl">cm</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content"><span class="math">C = 2&#960;r</span> &mdash; double the radius first, then multiply by <span class="math">3.14</span>.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; A circle has diameter <span class="math">10 cm</span>. Area? (Use <span class="math">&#960; = 3.14</span>.)</div>
+      <div class="input-row"><span class="lbl">A =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:NzguNQ==" data-tol="0.001"/><span class="lbl">cm&#178;</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Area needs the <em>radius</em>. Halve the diameter before you square it.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="4-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Which formula?</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A gardener wants to put edging all the way around a circular flower bed. Which does she need?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:MzN8MQ==">The circumference</button><button class="mc-option" data-k="k1:MzR8MA==">The area</button><button class="mc-option" data-k="k1:MzV8MA==">The radius squared</button><button class="mc-option" data-k="k1:MzZ8MA==">The diameter squared</button></div>
+      <div class="mc-feedback">Edging runs <em>around</em> the bed, so it is a length: circumference. Area would tell her how much soil or turf to buy instead.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="4-3"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">A circular garden</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A circular garden has radius <span class="math">4 m</span>. How many metres of edging go around it? (Use <span class="math">&#960; = 3.14</span>.)</div>
+      <div class="input-row"><span class="lbl">edging =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MjUuMTI=" data-tol="0.001"/><span class="lbl">m</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="4-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; a semicircular window</span></div><div class="qbody">
+    <div class="step"><div class="step-label">A semicircular window has diameter <span class="math">6 ft</span>. What is its area, to <span class="math">2</span> decimal places? (Use <span class="math">&#960; = 3.14</span>.)</div>
+      <div class="input-row"><span class="lbl">A =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MTQuMTM=" data-tol="0.001"/><span class="lbl">ft&#178;</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  </section>
+
+  <section class="topic" id="angles">
+  <h2>5 &middot; Angle Relationships as Equations</h2>
+  <p class="intro">Angle facts turn a figure into an equation you can solve.</p>
+  <p class="objective"><strong>By the end:</strong> you can use supplementary, complementary, vertical and adjacent angle facts to write and solve an equation.</p>
+  <div class="tcard"><h3>Four facts worth knowing cold</h3>
+    <ul><li><strong>Complementary:</strong> two angles adding to <span class="math">90&#176;</span>.</li>
+    <li><strong>Supplementary:</strong> two angles adding to <span class="math">180&#176;</span> &mdash; a straight line.</li>
+    <li><strong>Vertical angles</strong> (opposite, where two lines cross) are <strong>equal</strong>.</li>
+    <li><strong>Adjacent angles</strong> share a side; if they fill a known angle, they add to it.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; write it, then solve it</div>
+      <p>Two supplementary angles measure <span class="math">(2x + 10)&#176;</span> and <span class="math">40&#176;</span>.</p>
+      <p>Supplementary means they add to <span class="math">180</span>: <span class="math">2x + 10 + 40 = 180</span>.</p>
+      <p><span class="math">2x + 50 = 180</span> &rarr; <span class="math">2x = 130</span> &rarr; <span class="math">x = 65</span>. Check: <span class="math">2(65) + 10 = 140</span>, and <span class="math">140 + 40 = 180</span> &#10003;</p></div>
+    <div class="figure"><svg width="330" height="180" viewBox="0 0 330 180" role="img" aria-label="Two straight lines crossing, forming two pairs of equal vertical angles" style="max-width:100%;margin-top:.5rem"><line x1="30" y1="140" x2="290" y2="40" stroke="#0F3D22" stroke-width="2.5"/><line x1="30" y1="40" x2="290" y2="140" stroke="#0F3D22" stroke-width="2.5"/><circle cx="160" cy="90" r="3.5" fill="#0F3D22"/><text x="152" y="52" font-size="13" fill="#B8860B" font-weight="700">a</text><text x="212" y="95" font-size="13" fill="#475569">b</text><text x="152" y="136" font-size="13" fill="#B8860B" font-weight="700">a</text><text x="98" y="95" font-size="13" fill="#475569">b</text></svg><div class="caption">Vertical angles (opposite each other) are equal; neighbours on a straight line add to <span class="math">180&#176;</span>.</div></div>
+  </div>
+  <div class="qcard" data-qid="5-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Complementary</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Two complementary angles measure <span class="math">(3x)&#176;</span> and <span class="math">27&#176;</span>. Find <span class="math">x</span>.</div>
+      <div class="input-row"><span class="lbl">x =</span><input type="number" step="1" class="ans-input" data-answer="k1:MjE=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Complementary means the two add to <span class="math">90</span>. Write that as an equation before solving.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="5-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">Vertical angles</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Two lines cross. One angle is <span class="math">(4x &minus; 10)&#176;</span> and the angle vertical to it is <span class="math">70&#176;</span>. Find <span class="math">x</span>.</div>
+      <div class="input-row"><span class="lbl">x =</span><input type="number" step="1" class="ans-input" data-answer="k1:MjA=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Vertical angles are equal &mdash; so set the two expressions equal, not summed.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="5-3"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">Two expressions, one straight line</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; Angles <span class="math">(2x + 10)&#176;</span> and <span class="math">(3x &minus; 40)&#176;</span> are supplementary. Find <span class="math">x</span>.</div>
+      <div class="input-row"><span class="lbl">x =</span><input type="number" step="1" class="ans-input" data-answer="k1:NDI=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="5-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; adjacent angles in a right angle</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Rays <span class="math">BA</span>, <span class="math">BD</span> and <span class="math">BC</span> are drawn so that <span class="math">&#8736;ABD</span> and <span class="math">&#8736;DBC</span> are adjacent and together form a <strong>right angle</strong>. If <span class="math">&#8736;ABD = (5x)&#176;</span> and <span class="math">&#8736;DBC = (2x + 20)&#176;</span>, find <span class="math">x</span>.</div>
+      <div class="input-row"><span class="lbl">x =</span><input type="number" step="1" class="ans-input" data-answer="k1:MTA=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  </section>
+
+  <section class="topic" id="sa-volume">
+  <h2>6 &middot; Area, Surface Area &amp; Volume</h2>
+  <p class="intro">How much space a solid holds, and how much material covers it.</p>
+  <p class="objective"><strong>By the end:</strong> you can find the volume and surface area of prisms and cylinders, including composite shapes.</p>
+  <div class="tcard"><h3>Two ideas cover almost everything</h3>
+    <ul><li><strong>Volume of any prism or cylinder:</strong> <span class="math">V = B &times; h</span>, where <span class="math">B</span> is the area of the <em>base</em>.</li>
+    <li><strong>Surface area:</strong> add up the area of every face. For a box, opposite faces match, so <span class="math">SA = 2(lw + lh + wh)</span>.</li>
+    <li>Volume is measured in cubic units, surface area in square units &mdash; the units tell you which you found.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; a box <span class="math">8</span> by <span class="math">5</span> by <span class="math">3</span></div>
+      <p><strong>Volume.</strong> Base area <span class="math">B = 8 &times; 5 = 40</span>; height <span class="math">3</span>. <span class="math">V = 40 &times; 3 = 120</span> cubic units.</p>
+      <p><strong>Surface area.</strong> <span class="math">2(8 &times; 5 + 8 &times; 3 + 5 &times; 3) = 2(40 + 24 + 15) = 2 &times; 79 = 158</span> square units.</p></div>
+  </div>
+  <div class="qcard" data-qid="6-1"><div class="qhead"><span class="qtag guided">Guided</span><span class="qtitle">Volume of a prism</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; A rectangular prism is <span class="math">6 cm</span> by <span class="math">4 cm</span> by <span class="math">10 cm</span>. Volume?</div>
+      <div class="input-row"><span class="lbl">V =</span><input type="number" step="1" class="ans-input" data-answer="k1:MjQw" data-tol="0"/><span class="lbl">cm&#179;</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Find the area of one base first, then multiply by how tall the solid stands.</div></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; Surface area of that same prism?</div>
+      <div class="input-row"><span class="lbl">SA =</span><input type="number" step="1" class="ans-input" data-answer="k1:MjQ4" data-tol="0"/><span class="lbl">cm&#178;</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content">Three different face sizes, each appearing twice.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="6-2"><div class="qhead"><span class="qtag practice">Practice</span><span class="qtitle">A triangular prism</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A prism has a triangular base with base <span class="math">6 cm</span> and height <span class="math">4 cm</span>. The prism is <span class="math">9 cm</span> long. Volume?</div>
+      <div class="input-row"><span class="lbl">V =</span><input type="number" step="1" class="ans-input" data-answer="k1:MTA4" data-tol="0"/><span class="lbl">cm&#179;</span><span class="feedback"></span></div><button class="check-btn">Check</button>
+      <button class="hint-btn">Hint</button><div class="hint-content"><span class="math">V = B &times; h</span> still holds &mdash; you just need the area of a <em>triangle</em> for <span class="math">B</span>.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="6-3"><div class="qhead"><span class="qtag apply">Apply</span><span class="qtitle">A cylinder</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A cylinder has radius <span class="math">3 m</span> and height <span class="math">10 m</span>. Volume? (Use <span class="math">&#960; = 3.14</span>.)</div>
+      <div class="input-row"><span class="lbl">V =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:MjgyLjY=" data-tol="0.001"/><span class="lbl">m&#179;</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="6-4" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">MCAP &middot; surface area of a solid</span></div><div class="qbody">
+      <div class="figure"><svg width="330" height="230" viewBox="0 0 330 230" role="img" aria-label="An L-shaped solid: the upright part is 2 feet wide and 4 feet tall, the base is 4 feet wide and 2 feet tall, and the solid is 2 feet deep" style="max-width:100%;margin:.2rem 0 .6rem"><polygon points="150,40 210,40 250,15 190,15" fill="#DCE9E1" stroke="#0F3D22" stroke-width="1.8"/><polygon points="90,105 150,105 190,80 130,80" fill="#DCE9E1" stroke="#0F3D22" stroke-width="1.8"/><polygon points="90,105 150,105 150,40 210,40 210,170 90,170" fill="#F4F8F5" stroke="#0F3D22" stroke-width="2.2"/><polygon points="210,40 250,15 250,145 210,170" fill="#E7F0EA" stroke="#0F3D22" stroke-width="1.8"/><line x1="130" y1="80" x2="250" y2="80" stroke="#0F3D22" stroke-width="1" stroke-dasharray="4 3"/><line x1="130" y1="80" x2="130" y2="145" stroke="#0F3D22" stroke-width="1" stroke-dasharray="4 3"/><line x1="130" y1="145" x2="250" y2="145" stroke="#0F3D22" stroke-width="1" stroke-dasharray="4 3"/><text x="180" y="34" font-size="12" text-anchor="middle" fill="#0F172A">2 ft</text><text x="82" y="140" font-size="12" text-anchor="end" fill="#0F172A">2 ft</text><text x="150" y="192" font-size="12" text-anchor="middle" fill="#0F172A">4 ft</text><text x="262" y="108" font-size="12" fill="#0F172A">4 ft</text><text x="103" y="163" font-size="11" text-anchor="end" fill="#475569">2 ft</text></svg><div class="caption">At each vertex, three line segments intersect at right angles.</div></div>
+    <div class="step"><div class="step-label">MCAP item &middot; The figure shows a solid. At each vertex, three line segments intersect at right angles. What is the surface area, in square feet, of the solid? <strong>Select one answer.</strong></div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:OTMxfDA=">28</button><button class="mc-option" data-k="k1:OTMyfDA=">36</button><button class="mc-option" data-k="k1:OTMzfDE=">56</button><button class="mc-option" data-k="k1:OTM0fDA=">72</button></div>
+      <div class="mc-feedback">Two L-shaped faces: each is <span class="math">4 &times; 4</span> with a <span class="math">2 &times; 2</span> notch removed, so <span class="math">16 - 4 = 12</span> ft&#178; each, giving <span class="math">24</span> ft&#178;. The band wrapping around them has height <span class="math">2</span> ft and length equal to the L&rsquo;s perimeter, <span class="math">4 + 4 + 2 + 2 + 2 + 2 = 16</span> ft, giving <span class="math">32</span> ft&#178;. Total <span class="math">24 + 32 = 56</span> ft&#178;. The notch adds surface even though it removes volume &mdash; that is what makes <span class="math">36</span> tempting and wrong.</div></div>
+  </div></div>
+
   </section>
 
   <section class="topic" id="check">
-  <h2>3 &middot; Module Check — Show What You Know</h2>
-  <p class="intro">Every module ends with a short mixed check spanning its skills.</p>
-  <p class="objective"><strong>By the end:</strong> you can use the unit's skills on your own, without being told which to apply.</p>
-
-  <div class="qcard" data-qid="d7" data-exam="1">
-    <div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Mixed check (example)</span></div>
-    <div class="qbody">
-      <div class="step">
-        <div class="step-label">Q7 &middot; <span class="math">-6 &times; (-2)</span> =</div>
-        <div class="input-row"><input type="number" class="ans-input" data-answer="k1:MTI=" data-tol="0"/><span class="feedback"></span></div>
-        <button class="check-btn">Check</button>
-      </div>
-    </div>
+  <h2>7 &middot; Module Check &mdash; Show What You Know</h2>
+  <p class="intro">Mixed, exam-style. No new ideas &mdash; everything here has appeared above.</p>
+  <p class="objective"><strong>By the end:</strong> you can pick the right tool without being told which section a question came from.</p>
+  <div class="tcard"><h3>Before you start</h3>
+    <ul><li>Read for what is being asked: a distance around, a surface covered, or a space filled?</li>
+    <li>Check your units. <span class="math">cm</span>, <span class="math">cm&#178;</span> and <span class="math">cm&#179;</span> answer different questions.</li></ul>
+    <div class="worked"><div class="wl">Worked example &mdash; choosing the tool</div>
+      <p>&ldquo;How much wrapping paper covers this box?&rdquo; &rarr; surface area. &ldquo;How much sand fills it?&rdquo; &rarr; volume. &ldquo;How much ribbon goes round it?&rdquo; &rarr; a length.</p>
+      <p>The numbers in the question are often identical. The <em>question</em> is what tells you which formula to reach for.</p></div>
   </div>
-
-  <div class="challenge">
-    <h3>Make your own</h3>
-    <p>Every module closes by handing ownership to the student: invent a problem of your own that uses this unit's skills, solve it, and bring it to your next session. (This is also the natural <strong>homework</strong> anchor — see below.)</p>
-  </div>
-    <div class="qcard" data-qid="d8" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Reasoning capstone (machine-scored &mdash; copy this shape)</span></div><div class="qbody">
-    <div class="step"><div class="step-label">Q &middot; A student simplifies <span class="math">3 + 4 &times; 2</span> to <span class="math">14</span>. Is that right?</div>
-      <div class="mc-group"><button class="mc-option" data-k="k1:NTAxfDE=">No &mdash; multiplication comes first, so it is <span class="math">11</span></button><button class="mc-option" data-k="k1:NTAyfDA=">Yes &mdash; work left to right, so <span class="math">14</span> is correct</button><button class="mc-option" data-k="k1:NTAzfDA=">No &mdash; it should be <span class="math">24</span></button><button class="mc-option" data-k="k1:NTA0fDA=">Yes &mdash; addition binds tighter than multiplication</button></div>
-      <div class="mc-feedback">Order of operations: <span class="math">4 &times; 2 = 8</span> first, then <span class="math">3 + 8 = 11</span>. <strong>Authoring note:</strong> a reasoning item must be <em>machine-scored</em> to count toward exam-readiness. Keep the constructed-response one as well &mdash; it does different work &mdash; but never let a strand rely on CR alone.</div></div>
+  <div class="qcard" data-qid="7-1" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Mixed &middot; circle and prism</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Step 1 &middot; A circular tabletop has diameter <span class="math">1.4 m</span>. Area, to <span class="math">4</span> decimal places? (Use <span class="math">&#960; = 3.14</span>.)</div>
+      <div class="input-row"><span class="lbl">A =</span><input type="number" step="0.0001" class="ans-input" data-answer="k1:MS41Mzg2" data-tol="0.0002"/><span class="lbl">m&#178;</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Step 2 &middot; A crate is <span class="math">2 m</span> by <span class="math">1.5 m</span> by <span class="math">1 m</span>. Volume?</div>
+      <div class="input-row"><span class="lbl">V =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:Mw==" data-tol="0.001"/><span class="lbl">m&#179;</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
   </div></div>
 
-  <div class="qcard" data-qid="d9" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Modelling capstone (multi-part &mdash; copy this shape)</span></div><div class="qbody">
-      <p class="muted-note" style="font-size:.82rem">Several parts, one situation &mdash; this is the shape of a multi-point modelling task on the exam. Each part builds on the last.</p>
-    <div class="step"><div class="step-label">Part A &middot; A tank holds <span class="math">240</span> L and drains at <span class="math">15</span> L per minute. How much is left after <span class="math">6</span> minutes?</div>
-      <div class="input-row"><span class="lbl">volume =</span><input type="number" step="1" class="ans-input" data-answer="k1:MTUw" data-tol="0"/><span class="lbl">L</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
-    <div class="step locked"><div class="step-label">Part B &middot; After how many minutes is the tank empty?</div>
-      <div class="input-row"><span class="lbl">minutes =</span><input type="number" step="1" class="ans-input" data-answer="k1:MTY=" data-tol="0"/><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  <div class="qcard" data-qid="7-2" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Exam-style &middot; find the error</span></div><div class="qbody">
+    <div class="step"><div class="step-label">To find the area of a circle of <strong>diameter</strong> <span class="math">10 cm</span>, a student computes <span class="math">3.14 &times; 10&#178; = 314</span>. What went wrong?</div>
+      <div class="mc-group"><button class="mc-option" data-k="k1:Mzd8MQ=="><span class="math">A = &#960;r&#178;</span> needs the <em>radius</em>, so it should be <span class="math">3.14 &times; 5&#178; = 78.5</span></button><button class="mc-option" data-k="k1:Mzh8MA==">They should have used <span class="math">2&#960;r</span> instead</button><button class="mc-option" data-k="k1:Mzl8MA==">Nothing &mdash; <span class="math">314</span> is correct</button><button class="mc-option" data-k="k1:NDB8MA==">They should have divided by <span class="math">2</span> at the end</button></div>
+      <div class="mc-feedback">The formula takes the radius, not the diameter. Using <span class="math">d</span> where <span class="math">r</span> belongs makes the answer <span class="math">4</span> times too big &mdash; and <span class="math">314 &divide; 4 = 78.5</span>, which is exactly the gap.</div></div>
+  </div></div>
+
+  <div class="qcard" data-qid="7-3" data-exam="1"><div class="qhead"><span class="qtag exam">Exam</span><span class="qtitle">Modelling &middot; filling a water tank</span></div><div class="qbody">
+      <p class="muted-note" style="font-size:.82rem">Several parts, one situation &mdash; the shape of a multi-point modelling task. Each part builds on the last.</p>
+    <div class="step"><div class="step-label">Part A &middot; A cylindrical tank has radius <span class="math">2 m</span> and height <span class="math">5 m</span>. Volume, to <span class="math">1</span> decimal place? (Use <span class="math">&#960; = 3.14</span>.)</div>
+      <div class="input-row"><span class="lbl">V =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:NjIuOA==" data-tol="0.001"/><span class="lbl">m&#179;</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Part B &middot; Water costs <span class="math">$1.50</span> per <span class="math">m&#179;</span>. Cost to fill it completely?</div>
+      <div class="input-row"><span class="lbl">cost =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:OTQuMjA=" data-tol="0.001"/><span class="lbl">$</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+    <div class="step locked"><div class="step-label">Part C &middot; The tank is only filled to <span class="math">3/4</span> of its height. How much water is in it, to <span class="math">1</span> decimal place?</div>
+      <div class="input-row"><span class="lbl">volume =</span><input type="number" step="0.01" class="ans-input" data-answer="k1:NDcuMQ==" data-tol="0.001"/><span class="lbl">m&#179;</span><span class="feedback"></span></div><button class="check-btn">Check</button></div>
+  </div></div>
+
+  <div class="qcard" data-qid="cr-7a"><div class="qhead"><span class="qtag stretch">Stretch</span><span class="qtitle">Explain your thinking</span></div><div class="qbody">
+    <div class="step"><div class="step-label">Q &middot; A friend says &ldquo;a bigger circumference always means a bigger area.&rdquo; Is that true for circles? Explain your reasoning in a sentence or two, and say what would change if the shapes were not both circles.</div>
+      <div class="input-row"><textarea class="cr-input" rows="4" placeholder="Type your reasoning here. Your teacher will read it."></textarea></div><button class="check-btn">Submit</button><span class="feedback"></span></div>
   </div></div>
 
   </section>
@@ -325,14 +450,11 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
 </main>
 <script>
   // ===== Per-module identity (change these per unit) =====
-  const G7_TOPIC_ID='template-demo';
-  const G7_TOPIC_TITLE='Module Template (Demo)';
+  const G7_TOPIC_ID='geometry';
+  const G7_TOPIC_TITLE='Geometry Connections';
   var G7_SYNC_HUB='grade7'; // shared-cloud namespace for this deployment (must match the hub's SYNC_HUB_ID)
-  const G7_SKILLS={'d1':'demo','d2':'demo','d3':'demo','d4':'demo','d5':'reasoning','d6':'demo','d7':'demo','d8':'reasoning','d9':'modeling'};
-  const G7_SKILL_LABELS={'modeling':'Modelling multi-step problems','demo':'Template skill','reasoning':'Reasoning & error analysis',
-    'rationals':'Rational numbers & ordering','numberline':'Number line, opposites & absolute value',
-    'addsub-int':'Adding & subtracting integers','addsub-rat':'Adding & subtracting fractions & decimals',
-    'muldiv':'Multiplying & dividing','decimals':'Decimals: forms & conversions','realworld':'Real-world multi-step problems'};
+  const G7_SKILLS={'1-1':'scale','1-2':'scale','1-3':'scale','1-4':'scale','2-1':'triangles','2-2':'triangles','2-3':'triangles','2-4':'triangles','3-1':'cross-sections','3-2':'cross-sections','3-3':'cross-sections','3-4':'cross-sections','4-1':'circles','4-2':'circles','4-3':'circles','4-4':'circles','5-1':'angles','5-2':'angles','5-3':'angles','5-4':'angles','6-1':'sa-volume','6-2':'sa-volume','6-3':'sa-volume','6-4':'sa-volume','7-1':'sa-volume','7-2':'reasoning','7-3':'modeling','cr-7a':'reasoning'};
+  const G7_SKILL_LABELS={'scale':'Scale drawings','triangles':'Building triangles','cross-sections':'Cross-sections of solids','circles':'Circles: circumference & area','angles':'Angle relationships','sa-volume':'Area, surface area & volume','reasoning':'Reasoning & error analysis','modeling':'Modelling multi-step problems'};
 
   // ===== Shared [GRADE] Hub store =====
   function g7current(){return localStorage.getItem('g7.current')||'Guest';}

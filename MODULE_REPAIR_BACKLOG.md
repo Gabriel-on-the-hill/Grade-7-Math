@@ -1,17 +1,27 @@
 # Grade 7 — module repair backlog
 
-**Status: §§1–7 are findings only — none of the content work has been done yet.**
-**§8 (the shared storage namespace) is FIXED as of 19 Jul 2026** — see that section.
-Written 18 Jul 2026 after the same audit was run and repaired on Grade 8, so this folder has the
-evidence ready for a thorough pass later.
+**Status: CLOSED, 20 Jul 2026.** §§1–7 below were findings written 18 Jul and left unrepaired. They have now been
+worked through. §8 (shared storage namespace) was already fixed 19 Jul.
 
-Everything below came from reading the modules and the blueprint, not from impression. Re-run the
-guard at any time to see the current state:
+`node tests/exam_coverage.test.js` — the guard that documented this backlog by failing — is **green**. So are
+`module_integrity`, `mcap_provenance`, `module_smoke`, `math_formatting` and the 199-assertion behavioural suite.
 
-```
-node tests/exam_coverage.test.js      # fails today, on purpose — it documents this backlog
-node tests/math_formatting.test.js    # passes today
-```
+| Backlog item | Outcome |
+|---|---|
+| §1 effort inverted against exam weight | Ratios 17 → 30 items (11 exam-grade); 7.NS density 10% → 24%; Geometry and Statistics built |
+| §2 skills with no exam-grade item | **cleared** — all 33 skills across 5 modules carry a machine-scored exam item |
+| §3 broken climbs (`rationals`, `decimals` = practice ×4) | both now Guided → Practice → Apply → Exam; a new guard enforces climb order across every section |
+| §4 reasoning & modelling barely covered | `modeling` skill introduced; machine-scored reasoning capstone in every module; CAPE Type 3 multi-part shape adopted |
+| §5 this grade sits DC CAPE | multi-part modelling capstones added; exam-shape section of the coverage matrix tracks it |
+| §6 sources available | used: IM Units 4–6 lifted verbatim in nine places; MCAP packets rendered and five items lifted |
+| §7 suggested order of repair | followed, plus the two missing domains built |
+
+**What this backlog did not catch, and what now does.** It measured *exam weight vs. effort* — a real question, but not
+the same as *does the curriculum get covered*. A module can pass one and fail the other, and several did:
+Number System had zero worked examples, 7.NS.2a had no coverage at all, and 7.NS.2d was taught backwards. That second
+question now lives in [STANDARDS_COVERAGE_MATRIX.md](STANDARDS_COVERAGE_MATRIX.md), checked requirement by requirement.
+
+*The original findings are kept below, unedited, as the record of what was true on 18 Jul.*
 
 ---
 
