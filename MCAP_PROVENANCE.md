@@ -62,6 +62,7 @@ Every row below was checked on 20 Jul 2026 against the extracted text of the nam
 | `Geometry_Connections.html` | `3-4` | `…Math 7 Geometry` | Math 7 2024 Release, Q20 | 7.G.A.3 |
 | `Geometry_Connections.html` | `6-4` | `…Math 7 Geometry` | Math 7 2024 Release, Q28 | 7.G.B.6 |
 | `Ratios_Proportional_Relationships.html` | `r1-4` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q14 | 7.RP.A.1 |
+| `Ratios_Proportional_Relationships.html` | `r3-6` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q4 | 7.RP.A.2d |
 | `Statistics_and_Probability.html` | `1-3` | `…Math 7 Statistics and Probability` | Math 7 2024 Release, Q34 | 7.SP.A.2 |
 | `Statistics_and_Probability.html` | `3-4` | `…Math 7 Statistics and Probability` | Math 7 2024 Release, Q19 | 7.SP.C.5 |
 
@@ -165,5 +166,4 @@ reuse in an honestly-labelled `Exam-style` item; the *item* is not reproducible.
 hoping for a different result.
 
 **Number System Q11 is now live** as `ex-2b`: the page was rendered, point `k` read off at `-5`, and the item is
-answered with the new click-to-plot format (added to the engine 20 Jul). Still to render before use: Ratios Q1 and Q4
-(both are "choose the right graph" items needing four rendered graphs as options).
+answered with the new click-to-plot format (added to the engine 20 Jul). **Ratios Q4 is now live** as `r3-6` — the graph was rendered at 400 dpi and rebuilt from it (line through the origin; P(0.25, 1), Q(1, 4), R(2, 8), S(3, 12)). Still to build: **Ratios Q1**, which asks the student to pick which of *four* graphs has `k = 1/2`. It is reproducible — it just needs four small graphs authored as the answer options, which is a bigger build than a single figure.

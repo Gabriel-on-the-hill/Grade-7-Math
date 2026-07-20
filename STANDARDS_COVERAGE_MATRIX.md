@@ -121,12 +121,15 @@ because a CR cannot be machine-scored into the figure.
 
 ## Sequencing
 
-The APS curriculum runs **7.RP.3 (financial percents) after Expressions**, so students have
-`p − 0.20p = 0.80p` before they meet markup, commission and percent change. Our Ratios module places
-all of 7.RP.3 before Expressions in the hub order.
+The APS curriculum runs **7.RP.3 (financial percents) after Expressions**, so students meet
+`p − 0.20p = 0.80p` before markup, commission and percent change. Our Ratios module holds all of
+7.RP and sits before Expressions in the hub order.
 
-This is not a defect — the hub lets a student open any available topic, and the Ratios percent
-sections currently stand alone arithmetically. But when 7.RP.3 is built out (the largest single
-content gap above), the new percent-change items should **lean on the rewriting skill rather than
-re-teach it**, and the hub's unit ordering should put Expressions ahead of the percent-application
-work. Flagged rather than silently reordered, because it changes the student-visible unit list.
+**Resolved 20 Jul 2026 — by a pointer, not a restructure.** Splitting Ratios into Part 1 / Part 2
+would mean renaming qids, which §5 forbids because it orphans stored student data. Instead §6 now
+opens with an explicit prerequisite note pointing at Expressions §3, and the §6 worked example ties
+the percent-increase identity back to the same rewriting move. That satisfies "no advanced concept
+before its prerequisite" without touching anything a student has already done.
+
+The hub lets a student open any available topic, so unit order is guidance rather than a gate; the
+note is where the guidance belongs.
