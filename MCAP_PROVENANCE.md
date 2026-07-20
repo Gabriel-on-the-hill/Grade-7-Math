@@ -53,13 +53,12 @@ Every row below was checked on 20 Jul 2026 against the extracted text of the nam
 | `Ratios_Proportional_Relationships.html` | `r3-1` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q10 | 7.RP.A.2b |
 | `Ratios_Proportional_Relationships.html` | `r6-ex` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q3 | 7.EE.A.2 |
 | `Ratios_Proportional_Relationships.html` | `r7-ex` | `…Math 7 Reasoning` | Math 7 2024 Release, Q17 | 7.R.1a, 7.RP.A.1, 7.RP.A.2b |
-| `Expressions_Equations_Inequalities.html` | `2-4` | `…Math 7 Expressions and Equations` | Math 7 2024 Release | 7.EE.A.1 |
+| `Expressions_Equations_Inequalities.html` | `2-4` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q8 | 7.EE.A.1 |
 | `Expressions_Equations_Inequalities.html` | `3-3` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q3 | 7.EE.A.2 |
-| `Expressions_Equations_Inequalities.html` | `4-3` | `…Math 7 Expressions and Equations` | Math 7 2024 Release | 7.EE.B.4a |
 | `Expressions_Equations_Inequalities.html` | `5-5` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q5 | 7.EE.B.4a-1 |
-| `Expressions_Equations_Inequalities.html` | `6-4` | `…Math 7 Expressions and Equations` | Math 7 2024 Release | 7.EE.B.4b |
-| `Expressions_Equations_Inequalities.html` | `6-5` | `…Math 7 Expressions and Equations` | Math 7 2024 Release | 7.EE.B.4b |
-| `Expressions_Equations_Inequalities.html` | `7-1` | `…Math 7 Modeling` | Math 7 2024 Release | 7.M, 7.RP.A.3 |
+| `Expressions_Equations_Inequalities.html` | `6-4` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q12 | 7.EE.B.4b |
+| `Expressions_Equations_Inequalities.html` | `6-5` | `…Math 7 Modeling` | Math 7 2024 Release, Q26 | 7.M.4, 7.EE.B.4b |
+| `Expressions_Equations_Inequalities.html` | `7-1` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q13 | 7.EE.B.3 |
 | `Geometry_Connections.html` | `3-4` | `…Math 7 Geometry` | Math 7 2024 Release, Q20 | 7.G.A.3 |
 | `Geometry_Connections.html` | `6-4` | `…Math 7 Geometry` | Math 7 2024 Release, Q28 | 7.G.B.6 |
 | `Ratios_Proportional_Relationships.html` | `r1-4` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q14 | 7.RP.A.1 |
@@ -88,6 +87,8 @@ These are labelled `Exam-style ·`.
 |---|---|---|---|
 | `Number_System_Connections.html` | `ex-2a` | MCAP 2024 Release, Q11 (7.NS.A.1b-1) | Q11 puts point `k` at `-5` and asks the student to **plot** `k + 4`. This card puts `k` at `-6` and asks them to **type** the value. Almost certainly because the engine had no plot input until 20 Jul 2026 — the task was converted to fit the tool. Both numbers and task changed, so it is not Q11. The faithful reproduction is now `ex-2b`. |
 
+| `Expressions_Equations_Inequalities.html` | `4-3` | *nothing* | Titled "MCAP &middot; battery packs" and listed in the 2026-07-17 build log among "six real capstones woven in from the MSDE packets". **No packet contains it** — searching all eleven for "battery" returns nothing. It is a well-built 7.EE.B.4a select-all with correct keys (`x = 6`; A and B), so it stays as content — but it is ours, and is now labelled `Exam-style`. |
+
 **How this one slipped through.** It was cited to Q11 and the citation was real, so
 `tests/mcap_provenance.test.js` passed it — the guard proves a claim *has* a source, and cannot tell
 whether the item still matches that source. That check is human. The one mechanical help available is
@@ -96,11 +97,13 @@ have to be confirmed deliberate (`r6-ex`/`3-3` genuinely are), which is what sur
 
 ## Rows carrying a caveat
 
-`2-4`, `4-3`, `6-4`, `6-5`, `7-1` are recorded in the `PROJECT_STANDARD` build log (2026-07-17) as
-drawn from the MSDE *Expressions and Equations* and *Modeling* packets, and their content matches
-those packets — but the build log did not record per-item question numbers, and the packet text for
-some is figure-dependent. Their **packet** attribution is verified; their **question number** is not.
-Fill these in on the next pass through the PDFs.
+**None — closed 20 Jul 2026.** All five rows that previously had packet-only attribution were checked against the
+rendered packets and resolved: `2-4` = Q8, `6-4` = Q12, `7-1` = Q13 (it was in the Expressions packet, not Modeling),
+`6-5` = Modeling Q26 (7.M.4). The fifth, `4-3`, turned out not to be a released item at all and has been demoted.
+
+**Worth noting how the arithmetic exposed it.** The Expressions packet holds five items; seven manifest rows cited it.
+Counting sources against claims is a cheap check that catches what a per-row check cannot, and it is what surfaced
+both `4-3` and the `6-5` packet error. Do it whenever a packet is worked through.
 
 ## Textbook lifts
 
