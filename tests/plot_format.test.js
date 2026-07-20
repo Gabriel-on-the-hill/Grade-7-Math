@@ -77,6 +77,8 @@ function place(w, box, clientX, clientY) {
   place(w, lineBox, 187, 52);
   ok(Number.isInteger(parseFloat(lineInp.value)), 'a click between ticks snaps to a tick, never between (got "' + lineInp.value + '")');
 
+  const g = w.__modPlot;
+  ok(!!g && typeof g.draw === 'function', 'the engine exposes __modPlot for tests');
   const done = () => Number(d.getElementById('op-done').textContent);
 
   // --- 3. wrong placement grades wrong and does not advance -------------------------------------
@@ -100,6 +102,36 @@ function place(w, box, clientX, clientY) {
   ok(gridInp.value === '3,12', 'a grid click writes "x,y" (got "' + gridInp.value + '")');
   grid.querySelector('.check-btn').click();
   ok(done() > before + 1, 'the grid placement grades and advances too');
+
+
+  // --- 6. keyboard operation --------------------------------------------------------------------
+  // It shipped click-only, which locked keyboard and screen-reader users out of every plot item —
+  // including ex-2b, a real released MCAP capstone. §8 already required keyboard-accessible controls.
+  const press = (box, key) => box.querySelector('svg')
+    .dispatchEvent(new w.KeyboardEvent('keydown', { key, bubbles: true }));
+  const lineSvg = () => lineBox.querySelector('svg');
+
+  ok(lineSvg().getAttribute('tabindex') === '0', 'the number line is focusable');
+  ok(lineSvg().getAttribute('role') === 'slider', 'it announces itself as a slider');
+  ok(lineSvg().getAttribute('aria-valuemin') === '-10' && lineSvg().getAttribute('aria-valuemax') === '10',
+     'it exposes its range to assistive tech');
+
+  lineInp.value = ''; g.draw(lineBox);
+  press(lineBox, 'ArrowRight');
+  ok(lineInp.value !== '', 'first arrow press on an empty plot places a point — no pointer needed');
+  const startV = parseFloat(lineInp.value);
+  press(lineBox, 'ArrowLeft');
+  ok(parseFloat(lineInp.value) === startV - 1, 'ArrowLeft steps down by one');
+  press(lineBox, 'Home');
+  ok(parseFloat(lineInp.value) === -10, 'Home jumps to the minimum');
+  ok(lineSvg().getAttribute('aria-valuenow') === '-10', 'aria-valuenow follows the value');
+
+  const gi2 = gridBox.querySelector('.ans-input');
+  const wasDis = gi2.disabled;
+  gi2.disabled = true; gi2.value = ''; g.draw(gridBox);
+  press(gridBox, 'ArrowUp');
+  ok(gi2.value === '', 'a LOCKED plot ignores the keyboard exactly as it ignores clicks');
+  gi2.disabled = wasDis;
 
   console.log('\n' + (fail ? 'FAIL ' + fail + ' assertion(s)' : 'PASS  plot input places, snaps, respects locks, and grades through the engine'));
   process.exit(fail ? 1 : 0);

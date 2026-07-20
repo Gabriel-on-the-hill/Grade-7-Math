@@ -154,6 +154,68 @@ when the engine is next opened for another reason.
 
 ---
 
+## 2b · Where to look harder — scrutiny is welcome, not scope creep
+
+The tasks above are implementation. **These are places where my conclusions are thin, unverified, or
+worth a fresh pair of eyes.** If something here turns out differently, that is a good outcome, not a
+detour — say so and change the plan.
+
+### High — someone should actually check these
+
+**S1 · Answer keys predating this session.** I recomputed every key I touched, and the whole Ratios
+module. I did **not** systematically recompute the pre-existing Number System and Expressions keys.
+The 2026-07-04 log claims it was done then, but that predates two new modules and ~50 new items.
+Worth a full independent recomputation pass across all five modules — script it, do not eyeball.
+
+**S2 · Roughly 50 items were authored or lifted in one day, by one pass, unreviewed.** The guards
+catch structure, not whether an item *teaches well* or a distractor is subtly wrong. A slow read of
+the new content — especially Geometry and Statistics, which were built fastest — is the highest-value
+scrutiny available.
+
+**S3 · Is the APS curriculum document authoritative?** `Curriculum/Grade 7 Mathematics Curriculum
+(2025-2026).md` is titled "Comprehensive Research Report on the Atlanta Public Schools…". It reads
+like a report *about* a curriculum rather than a district document. I leaned on it for sequencing and
+emphases. Before leaning further, confirm what it actually is and who wrote it. The CCSS text in
+`Math_Standards.pdf` is unambiguous and should outrank it wherever they differ.
+
+**S4 · Accessibility beyond the plot format.** I shipped the plot click-only this morning and fixed it
+the same day (focusable, arrow keys, `role="slider"`, `aria-valuenow`, guarded). That it happened at
+all says the engine has **no standing a11y guard**. Nothing checks colour contrast, focus order, that
+every interactive control is reachable, or that SVG figures carry meaningful labels. Worth an audit
+and a guard of its own — the MC options, tiles and modals have never been tested for this either.
+
+### Medium — probably worth doing, evidence is thin
+
+**S5 · The motivation decision (D3) rests on one ledger entry.** "She could not get her homework" is
+the whole evidential basis for calling this an access problem rather than a motivation one. The June
+and July class summaries in `../Fareedah/Class Summaries/` have **never been read into the ledger**.
+Read them before building T3. If they show her skipping work she *could* reach, D3 is wrong.
+
+**S6 · Grade 8 has never had a standards-coverage audit.** I ported guards to it and it passes them,
+but nobody has built the equivalent of `STANDARDS_COVERAGE_MATRIX.md` for Grade 8. Given what that
+exercise turned up here — a domain with zero worked examples, a standard taught backwards — assume
+Grade 8 has its own version of that until checked.
+
+**S7 · Textbooks never opened.** `Spectrum Grade 7`, `Glencoe Georgia Math`, the Rising/Accelerated
+summer packets, and — most importantly — **IM Units 7–9 Teacher Guide** (906 KB), which the original
+backlog called "the richest single source". enVision was opened but its OCR was garbled on the pages
+that mattered; it was never re-attempted by rendering, which is now the known-good method.
+
+**S8 · The three "soon" Science topics.** Still scaffolded in `SUBJECTS`. Nobody has said whether
+Science is actually wanted. If not, removing them is cleaner than leaving permanent "coming soon"
+tiles a student keeps seeing.
+
+### Low — noted so it is not rediscovered
+
+**S9 · `homework_backend.test.js` runs only in Grade 8.** Correct per D5, but it means a Grade 7-only
+session gets a green board while the backend half is untested locally. Consider a thin Grade 7 test
+that simply asserts the Grade 8 file exists and is newer than the last known-good hash — or accept it
+and rely on §6.1.
+
+**S10 · Two `*.v*bak` generations now exist** (`v4`–`v7`). They are gitignored and harmless, but if
+one is ever used to "restore", check which engine generation it holds — several predate the retention
+layer entirely.
+
 ## 3 · Traps found the hard way
 
 Each of these cost real time or shipped a real defect. They are not hypothetical.
@@ -180,7 +242,11 @@ Each of these cost real time or shipped a real defect. They are not hypothetical
 8. **Mutation-check every guard you write.** Two of mine were wrong when first written — a regex that
    let a trailing period hide an answer leak, and a manifest parser that read the wrong table. Both
    looked fine and passed.
-9. **jsdom reports a zero-size rect for everything.** The plot engine falls back to viewBox units when
+9. **A new input format is an accessibility surface.** The plot shipped click-only and locked keyboard
+   and screen-reader users out of six items, one of them a real MCAP capstone — fixed the same day, but only
+   because someone thought to ask. There is no standing a11y guard (S4); assume the next new control has the
+   same hole unless it is tested.
+10. **jsdom reports a zero-size rect for everything.** The plot engine falls back to viewBox units when
    the measured width is 0, which is what makes it testable.
 
 ---
