@@ -55,6 +55,32 @@ for (const [key, citation] of allowed) {
 }
 if (process.exitCode) { console.log('\nFAIL non-MCAP citation(s) in the verified table'); process.exit(1); }
 
+// Two rows citing the SAME packet + question number are usually a mistake, and a mistake this guard
+// is otherwise blind to: it can prove a claim has a source, never that the item still matches that
+// source. On 20 Jul, ex-2a and ex-2b both cited Q11 — ex-2b was the faithful reproduction and ex-2a
+// an adaptation (different number, "type it" instead of "plot it") that had inherited the citation.
+// Legitimate re-use of one item in two modules exists, so this is an allow-list, not a ban.
+const SHARED_OK = new Set([
+  'Math 7 2024 Release, Q3',   // the 15% tip select-all: r6-ex and EE 3-3, deliberately both
+]);
+const byCitation = new Map();
+for (const [key, cite] of allowed) {
+  const q = (cite.split('|')[1] || cite).trim();
+  if (!/Q\d/.test(q)) continue;                   // rows with no question number can't be compared
+  if (!byCitation.has(q)) byCitation.set(q, []);
+  byCitation.get(q).push(key);
+}
+for (const [q, keys] of byCitation) {
+  if (keys.length > 1 && !SHARED_OK.has(q)) {
+    console.log('FAIL ' + keys.length + ' items cite ' + q + ' — ' + keys.join(', '));
+    console.log('     If one of them ADAPTED the item (changed numbers or response format) it is no');
+    console.log('     longer that item: relabel it Exam-style. If the re-use is deliberate, add the');
+    console.log('     citation to SHARED_OK in this file with a note saying why.');
+    process.exitCode = 1;
+  }
+}
+if (process.exitCode) { console.log('\nFAIL duplicate citation(s) needing confirmation'); process.exit(1); }
+
 const MODULES = fs.readdirSync(DIR)
   .filter(f => /\.html$/.test(f) && !/_Math_Hub\.html$/.test(f) && !/^index\.html$/.test(f))
   .filter(f => /G7_TOPIC_ID=/.test(fs.readFileSync(path.join(DIR, f), 'utf8')));

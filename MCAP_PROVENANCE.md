@@ -46,7 +46,6 @@ Every row below was checked on 20 Jul 2026 against the extracted text of the nam
 
 | File | qid | Packet | Citation | Standard |
 |---|---|---|---|---|
-| `Number_System_Connections.html` | `ex-2a` | `…Math 7 The Number System` | Math 7 2024 Release, Q11 | 7.NS.A.1b-1 |
 | `Number_System_Connections.html` | `ex-2b` | `…Math 7 The Number System` | Math 7 2024 Release, Q11 | 7.NS.A.1b-1 |
 | `Number_System_Connections.html` | `ex-5a` | `…Math 7 The Number System` | Math 7 2024 Release, Q2 | 7.NS.A.3 |
 | `Number_System_Connections.html` | `ex-6a` | `…Math 7 The Number System` | Math 7 2024 Release, Q7 | 7.NS.A.2c |
@@ -78,6 +77,22 @@ from a released question. The distinction matters: a student is never told they 
 | File | qid | Data source | Why the item was not lifted whole |
 |---|---|---|---|
 | `Statistics_and_Probability.html` | `2-4` | MCAP Math 7 2024 Release, Q27 (7.SP.B.3) — soccer/hockey shoe-size dot plots | Q27 is a drop-down item and the public release renders its menus collapsed as "Choose ...", so the answer options do not exist anywhere in the packet. The dot plots read cleanly at 400 dpi, so the data is reproducible even though the item is not. |
+
+## Adapted from a released item — NOT the item itself
+
+A third category, and the easiest one to get wrong. Here the released item was **changed** — different
+numbers, or a different response format — so it is no longer that item and must not carry its name.
+These are labelled `Exam-style ·`.
+
+| File | qid | Adapted from | What changed, and why |
+|---|---|---|---|
+| `Number_System_Connections.html` | `ex-2a` | MCAP 2024 Release, Q11 (7.NS.A.1b-1) | Q11 puts point `k` at `-5` and asks the student to **plot** `k + 4`. This card puts `k` at `-6` and asks them to **type** the value. Almost certainly because the engine had no plot input until 20 Jul 2026 — the task was converted to fit the tool. Both numbers and task changed, so it is not Q11. The faithful reproduction is now `ex-2b`. |
+
+**How this one slipped through.** It was cited to Q11 and the citation was real, so
+`tests/mcap_provenance.test.js` passed it — the guard proves a claim *has* a source, and cannot tell
+whether the item still matches that source. That check is human. The one mechanical help available is
+the duplicate-citation warning added 20 Jul: two rows citing the same packet and question number now
+have to be confirmed deliberate (`r6-ex`/`3-3` genuinely are), which is what surfaced this.
 
 ## Rows carrying a caveat
 
