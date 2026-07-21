@@ -88,6 +88,80 @@ Every row below was checked on 20 Jul 2026 against the extracted text of the nam
 `r6-ex` and `3-3` are the same released item (the 15% tip select-all) used in two modules — that is
 deliberate: it assesses 7.EE.A.2 and sits naturally in both percent contexts.
 
+## Other released items
+
+**Real released exam items that are not MCAP.** They may be lifted and they may be labelled as what
+they are — but never as MCAP. The `MCAP ·` label is reserved for rows in *Verified items* above; an
+item lifted from a source in this table carries the **`NYSED ·`** title prefix instead.
+
+`tests/mcap_provenance.test.js` enforces the split in both directions:
+
+- a card whose title says `NYSED` **must** have a row here (no unlabelled lifting), and
+- every row here **must** point at a card that still carries the label (no stale rows), and
+- a New York citation filed in *Verified items* fails the `NOT_MCAP` check there.
+
+That last one is why this table exists. The three `20{23,24,25}-released-items-math-g7.pdf` files in
+`MCAP RELEASES PER TOPIC/` are **New York State Testing Program**, Grade 7 Mathematics — 108 pages
+filed under a folder named for Maryland's programme (see "Not MCAP, despite the folder name" above).
+They are good CCSS-aligned practice. A folder name is not provenance, and the fix is not to ban the
+material but to give it somewhere honest to go.
+
+**Cite NYSED as:** `NYSED Grade 7 Mathematics, <year> Released Items, Q<n>`.
+
+### What the three releases actually contain — indexed 21 Jul 2026
+
+Each year publishes **31 items** (~75% of the operational test) plus a *Map to the Standards* table
+giving, per question: type, **official answer key**, points, standard, domain, and **p-value** (the
+share of New York students who answered correctly). **89 of the 93 items are Grade 7**; four are
+coded `6.SP` and are **excluded by the §2.8 grade-level guard** — do not use them.
+
+| Domain | Items | MC (with published key) | *of which p 0.45–0.75* | CR | Standards covered |
+|---|---|---|---|---|---|
+| 7.RP Ratios | 28 | 18 | 13 | 10 | 1, 2a, 2b, 2c, 2d, 3 |
+| 7.EE Expressions | 28 | 21 | 14 | 7 | 1, 2, 3, 4a, 4b |
+| 7.NS Number System | 21 | 15 | 10 | 6 | 1a, 1b, 1c, 1d, 2a, 2c, 3 |
+| 7.SP Statistics | 9 | 6 | 4 | 3 | 1, 3, 4, 8a, 8b |
+| **7.G Geometry** | **3** | **0** | **0** | 3 | **1 only** |
+
+**Two things this changes about T4.**
+
+1. **NYSED cannot serve Geometry.** All three geometry items are 7.G.1 (scale drawings) and all three
+   are constructed response. There is no NYSED source for circles, cross-sections, angle equations or
+   composite volume. Geometry's `Exam-style ·` items must stay ours, or come from MCAP/IM — T4's
+   "target the 23 `Exam-style ·` items" is really **~18**, and the pay-off is concentrated in
+   **Ratios and Expressions** (56 items between them).
+2. **The published key is a cross-check, not a substitute.** Recompute every key independently anyway
+   (house rule), then confirm it against the official one — a disagreement means the item was
+   misread, and that is worth catching before it ships. The p-value additionally lands each item on
+   the `AS-4` calibration band (>0.90 too easy, <0.45 too hard); the 41 MC items in 0.45–0.75 are the
+   best candidates.
+
+The **CR items are Q39–Q48 of each year** — multi-point, multi-part, and the closest thing in this
+folder to DC CAPE's Type 2/3 shapes (42% of its points). They need the multi-part card format, not
+a single-answer one.
+
+> **Parse trap, found and fixed 21 Jul 2026.** In the *Map to the Standards* table, CR rows carry
+> **two** numeric columns — *Average Points Earned* then *P-Value*. A scanner taking the first float
+> reads difficulty wrong whenever average points < 1.00 (2024 Q46 reads 0.76 when the p-value is
+> 0.38; Q47 0.73 vs 0.36; Q48 0.75 vs 0.25). **Take the last numeric in the row.** Caught only by
+> rendering the page and comparing — trap #11 again, this time against my own extraction.
+
+| File | qid | Source | Citation | Standard |
+|---|---|---|---|---|
+| `Ratios_Proportional_Relationships.html` | `r6-8` | `2024-released-items-math-g7.pdf` | NYSED Grade 7 Mathematics, 2024 Released Items, Q29 | 7.RP.3 → 7.AT.A.4 |
+| `Expressions_Equations_Inequalities.html` | `2-7` | `2024-released-items-math-g7.pdf` | NYSED Grade 7 Mathematics, 2024 Released Items, Q13 | 7.EE.1 → 7.AT.B.5 |
+
+Both were read off the **rendered** page, stems reproduced verbatim, and their keys recomputed
+independently with `Fraction` *before* being checked against NYSED's published key — which is the
+point of preferring a sourced item: two independent derivations must agree.
+
+| qid | Working | Key | NYSED |
+|---|---|---|---|
+| `r6-8` | `500 × $15.00 = $7,500`; `0.35 × 7,500 = $2,625` | `$2,625.00` | C ✓ |
+| `2-7` | `3.6x − 18 + 2.5x + 10 = (3.6+2.5)x + (−18+10)` | `6.1x − 8` | B ✓ |
+
+Difficulty sits in the target band (p = 0.67 and 0.68), so neither is a giveaway nor out of reach.
+
 ## Data reused from a released item
 
 Distinct from the table above. Here the **item is ours** and honestly labelled `Exam-style ·`; only the *data* comes
@@ -155,6 +229,28 @@ ours is what lets someone check it against the book.
 | `Number_System_Connections.html` | §6 teach card — distributive derivation of the sign rule | IM G7 Unit 5, multiplying rational numbers |
 | `Expressions_Equations_Inequalities.html` | `7-4` — towel bar on a door | CCSS 7.EE.3, the standard's own worked example |
 | `Expressions_Equations_Inequalities.html` | `6-5` context | CCSS 7.EE.4b, the standard's own salesperson example |
+
+### IM Units 7–9 Teacher Guide — opened and indexed 21 Jul 2026 (S7)
+
+The backlog called this "the richest single source" and **nobody had opened it**. It is **736 pages**
+with **no embedded table of contents**, which is probably why. Indexed by scanning for lesson
+headings; pages 5–7 are an OCR-garbled contents page, and the real content starts at p27.
+
+| Unit | Pages | Lessons | Maps onto |
+|---|---|---|---|
+| **7 · Angles, Triangles and Prisms** | 27–300 | 1 Relationships of Angles · 2 Adjacent · 3 Nonadjacent · **4 Solving for Unknown Angles** · **5 Using Equations to Solve for Unknown Angles** · 6–7 Building Polygons · **8 Triangles with 3 Common Measures** · 9–10 Drawing Triangles · **11 Slicing Solids** · 12 Volume of Right Prisms · 13 Decomposing Bases for Area · 14 Surface Area · 15 Distinguishing Volume and Surface Area · 16 Applying Volume and SA · 17 Building Prisms | **Geometry** — §2 triangles, §3 slicing, §5 angles, §6 volume/SA. A near-exact match, section for section. |
+| **8 · Probability and Sampling** | 303–~600 | Mystery Bags · Chance Experiments · What Are Probabilities · Estimating Probabilities Through Repeated Experiments · Estimating Using Simulation · Simulating Multi-step Experiments · Keeping Track of All Possible Outcomes · Multi-step Experiments · What Makes a Good Sample · Estimating Population Measures of Center · Estimating Population Proportions · Sampling Variability · Comparing Populations Using Samples | **Statistics** — §1 sampling, §3 probability, §4 predicted-vs-observed, §5 compound events |
+| **9 · Putting It All Together** | ~600–736 | Costs of Running a Restaurant (1–3) · Restaurant Floor Plan · How Crowded Is This Neighborhood · Measuring Long Distances Over Uneven Terrain · Using a Trundle Wheel | **Type 3 modelling** — one situation, several dependent parts. The closest match in any source to DC CAPE's 6-point task. |
+
+**It is a Teacher Guide, so each lesson carries `Problem N` / `Statement` / `Solution` blocks** — the
+student task *and* its worked answer, which makes independent key-checking cheap. Verified by reading
+p99–100 (Lesson 5: angle equations, with solutions `x = 29`, `w = 42`, and a complementary-angles
+justification task).
+
+**Two things worth acting on.** Unit 7 covers `7.G.A.2` and `7.G.B.5` in depth — the two clusters
+MCCRS moves to Math 8 — which is independent support for **D10** (IM treats them as Grade 7 content).
+And Unit 9 is the best available source for the Type 3 modelling shape, which we currently author
+ourselves.
 
 **Still paraphrased, and should be replaced with the book's own exercises on the next pass:**
 `r6-4` (percent increase/decrease) and several Number System practice items. IM Unit 4 Lesson 12 and Unit 5

@@ -29,8 +29,175 @@ Done and verified this session (all 10 guards green, behavioural suite **208**):
 **Still open** — **T4** (NYSED sourced practice, do in slices), **T6** (engine-wide store constant — only
 alongside other engine work), and the remainder of **T1**: reasoning Q15/Q31/Q33 are **drop-down** items
 the engine can only render as MC (so they adapt to `Exam-style`, not MCAP — low marginal value, reasoning
-is already covered), and Q30 is a figure-referenced "write an expression" CR. The scrutiny items **S2–S10**
-are untouched. Below is the original hand-off, unchanged except where a task is now marked done.
+is already covered), and Q30 is a figure-referenced "write an expression" CR. ~~The scrutiny items
+**S2–S10** are untouched.~~ — **superseded by the second session below: S2, S3, S5, S9, S10 are
+closed; S4 is audited but not fixed; S6, S7, S8 remain.** Below is the original hand-off, unchanged
+except where a task is now marked done.
+
+---
+
+## Update — 21 Jul 2026, second session (T4 slices 1–2; S2, S3, S5, S9, S10)
+
+**11 guards green** (a new one — `backend_contract`), behavioural **G7 208 / G8 269**. Every guard
+written or changed below was **mutation-checked**, and one of those mutations found a real weakness in
+a guard I had just written (see S9).
+
+- **T4 slice 1 · the NYSED label is now enforceable.** `MCAP_PROVENANCE.md` has an **"Other released
+  items"** table; `tests/mcap_provenance.test.js` parses it into a *separate* map from *Verified items*
+  and checks the `NYSED ·` prefix both ways (label ⇒ row, row ⇒ label), plus refuses an item sitting in
+  both tables. Mutation-checked on all three paths. With zero NYSED items it reports `0 / 0` and passes
+  — nothing vacuous, and the moment one is lifted the guard binds.
+- **T4 slice 2 · the releases are indexed.** All three PDFs are genuinely NYSED (verified by rendering,
+  not by filename). **89 usable Grade 7 items**, 4 grade-6-coded ones excluded by §2.8. Each year ships a
+  *Map to the Standards* table with the **official answer key** and a **p-value**. Full per-domain index
+  is in `MCAP_PROVENANCE.md`. **Two findings that change T4's plan:**
+  - **NYSED cannot serve Geometry** — 3 items, all `7.G.1`, all constructed response. T4's "23
+    `Exam-style ·` items" is really **~18**; the value is in **Ratios + Expressions (56 items)**.
+  - **A parse trap, found by rendering the page**: CR rows carry *two* numeric columns (Average Points
+    Earned, then P-Value), so a scanner taking the first float mis-reads difficulty. Take the last.
+    This was **my own extraction being wrong** — trap #11 turned on itself.
+- **S2 · Geometry and Statistics read line by line — one real defect, fixed.** All 42 keys recomputed by
+  hand; all correct, and the `2-4` dot-plot SVGs plot exactly the data its keys assume. But **`7.SP.3`
+  was marked ✅ on an item that never asks its distinctive demand**: `2-4` computed both medians and the
+  MAD as three separate numbers and stopped. The standard asks for *"the difference between the centers
+  … expressed as a multiple of a measure of variability."* Added **Steps 4–5** (`1.5 ÷ 1.6 = 0.94` MADs,
+  then what that says about overlap). Key recomputed with `Fraction` (`15/16`), matrix row corrected.
+  **This is the failure mode S2 was pointed at:** `exam_coverage` counts an exam item per skill and
+  cannot tell that the item stops one step short of the standard's verb.
+- **S3 · answered, and bigger than the question.** The APS `.md` is **not a district document** — it is
+  a *research report about* a curriculum, with **no author, no references, no URLs**, florid throughout,
+  stating checkable facts with nothing behind them. **Demoted** to "corroborate before use". The
+  authoritative source was in the same folder all along: the **official MSDE MCCRS crosswalk + companion
+  guide** (Maryland — which is what MCAP is). And they carry a live finding: **Maryland renumbers Grade 7
+  from SY 2026-2027**, five domains → four, with **EE dissolved** into `7.NOS`/`7.AT`. No mathematics
+  changes and nothing built is wrong — but the matrix was entirely 2010-coded. **Decided and acted on
+  the same session (D9/D10): the matrix is now dual-coded** — see the MCCRS section below, which is
+  where the two findings that matter live (three clusters leaving Grade 7, and one new uncovered
+  standard).
+- **S5 · closed.** The ledger is `current as of 21 Jul 2026`, DRAFT cleared, June + July summaries read
+  in — which is exactly what S5 required *before* T3. D3 stands.
+- **S9 · closed with a real guard, not a hash pin.** New `tests/backend_contract.test.js` asserts the
+  shared backend is reachable, that **Grade 7 has grown no `.gs` of its own** (D5), that **every** row
+  key is hub-namespaced, and that all 7 hub-id declarations read exactly `'grade7'` — because both call
+  sites send `hub: <id> || 'default'`, so a blanked constant does not error, it **silently pools this
+  hub's rows with every other app**. Mutation-checked on six paths; **M3 exposed a weakness in my own
+  first draft** (checking that `[hub,` appeared *somewhere* passed while the sync key was un-namespaced,
+  which is the case that actually merges two hubs' data). Now every key construction is checked.
+- **S10 · answered.** `.v1bak` (Module_Template, Number_System, Ratios, Probability_Lesson, Hub v1–v2)
+  **predates the retention layer entirely** — restoring one silently drops spaced review, sync and level
+  accounting. Everything **`.v4bak` and later** carries the retention + sync engine. **No backup carries
+  the `MO-6` habit layer** (21 Jul, hub only). All are gitignored via `*.v*bak`.
+
+**S4 · audited, not fixed — and it surfaced a policy question, not just a bug.** Findings: the hub's
+modal has `Escape` and `.focus()` but **no `role="dialog"`/`aria-modal`**; the hub's icon glyphs are
+unnamed and should be `aria-hidden`; and **two meaningful figures in Number System carry no accessible
+name**. One of those is the stimulus for exam-flagged **`ex-2a`**, which shows point `k` at `-6` purely
+by glyph position — its only text nodes are the tick labels and a bare `k`. A screen-reader student gets
+`-9 -8 … 9 k` and **cannot answer**. But an `aria-label` saying where `k` sits **puts the answer in the
+accessible name**. So: *there are items whose stimulus is purely visual and no policy for presenting
+them non-visually.* That is the real S4 finding. **Decide the policy before labelling anything**, then
+build the standing guard. Trap #9 predicted exactly this.
+
+**Genuinely untouched: S6** (Grade 8 has never had a coverage audit — assume it has its own version of
+what this one found) and **S7** (textbooks never opened; IM Units 7–9 Teacher Guide, 906 KB, is the
+richest unused source — and enVision should be *rendered*, not OCR'd, which is now the known-good
+method). **S8** needs a product decision, not an implementation (is Science wanted at all?).
+
+**T6 was deliberately not done, and should not be.** D2 says it rides the next substantial engine
+change; nothing this session opened the engine (T4 is docs + a guard, S2 is content, S9 is a new test).
+Doing it now would be exactly the standalone refactor of two live products D2 declines. **The natural
+carrier is the S4 a11y work** — that one does open the engine, in both grades, for a reason of its own.
+
+### Decisions taken 21 Jul 2026 (asked and answered — do not re-open)
+
+| # | Decision | Why |
+|---|---|---|
+| D8 | **Visually-dependent exam items get replaced with non-visual equivalents** — not labelled around | An `aria-label` that lets a screen-reader student answer `ex-2a` *is* the answer. `ex-2a` is already redundant: it exists only because the engine had no plot input, and `ex-2b` is the faithful MCAP Q11. The a11y guard should forbid an exam item whose stimulus is readable only by eye. |
+| D9 | **The matrix is dual-coded to MCCRS 2025 now; provenance citations stay 2010-coded** | A citation records what MSDE printed on a released item — rewriting it to a code the source never used falsifies it. The matrix is ours and must track the exam. |
+| D10 | **The three clusters Maryland moves to Math 8 are retained, flagged not removed** | The exam actually sat is **DC CAPE**, and nothing shows CAPE following Maryland's 2025 boundary. Deleting eleven working items on another jurisdiction's timetable is *a standard quietly dropped*. Angle equations also feed `7.AT.C.8`, which stays in Grade 7. |
+| D11 | **Science tiles stay as-is** | Asked and answered; Science is genuinely on the roadmap. S8 is closed — no work. |
+
+### MCCRS 2025 re-alignment — done, and it found more than renumbering
+
+`STANDARDS_COVERAGE_MATRIX.md` is now **dual-coded**: all **35** rows carry their MCCRS 2025 code
+beside the 2010 one, mapped out of the MSDE crosswalk tables (not inferred), with the five domain
+headings re-labelled. Modules, qids and `G7_SKILLS` are untouched — they hold no standard codes.
+
+Two findings the renumbering exposed, both bigger than the relabelling:
+
+1. **Three clusters leave Grade 7.** The crosswalk prints *"Not applicable — In Math 8"* against
+   `7.G.A.2` (construct triangles), `7.G.B.5` (angle equations) and `7.SP.C.8` (compound events) —
+   **eleven of our items**. Retained under **D10**, flagged ⚠️ in the matrix. **This is an S6 input:**
+   if they move *into* Grade 8, the sister app should be gaining them.
+2. **`7.AT.C.7` is new and we do not cover it.** *"Analyze contextual situations to determine whether
+   an equation or inequality best represents the relationship … justify the choice based on the
+   context."* No 2010 predecessor. Expressions teaches both forms thoroughly and **never asks the
+   student to choose between them**. Checked item by item — the near-match `7-4` is estimate-then-check.
+   **This is now the only ❌ in the matrix.** It needs one authored item: a context, both candidate
+   models, and a justification step.
+
+---
+
+## Update — 21 Jul 2026, third pass (S4 + T6, 7.AT.C.7, T4 content, S6, S7)
+
+**G7 13 guards green** (`a11y` and `store_prefix` are new), behavioural **208**. **G8 10 guards
+green**, behavioural **269**. Every new guard mutation-checked; two of those mutations found real
+weaknesses in guards I had just written.
+
+- **S4 · done, both grades.** Swept every figure-bearing item: only `ex-2a` was genuinely eye-only.
+  Per **D8** its stem now states `k`'s position in words, so the arithmetic and the key (`-2`) are
+  unchanged and nothing is readable by eye alone. Two further fixes the sweep turned up: `r3-7`'s
+  labels **stated the slope** the item asks the student to find (a leak — trimmed to the plotted
+  points), and `2-4`'s dot plots were named but their **data was not conveyed**, so the medians were
+  unobtainable without sight (the dots are the *given*, not the answer, so stating them is equivalent
+  access). Hub icons are now `aria-hidden`; all three modals carry `role="dialog"`, `aria-modal` and
+  a name. **`tests/a11y.test.js`** added — figures named or explicitly decorative, **no exam card may
+  hide its stimulus behind an unnamed or decorative svg (D8, mechanically)**, dialogs announce
+  themselves, and the plot keeps its keyboard affordances (trap #9 regression). Ported to Grade 8,
+  where it immediately found the same modal and icon defects.
+- **T6 · done — and it was a port back, not new work.** **Grade 8 already had `G7_STORE`.** The
+  parent/child direction has now inverted three times (spaced review, cloud sync, this). Grade 7's
+  6 engine files now single-source **60 key sites**; `tests/store_prefix.test.js` asserts no file
+  builds a key from a literal, each declares its namespace once, and **every served file agrees** —
+  the one that actually protects a student, since the module writes what the hub reads. A documented
+  `LEGACY_OK` allow-list covers Grade 8's one-time `'g7.'` migration read, and **fails if it outlives
+  the code it excuses**.
+- **`7.AT.C.7` · closed** by Expressions **`6-8`** — one context, identical numbers, two wordings
+  (*"how many can she buy"* → `≤`, *"spends exactly all"* → `=`), so only the modelling decision is
+  under test. Step 2 is the standard's *justify* clause, machine-scored as a choice of reason.
+  **The matrix now has no ❌.**
+- **T4 slice 3 · the first two NYSED lifts are live.** Ratios **`r6-8`** (2024 Q29, 7.RP.3) and
+  Expressions **`2-7`** (2024 Q13, 7.EE.1) — both figure-free, both read off the **rendered** page,
+  stems verbatim, p-values 0.67/0.68. Keys recomputed with `Fraction` *first*, then checked against
+  NYSED's published key; both agreed. The provenance guard did its job: it **failed the build** until
+  the manifest rows existed.
+- **S6 · done — and Grade 8 is worse off than Grade 7 was.** New
+  [`../Grade 8/STANDARDS_COVERAGE_MATRIX.md`](../Grade%208/STANDARDS_COVERAGE_MATRIX.md) and
+  [`../Grade 8/TODO.md`](../Grade%208/TODO.md). **Only 2 of 5 maths domains are built** — 8.F, 8.G and
+  8.SP are all *coming soon* tiles — plus `8.EE.6`'s similar-triangles derivation is missing. Worse,
+  **20 exam items across the two maths modules are described as "Real MCAP practice items" and 10
+  Science items are titled `MISA ·`, with no manifest and no provenance guard anywhere in that repo.**
+  That may be perfectly true; nothing records it and nothing checks it, which is exactly the state
+  Grade 7 was in on 20 Jul. **This is the highest-value work in either app.**
+  It also means **the MCCRS handoff lands nowhere**: all three clusters Maryland moves to Math 8 go
+  to 8.G / 8.SP, neither of which exists — independent confirmation that **D10** (retain them here)
+  is right.
+- **S7 · opened and indexed.** 736 pages, **no table of contents**, which is likely why nobody had.
+  Unit 7 (Angles/Triangles/Prisms) maps onto our Geometry section for section; Unit 8 onto Statistics;
+  **Unit 9 is the best Type 3 modelling source in the building**. Being a Teacher Guide, every task
+  ships with its worked solution, so key-checking is cheap. Index is in `MCAP_PROVENANCE.md`. Unit 7
+  also covers `7.G.A.2`/`7.G.B.5` in depth — more support for D10.
+
+### What is left
+
+1. **Grade 8's provenance problem** (`../Grade 8/TODO.md` P1) — an unbacked exam claim on 30 items.
+   Port `MCAP_PROVENANCE.md` + its guard, then verify each label. Highest value anywhere right now.
+2. **Grade 8's three missing domains** — 8.F first (8.EE and 8.SP both lean on it), then 8.G, then 8.SP.
+3. **T4, continued** — 87 NYSED items remain indexed and unused; Ratios and Expressions are richest.
+   Pure authoring now: guard, index and citation format are all in place.
+4. **S7 content** — lift IM Unit 9 for a real Type 3 modelling capstone, and replace the paraphrased
+   `r6-4` / Number System items with the book's own exercises.
+5. **enVision** — still never re-attempted by rendering, which is the known-good method.
 
 ---
 
@@ -287,6 +454,19 @@ Each of these cost real time or shipped a real defect. They are not hypothetical
    stem, so half the answer was never required. Select-all must be an `.ms-group`. Guarded now
    (`module_integrity`: every single-select `mc-group` has exactly one correct option). `data-multi="1"`
    on an `mc-group` does nothing — no JS reads it.
+13. **A guard that finds a pattern *somewhere* is not checking the instance that matters** (21 Jul).
+   `backend_contract` first asserted that `var key = [hub,` appeared in the backend. The `.gs` builds
+   **two** keys (auth pin, sync row); removing `hub` from the sync key — the one that actually merges two
+   hubs' student data — left the other one matching, and the guard passed. Only the mutation test found
+   it. **Enumerate every occurrence and assert the property on each**, rather than asking whether one
+   good example exists. This is trap #8's rule applied to the *shape* of an assertion, not its logic.
+14. **A coverage row can be satisfied by an item that stops one step short of the standard's verb**
+   (21 Jul). `7.SP.3` was ✅ on `2-4`, which computed both medians and the MAD — every ingredient of
+   *"the difference between the centers expressed as a multiple of a measure of variability"* and never
+   the combination. Structure guards cannot see this: the card had an exam item, a skill, and correct
+   keys. **Read the standard's verb, then ask what the student is actually made to do** — having the
+   inputs on the page is not being asked for the inference. Trap #3 is the same disease from the other
+   end (pressure to *manufacture* what a guard counts; this is a guard *believing* what it counts).
 
 ---
 

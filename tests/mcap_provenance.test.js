@@ -29,15 +29,24 @@ if (!fs.existsSync(MANIFEST)) { console.log('FAIL MCAP_PROVENANCE.md is missing'
 // Only the "Verified items" table grants an MCAP label. The later tables (textbook lifts, data
 // reused from a released item) have the same shape but a different meaning — reading them here would
 // let a data-only credit silently authorise a full MCAP claim.
-const allowed = new Map();          // "file::qid" -> citation
-let inVerified = false;
+const allowed = new Map();          // "file::qid" -> citation   MCAP, from "Verified items"
+const nysed   = new Map();          // "file::qid" -> citation   non-MCAP, from "Other released items"
+let table = null;
 for (const line of fs.readFileSync(MANIFEST, 'utf8').split('\n')) {
-  if (/^##\s/.test(line)) { inVerified = /^##\s+Verified items\s*$/.test(line); continue; }
-  if (!inVerified) continue;
+  // Each table grants a DIFFERENT label, so they are parsed into different maps. Reading them into
+  // one would let a New York row authorise an MCAP claim — the exact confusion this file exists to
+  // prevent.
+  if (/^##\s/.test(line)) {
+    table = /^##\s+Verified items\s*$/.test(line)        ? allowed
+          : /^##\s+Other released items\s*$/.test(line)  ? nysed
+          : null;
+    continue;
+  }
+  if (!table) continue;
   // Keep BOTH the packet and the citation columns: the tell-tale for a mis-filed source ("…2023-
   // released-items…") sits in the packet column, so storing only the citation lets it through.
   const m = line.match(/^\|\s*`([^`]+\.html)`\s*\|\s*`([^`]+)`\s*\|([^|]*)\|([^|]*)\|/);
-  if (m) allowed.set(m[1].trim() + '::' + m[2].trim(), (m[3] + ' | ' + m[4]).trim());
+  if (m) table.set(m[1].trim() + '::' + m[2].trim(), (m[3] + ' | ' + m[4]).trim());
 }
 if (!allowed.size) { console.log('FAIL manifest parsed 0 item rows — the table format changed; fix this guard'); process.exit(1); }
 
@@ -64,7 +73,9 @@ const SHARED_OK = new Set([
   'Math 7 2024 Release, Q3',   // the 15% tip select-all: r6-ex and EE 3-3, deliberately both
 ]);
 const byCitation = new Map();
-for (const [key, cite] of allowed) {
+// Both tables, because two items claiming one released question is the same defect whichever
+// programme released it — and an item must not appear in both tables at once.
+for (const [key, cite] of [...allowed, ...nysed]) {
   const q = (cite.split('|')[1] || cite).trim();
   if (!/Q\d/.test(q)) continue;                   // rows with no question number can't be compared
   if (!byCitation.has(q)) byCitation.set(q, []);
@@ -86,7 +97,8 @@ const MODULES = fs.readdirSync(DIR)
   .filter(f => /G7_TOPIC_ID=/.test(fs.readFileSync(path.join(DIR, f), 'utf8')));
 
 let fail = 0;
-const seen = new Set();
+const seen = new Set();             // cards claiming MCAP
+const seenOther = new Set();        // cards claiming NYSED
 
 for (const f of MODULES) {
   const h = fs.readFileSync(path.join(DIR, f), 'utf8');
@@ -103,28 +115,50 @@ for (const f of MODULES) {
     // its dot-plot data is MCAP's; it is recorded under "Data reused from a released item".)
     const title = (body.match(/<span class="qtitle">([^<]*)/) || [])[1] || '';
     const stems = [...body.matchAll(/<div class="step-label">([\s\S]*?)<\/div>/g)].map(m => m[1]).join(' ');
-    const claims = /MCAP/.test(title) || /MCAP\s*item/i.test(stems);
-    if (!claims) continue;
-
     const key = f + '::' + qid;
-    seen.add(key);
-    if (!allowed.has(key)) {
-      bad.push(qid + ': claims MCAP but has no row in MCAP_PROVENANCE.md — source it or drop the label');
-      fail++;
+
+    if (/MCAP/.test(title) || /MCAP\s*item/i.test(stems)) {
+      seen.add(key);
+      if (!allowed.has(key)) {
+        bad.push(qid + ': claims MCAP but has no row in "Verified items" — source it or drop the label');
+        fail++;
+      }
+    }
+
+    // Same rule, one table over. A NYSED item IS a real released item and may say so — it is simply
+    // New York's, not Maryland's, so it is sourced under "Other released items". Without this branch
+    // the NYSED prefix would be decorative: a label a student reads as provenance, checked by nothing.
+    if (/NYSED/.test(title) || /NYSED\s*item/i.test(stems)) {
+      seenOther.add(key);
+      if (!nysed.has(key)) {
+        bad.push(qid + ': claims NYSED but has no row in "Other released items" — source it or drop the label');
+        fail++;
+      }
+      if (allowed.has(key)) {
+        bad.push(qid + ': is labelled NYSED but is sourced from the MCAP table — one item, one source');
+        fail++;
+      }
     }
   }
   if (bad.length) { console.log('FAIL ' + f); bad.forEach(b => console.log('     ' + b)); }
   else console.log('PASS ' + f);
 }
 
-// stale rows: manifest promises a citation for something that no longer claims MCAP
+// stale rows: manifest promises a citation for something that no longer claims the label
 for (const key of allowed.keys()) {
   if (!seen.has(key)) {
     console.log('FAIL stale manifest row: ' + key + ' no longer exists or no longer claims MCAP');
     fail++;
   }
 }
+for (const key of nysed.keys()) {
+  if (!seenOther.has(key)) {
+    console.log('FAIL stale manifest row: ' + key + ' no longer exists or no longer claims NYSED');
+    fail++;
+  }
+}
 
 console.log('\n' + seen.size + ' MCAP-claiming item(s), ' + allowed.size + ' manifest row(s)');
+console.log(seenOther.size + ' NYSED-claiming item(s), ' + nysed.size + ' manifest row(s)');
 if (fail) { console.log('FAIL ' + fail + ' provenance violation(s)'); process.exit(1); }
-console.log('PASS  every MCAP label is backed by a cited released item');
+console.log('PASS  every MCAP and NYSED label is backed by a cited released item');
