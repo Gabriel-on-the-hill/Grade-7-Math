@@ -8,6 +8,12 @@ markup — not from impression, and not from question counts.
 below is met.** 163 items, 52 exam-grade (32%), 33 skills, every skill carrying at least one
 machine-scored exam item. Build log in `PROJECT_STANDARD.md` §10.
 
+**Update 21 Jul 2026:** two real released items lifted — Ratios `r3-7` (MCAP Q1, four-graph select)
+and Geometry `7-4` (MCAP Q18, ceramic-tile count) — and Expressions `4-3` restored to the MCAP label
+(it is Modeling Q16; the 20 Jul demotion was a search error). Now **165 items, 54 exam-grade**, 33
+skills. Also fixed: three "select all" items (Geometry `2-2`/`3-4`, Ratios `r6-7`) were single-select
+`mc-group`s that graded on one click — converted to `ms-group` and guarded.
+
 **Why it exists.** [MODULE_REPAIR_BACKLOG.md](MODULE_REPAIR_BACKLOG.md) measured *exam weight vs.
 effort*. That is a different question from *does the curriculum get covered*, and a module can pass
 one and fail the other. This file is the second question, and it is the checklist the repair work is
@@ -43,7 +49,7 @@ Legend: ✅ covered · ◐ partial · ❌ absent
 |---|---|---|---|
 | 7.RP.1 | Unit rates with **ratios of fractions**, lengths/areas, **like or different units** | ✅ | `r1-1` (words/min, $/apple), `r1-2` (3/4 mi in 1/2 hr) |
 | 7.RP.2a | Decide whether proportional — equivalent ratios in a table, or a straight line through the origin | ✅ | `r2-2` table; graph worked example |
-| 7.RP.2b | Constant of proportionality in tables, graphs, equations, **diagrams, and verbal descriptions** | ✅ | tables `r2-1`, graphs `r3-1`, equations `r8-2`, verbal `r3-4`, tape diagram in the §6 teach card |
+| 7.RP.2b | Constant of proportionality in tables, graphs, equations, **diagrams, and verbal descriptions** | ✅ | tables `r2-1`, graphs `r3-1`, equations `r8-2`, verbal `r3-4`, tape diagram in the §6 teach card, four-graph select `r3-7` (MCAP Q1) |
 | 7.RP.2c | Represent proportional relationships **by equations** (`t = pn`) | ✅ | `r8-2`, `y = kx` teach card |
 | 7.RP.2d | Explain what a point `(x, y)` means **in context**, special attention to `(0,0)` and `(1, r)` | ✅ | `r3-3` asks both, in context |
 | 7.RP.3 | Multistep ratio & percent: simple interest, tax, **markups and markdowns**, **gratuities and commissions**, **fees**, **percent increase and decrease**, **percent error** | ✅ | all of them — `r6-1` tip/discount/interest, `r6-7` tax (IM), `r6-2` markup + reverse markdown (IM), `r6-3` commission (IM), `r6-4` increase/decrease, `r6-5` percent error, `r6-6` misconceptions (IM) |
@@ -82,7 +88,7 @@ Legend: ✅ covered · ◐ partial · ❌ absent
 | 7.G.3 | 2-D figures from slicing 3-D figures | ✅ | §3 prism, pyramid, cylinder; capstone is **real MCAP Q20** |
 | 7.G.4 | Area and circumference of a circle; informal derivation of their relationship | ✅ | §4, including the wedge-rearrangement argument for `A = ½ × C × r` |
 | 7.G.5 | Supplementary / complementary / vertical / adjacent angles → **write and solve equations** | ✅ | §5 `5-1`…`5-4`, every one as an equation |
-| 7.G.6 | Area, volume, surface area of composite 2-D and 3-D objects | ✅ | §6; capstone is **real MCAP Q28** (L-shaped prism, figure rebuilt from the rendered page) |
+| 7.G.6 | Area, volume, surface area of composite 2-D and 3-D objects | ✅ | §6; capstone is **real MCAP Q28** (L-shaped prism, figure rebuilt from the rendered page); modelling capstone `7-4` is **real MCAP Q18** (ceramic-tile count, unit conversion) |
 
 ## 7.SP — Statistics & Probability · *3 of 23 items* · ✅ **built** — `Statistics_and_Probability.html`, 20 items, 7 exam-grade
 

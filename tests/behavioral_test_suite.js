@@ -264,6 +264,50 @@ function load(file,seed,rnd,qs){   // qs: query string, e.g. '?review=numberline
   ok(R.due({reviewStreak:4,attempts:1,correct:1,skillStats:{},lastPracticed:now-50*DAY}).dueNow===true,'review(p2): stored top rung schedules 42d (due at 50d)');
   ok(R.due({reviewStreak:4,attempts:1,correct:1,skillStats:{},lastPracticed:now-10*DAY}).dueNow===false,'review(p2): stored top rung not due at 10d');
 })();
+// ---- T3 / MO-6: day-based consistency streak — forgiving, unfarmable, never feeds mastery ----
+(function(){
+  // A topic whose lastPracticed lands on a given calendar day = the student practised that day.
+  const mk=lp=>({students:{Fareedah:{topics:{'number-system':{title:'NS',tree:{},totalSteps:107,sectionTotals:{},lastPracticed:lp,attempts:5,correct:5,struggles:[],skillStats:{},exam:{attempts:0,correct:0},responses:[]}}}}});
+  const hb=w=>(JSON.parse(w.localStorage.getItem('g7.data')).students.Fareedah.habit)||{streak:0};
+  const setLp=(w,lp)=>{const dd=JSON.parse(w.localStorage.getItem('g7.data'));dd.students.Fareedah.topics['number-system'].lastPracticed=lp;w.localStorage.setItem('g7.data',JSON.stringify(dd));};
+  // Fixed local-noon days so a DST edge or midnight boundary can never flip a gap.
+  const d1=new Date(2026,5,1,12).getTime(), d2=new Date(2026,5,2,12).getTime(),
+        d4=new Date(2026,5,4,12).getTime();
+  ok(typeof load('Grade_7_Math_Hub.html',{'g7.current':'Fareedah'}).window.__hubHabit.bump==='function','MO-6: hub exposes __hubHabit.bump');
+
+  // 1) first practised day -> 1; same day again -> no double-advance (unfarmable)
+  let w=load('Grade_7_Math_Hub.html',{'g7.current':'Fareedah','g7.data':JSON.stringify(mk(d1))}).window;
+  w.__hubHabit.bump('Fareedah',d1);
+  ok(hb(w).streak===1,'MO-6: first practised day sets the streak to 1');
+  w.__hubHabit.bump('Fareedah',d1);
+  ok(hb(w).streak===1,'MO-6: a second visit the same calendar day does not advance the streak');
+
+  // 2) consecutive next day (with real practice that day) -> 2
+  setLp(w,d2); w.__hubHabit.bump('Fareedah',d2);
+  ok(hb(w).streak===2,'MO-6: practising on the next day advances to 2');
+
+  // 3) a SINGLE missed day is forgiven (d2 -> d4 skips d3) -> survives and advances to 3
+  setLp(w,d4); w.__hubHabit.bump('Fareedah',d4);
+  ok(hb(w).streak===3,'MO-6: one missed day is forgiven — the streak survives and advances');
+
+  // 4) two or more missed days (d1 -> d4, gap 3) -> resets to 1, gently
+  let w2=load('Grade_7_Math_Hub.html',{'g7.current':'Fareedah','g7.data':JSON.stringify((()=>{const s=mk(d1);s.students.Fareedah.habit={streak:5,day:'2026-06-01',best:5};return s;})())}).window;
+  setLp(w2,d4); w2.__hubHabit.bump('Fareedah',d4);
+  ok(hb(w2).streak===1,'MO-6: two or more missed days resets the streak to 1');
+
+  // 5) truth floor: a day with no real practice earns no streak
+  let w3=load('Grade_7_Math_Hub.html',{'g7.current':'Fareedah','g7.data':JSON.stringify(mk(d1))}).window;
+  w3.__hubHabit.bump('Fareedah',d4);            // last practice was d1; nothing practised on d4
+  ok((hb(w3).streak||0)===0,'MO-6: no streak for a day with no real practice (truth floor)');
+
+  // 6) MO-7: advancing the streak never writes to (or reads from) the mastery tree
+  let w4=load('Grade_7_Math_Hub.html',{'g7.current':'Fareedah','g7.data':JSON.stringify(mk(d1))}).window;
+  const topicsBefore=JSON.stringify(JSON.parse(w4.localStorage.getItem('g7.data')).students.Fareedah.topics);
+  w4.__hubHabit.bump('Fareedah',d1);
+  const topicsAfter=JSON.stringify(JSON.parse(w4.localStorage.getItem('g7.data')).students.Fareedah.topics);
+  ok(topicsBefore===topicsAfter,'MO-7: advancing the habit streak leaves the mastery tree byte-for-byte unchanged');
+  ok(hb(w4).streak===1,'MO-7: (and the streak itself did advance — proof the bump actually ran)');
+})();
 // ---- MR-1 phase-2: module engine writes the streak per spaced session ----
 (function(){
   const DAY=86400000, now=Date.now(), today=Math.floor(now/DAY);

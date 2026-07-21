@@ -200,7 +200,38 @@ plus the retention layer:
       lives in a tutor-facing `LEDGER.md` (see `<student>/`) — root rule 6.
 - [ ] **A test guards it** (item 0 makes this possible — keep the suite green).
 
-## 4 · Motivation layer — `MO-1`…`MO-6` · ⬜ **open — the last category still ◐**
+## 4 · Motivation layer — `MO-1`…`MO-6` · ◑ **decided (21 Jul 2026): `MO-6` built, `MO-2/3/4` declined**
+
+**Resolved 21 Jul 2026 (HANDOFF D3, T3).** The category is no longer an open "build the whole layer"
+question. The habit half (`MO-6`) is **built**; the point/badge/XP half (`MO-2`, `MO-3`, `MO-4`) is
+**declined**, on evidence, until the roster becomes a cohort. The reasoning is below, then the older
+framing is kept for context.
+
+**`MO-6` — built.** `Grade_7_Math_Hub.html` now surfaces a **day-based consistency streak** ("N
+sessions in a row") as a quiet line *beside* — never inside — the mastery tiles. It advances **at most
+once per calendar day**, only when the student actually practised that day (truth floor — no streak
+nobody earned), **forgives a single missed day** (`MO-6`: a missed day does not break habit formation,
+and a punitive streak causes quitting), and is **display-only** — stored on its own field, never read
+by any mastery calculation (`MO-7`). A one-time, dismissible "same time, same place" cue prompts the
+routine that makes a habit. Guarded by `tests/behavioral_test_suite.js` (forgiving-day, unfarmable,
+truth-floor, and the `MO-7` mastery-isolation invariant), mutation-checked.
+
+  Deliberately **not** the per-topic `reviewStreak`: that one is accuracy-earned and resets on a wrong
+  answer, so surfacing it as the consistency line would punish exactly the student `MO-6` exists to keep
+  coming back. Consistency is about *showing up*, so the habit streak is day-based, not answer-based.
+
+**`MO-2` / `MO-3` / `MO-4` (XP, points, badges, reward curves) — declined, on evidence.** The live
+constraint on this roster is **access and habit, not motivation**: the open problem on the student's
+record is *"she could not get her homework"* (and, through 17 Jul, still could not join the class
+unaided). She scored **83%** at baseline and asks *why* things work — points solve a problem she does
+not have, and `MO-3`/`MO-4` reward curves and `MO-2` cohort mechanics **need a cohort**, which a
+single-student roster is not. Building a second countable here would add a farmable surface against a
+hub with a real anti-cheat history (`MO-5`), for no learning gain. **Revisit if the roster becomes a
+cohort** — the tension with `MO-5` is real and worth a deliberate call at that point, not before.
+
+---
+
+### Original framing (kept for context — superseded by the decision above)
 
 **Correction to an earlier reading of this file (16 Jul 2026).** The status table's "no gamification"
 was previously read as a *virtue* — it isn't. **Nothing in the root or hub house rules forbids

@@ -10,6 +10,30 @@ Working with the student? `../Fareedah/LEDGER.md` **before** planning anything f
 
 ---
 
+## Update — 21 Jul 2026 (a session worked through this list)
+
+Done and verified this session (all 10 guards green, behavioural suite **208**):
+
+- **T5 · Fareedah's ledger** — brought current from the June + July summaries, DRAFT cleared. The
+  access-not-motivation reading behind D3 is **corroborated**: she needed help to reach the app *every*
+  session through 17 Jul. One caveat logged (17 Jul: in the app, RP homework still undone).
+- **S1 · key audit** — all **181** item keys recomputed independently (all correct). Found + fixed a real
+  defect: three "select all" items (`2-2`, `3-4`, `r6-7`) were single-select `mc-group`s that completed on
+  one click → converted to `ms-group`, new guard added (trap #12).
+- **T3 · MO-6 habit layer** — built (day-based streak, forgiving, unfarmable, never feeds mastery),
+  guarded + mutation-checked; `MO-2/3/4` declined per D3; `PEDAGOGY_ALIGNMENT` item 4 updated.
+- **T2 · Ratios `r3-7`** — MCAP Q1 (four-graph select), graphs rebuilt as SVG from the rendered page.
+- **T1 · two more real MCAP lifts** — Geometry `7-4` (Q18, tiles) and Expressions `4-3` **restored** to
+  MCAP (it is Modeling Q16; the 20 Jul "not in any packet" demotion was a search error — trap #11).
+
+**Still open** — **T4** (NYSED sourced practice, do in slices), **T6** (engine-wide store constant — only
+alongside other engine work), and the remainder of **T1**: reasoning Q15/Q31/Q33 are **drop-down** items
+the engine can only render as MC (so they adapt to `Exam-style`, not MCAP — low marginal value, reasoning
+is already covered), and Q30 is a figure-referenced "write an expression" CR. The scrutiny items **S2–S10**
+are untouched. Below is the original hand-off, unchanged except where a task is now marked done.
+
+---
+
 ## 0 · State on hand-off
 
 All five maths domains built and wired. **170 items, 33 skills**, every skill carrying at least one
@@ -51,7 +75,7 @@ exactly once.
 | D4 | **NS Q11 shipped via the new plot format, not dropped** | The missing format was blocking a whole *verb* — represent/graph/plot — not one item. Built. |
 | D5 | **The backend `.gs` stays single-sourced in Grade 8** | One Apps Script deployment serves every hub; copying it here would fork a live backend (§2.5). Documented instead in §6.1, with a pointer to the guard that covers `grade7` isolation. |
 | D6 | **NYSED material may be used but never labelled MCAP** | The 2023/2024/2025 `released-items-math-g7.pdf` files in `MCAP RELEASES PER TOPIC/` are **New York State**, not Maryland. 108 pages. Label `NYSED ·`. Guard rejects a MCAP citation naming them. |
-| D7 | **Adapted items lose the MCAP label** | Change the numbers or the response format and it is no longer that released item. `ex-2a` and `4-3` were demoted on these grounds. |
+| D7 | **Adapted items lose the MCAP label** | Change the numbers or the response format and it is no longer that released item. `ex-2a` was demoted on these grounds. (`4-3` was *also* demoted 20 Jul, but that was a mistake — it is a faithful reproduction of Modeling Q16, restored to the MCAP label 21 Jul.) |
 
 ---
 
@@ -61,7 +85,9 @@ Each task states **what**, **where**, **how to verify**, and **done when**. Effo
 
 ### T1 — Lift the remaining Type 2/3 items · **highest value** · ~2 h
 
-*Progress 20 Jul: Q24 and Q25 lifted; Q23 blocked. **Five remain.***
+*Progress 20 Jul: Q24, Q25 lifted; Q23 blocked. **21 Jul: Q16 (restored as `4-3`) and Q18 (Geometry
+`7-4`) lifted; Q1 lifted as Ratios `r3-7` (T2).** Remaining: Q15/Q31/Q33 are drop-down items (adapt to
+MC → `Exam-style`, not MCAP; reasoning is already covered), and Q30 is a "write an expression" CR.*
 
 DC CAPE puts **42% of its 52 points** on Type 2 (reasoning) and Type 3 (modelling). These are real
 released items, already indexed, and they beat authoring our own.
@@ -94,7 +120,7 @@ honestly-labelled `Exam-style` item and record it under "Data reused from a rele
 **Done when:** `mcap_provenance` passes with the new rows, every module has ≥2 reasoning and ≥2
 modelling items, `exam_coverage` still green.
 
-### T2 — Ratios Q1 (four-graph select) · ~1 h
+### T2 — Ratios Q1 (four-graph select) · ✅ **DONE 21 Jul** (live as `r3-7`) · ~1 h
 
 2024 Release Q1 (7.RP.A.2b): *which graph shows a proportional relationship with k = ½.* Reproducible;
 it just needs four small SVG graphs authored as MC option contents. `mc-option` buttons accept inline
@@ -103,7 +129,7 @@ the graph-drawing helper (`gx`/`gy` mapping functions in the build script are wo
 
 **Done when:** live in `Ratios` §3 as `r3-7`, cited in the manifest, `math_formatting` green.
 
-### T3 — Motivation: the habit half only (D3) · ~2 h
+### T3 — Motivation: the habit half only (D3) · ✅ **DONE 21 Jul** · ~2 h
 
 **Build:**
 - Surface `reviewStreak` in `Grade_7_Math_Hub.html` as a quiet consistency line ("3 sessions in a row"),
@@ -131,7 +157,7 @@ reason from D3**, so the category stops reading as an unexamined gap.
 3. Work one domain at a time. Target the 23 items still labelled `Exam-style ·` — upgrading them from
    *ours* to *sourced* is the point.
 
-### T5 — Fareedah's ledger · **do before the next teaching session** · ~30 min
+### T5 — Fareedah's ledger · ✅ **DONE 21 Jul** (summaries read in, DRAFT cleared) · ~30 min
 
 `../Fareedah/LEDGER.md` is still marked **DRAFT** and the June class summaries have never been read
 into it. It is also the file the house rules say to read before planning anything for her.
@@ -223,10 +249,13 @@ Each of these cost real time or shipped a real defect. They are not hypothetical
 1. **A folder name is not provenance.** Three files in `MCAP RELEASES PER TOPIC/` are New York State
    releases. The guard would have passed a citation naming them, because it checks that a claim *has*
    a source, not that the source says what you think.
-2. **Three false MCAP labels, each found by a different method** — reading what I had just written (19),
-   a duplicate-citation warning (`ex-2a`), and counting items in a packet against rows citing it
-   (`4-3`). None of those methods would have caught the others. **Count sources against claims whenever
-   you work through a packet.**
+2. **False MCAP labels, found by different methods** — reading what I had just written (19) and a
+   duplicate-citation warning (`ex-2a`). A third method — counting items in a packet against rows citing
+   it — flagged `4-3`, but the conclusion drawn (that it was invented) was **itself wrong**: `4-3` is
+   MCAP Modeling Q16, and it was wrongly demoted on a failed text search, then **restored 21 Jul**.
+   Lesson both ways: **count sources against claims when you work through a packet — and when a count
+   says an item is unsourced, render the candidate page and look before demoting it.** A negative text
+   search is not proof of absence (see the new trap #11).
 3. **A coverage guard creates pressure to manufacture what it counts.** `exam_coverage` requires an exam
    item per skill; the cheapest way to satisfy it is to copy the format — label included — of the real
    capstone next door. Close gaps with sourced or honestly-labelled items. Never by relabelling.
@@ -248,6 +277,16 @@ Each of these cost real time or shipped a real defect. They are not hypothetical
    same hole unless it is tested.
 10. **jsdom reports a zero-size rect for everything.** The plot engine falls back to viewBox units when
    the measured width is 0, which is what makes it testable.
+11. **A negative text search is not proof of absence** (21 Jul). `4-3` was demoted with "no packet
+   contains it — searching all eleven for 'battery' returns nothing", but it is MCAP Modeling Q16; the
+   phrase was simply never in the extracted text `pdftotext` produced. Before *un-*lifting an item, render
+   the candidate packet pages and look — the same rule that governs lifting one. `pdftotext` drops figures,
+   collapses drop-downs, and silently omits text; it is an index, never the evidence.
+12. **A "select all" is not a single-select.** Three items (`2-2`, `3-4`, `r6-7`) were authored as
+   `mc-group`s — which complete on the *first* correct click — with two correct options and a "select all"
+   stem, so half the answer was never required. Select-all must be an `.ms-group`. Guarded now
+   (`module_integrity`: every single-select `mc-group` has exactly one correct option). `data-multi="1"`
+   on an `mc-group` does nothing — no JS reads it.
 
 ---
 

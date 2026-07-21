@@ -46,9 +46,9 @@ our own:
 | Reasoning | 2024 Q15 | 7.R.2d, 7.NS.A.2d | Number System (decimals) — **drop-down item, check it renders before use** |
 | Reasoning | 2024 Q25 | 7.R.3a, 7.EE.A.1 | ~~Expressions~~ — **done**, live as `2-6` |
 | Reasoning | 2024 Q31 | 7.R.1c, 7.RP.A.3-1 | Ratios |
-| Reasoning | 2024 Q33 | 7.R.3b, 7.EE.B.4a-2 | Expressions |
-| Modeling | 2024 Q16 | 7.M.3, 7.EE.B.4a | Expressions |
-| Modeling | 2024 Q18 | 7.M.3, 7.G.B.6 | Geometry |
+| Reasoning | 2024 Q33 | 7.R.3b, 7.EE.B.4a-2 | Expressions — **drop-down item** (pick the step); would render as MC, so it is *adapted*, not liftable as MCAP |
+| ~~Modeling~~ | ~~2024 Q16~~ | 7.M.3, 7.EE.B.4a | **DONE** — it was already live as Expressions `4-3` (see the correction note below); restored to the MCAP label 21 Jul |
+| ~~Modeling~~ | ~~2024 Q18~~ | 7.M.3, 7.G.B.6 | **DONE** — live as Geometry `7-4` (ceramic-tile count; figure-free, single-select) |
 | Modeling | 2024 Q23 | 7.M.1, 7.RP.A.3-2, 7.G.B.6 | ~~Ratios or Geometry~~ — **blocked**, figure not reproducible (see above) |
 | Modeling | 2024 Q30 | 7.M.4, 7.EE.B.3, 7.G.B.4-1 | Expressions or Geometry |
 
@@ -74,10 +74,13 @@ Every row below was checked on 20 Jul 2026 against the extracted text of the nam
 | `Expressions_Equations_Inequalities.html` | `6-4` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q12 | 7.EE.B.4b |
 | `Expressions_Equations_Inequalities.html` | `6-5` | `…Math 7 Modeling` | Math 7 2024 Release, Q26 | 7.M.4, 7.EE.B.4b |
 | `Expressions_Equations_Inequalities.html` | `7-1` | `…Math 7 Expressions and Equations` | Math 7 2024 Release, Q13 | 7.EE.B.3 |
+| `Expressions_Equations_Inequalities.html` | `4-3` | `…Math 7 Modeling` | Math 7 2024 Release, Q16 | 7.M.3, 7.EE.B.4a-1, 7.EE.B.4a-2 |
 | `Geometry_Connections.html` | `3-4` | `…Math 7 Geometry` | Math 7 2024 Release, Q20 | 7.G.A.3 |
 | `Geometry_Connections.html` | `6-4` | `…Math 7 Geometry` | Math 7 2024 Release, Q28 | 7.G.B.6 |
+| `Geometry_Connections.html` | `7-4` | `…Math 7 Modeling` | Math 7 2024 Release, Q18 | 7.M.3, 7.G.B.6 |
 | `Ratios_Proportional_Relationships.html` | `r1-4` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q14 | 7.RP.A.1 |
 | `Ratios_Proportional_Relationships.html` | `r3-6` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q4 | 7.RP.A.2d |
+| `Ratios_Proportional_Relationships.html` | `r3-7` | `…Math 7 Ratios and Proportional Relationships` | Math 7 2024 Release, Q1 | 7.RP.A.2b |
 | `Ratios_Proportional_Relationships.html` | `r8-5` | `…Math 7 Reasoning` | Math 7 2024 Release, Q24 | 7.R.2e, 7.NS.A.3 |
 | `Statistics_and_Probability.html` | `1-3` | `…Math 7 Statistics and Probability` | Math 7 2024 Release, Q34 | 7.SP.A.2 |
 | `Statistics_and_Probability.html` | `3-4` | `…Math 7 Statistics and Probability` | Math 7 2024 Release, Q19 | 7.SP.C.5 |
@@ -104,19 +107,28 @@ These are labelled `Exam-style ·`.
 |---|---|---|---|
 | `Number_System_Connections.html` | `ex-2a` | MCAP 2024 Release, Q11 (7.NS.A.1b-1) | Q11 puts point `k` at `-5` and asks the student to **plot** `k + 4`. This card puts `k` at `-6` and asks them to **type** the value. Almost certainly because the engine had no plot input until 20 Jul 2026 — the task was converted to fit the tool. Both numbers and task changed, so it is not Q11. The faithful reproduction is now `ex-2b`. |
 
-| `Expressions_Equations_Inequalities.html` | `4-3` | *nothing* | Titled "MCAP &middot; battery packs" and listed in the 2026-07-17 build log among "six real capstones woven in from the MSDE packets". **No packet contains it** — searching all eleven for "battery" returns nothing. It is a well-built 7.EE.B.4a select-all with correct keys (`x = 6`; A and B), so it stays as content — but it is ours, and is now labelled `Exam-style`. |
+**A correction lived here until 21 Jul 2026.** `4-3` (battery packs) was demoted to `Exam-style` on 20 Jul
+with the note *"no packet contains it — searching all eleven for 'battery' returns nothing."* **That search
+was wrong.** `4-3` is **MCAP Modeling Q16** (7.M.3, 7.EE.B.4a) — same numbers ($10 / $5 / $18 / $108, equal
+AA and AAA counts), same select-all task. The 17 Jul build was right to call it a real capstone; the 20 Jul
+demotion rested on a failed text match (the Modeling packet spells it "batteries", and the item never reached
+the searched text). On 21 Jul the page was rendered, all six options read off (A `15x=90` ✓, B `23x=98`,
+C `33x=108`, D `10+(5+18)x=108`, E `(10+5)x+18=108` ✓, F `(10+5+18)x=108`), the one missing distractor
+(`23x=98`) added so the option set matches Q16 exactly, and the **MCAP label restored** with the citation now
+in *Verified items* above.
 
-**How this one slipped through.** It was cited to Q11 and the citation was real, so
-`tests/mcap_provenance.test.js` passed it — the guard proves a claim *has* a source, and cannot tell
-whether the item still matches that source. That check is human. The one mechanical help available is
-the duplicate-citation warning added 20 Jul: two rows citing the same packet and question number now
-have to be confirmed deliberate (`r6-ex`/`3-3` genuinely are), which is what surfaced this.
+**The lesson (a new trap).** A negative text search is not proof of absence. `pdftotext` had already been shown
+to drop figures and collapse drop-downs; here it simply did not surface a phrase that is plainly on the rendered
+page. **Before demoting a "not in any packet" item, render the candidate packet pages and look** — the same rule
+that governs lifting an item governs un-lifting one. Counting sources against claims (below) stays valuable, but
+it cannot tell a *missing* source from an *unfound* one.
 
 ## Rows carrying a caveat
 
 **None — closed 20 Jul 2026.** All five rows that previously had packet-only attribution were checked against the
 rendered packets and resolved: `2-4` = Q8, `6-4` = Q12, `7-1` = Q13 (it was in the Expressions packet, not Modeling),
-`6-5` = Modeling Q26 (7.M.4). The fifth, `4-3`, turned out not to be a released item at all and has been demoted.
+`6-5` = Modeling Q26 (7.M.4). The fifth, `4-3`, was demoted as "not a released item" — **but that was itself an error,
+corrected 21 Jul: `4-3` is MCAP Modeling Q16** and has been restored (see the correction under "Adapted", above).
 
 **Worth noting how the arithmetic exposed it.** The Expressions packet holds five items; seven manifest rows cited it.
 Counting sources against claims is a cheap check that catches what a per-row check cannot, and it is what surfaced
@@ -191,4 +203,4 @@ reuse in an honestly-labelled `Exam-style` item; the *item* is not reproducible.
 hoping for a different result.
 
 **Number System Q11 is now live** as `ex-2b`: the page was rendered, point `k` read off at `-5`, and the item is
-answered with the new click-to-plot format (added to the engine 20 Jul). **Ratios Q4 is now live** as `r3-6` — the graph was rendered at 400 dpi and rebuilt from it (line through the origin; P(0.25, 1), Q(1, 4), R(2, 8), S(3, 12)). Still to build: **Ratios Q1**, which asks the student to pick which of *four* graphs has `k = 1/2`. It is reproducible — it just needs four small graphs authored as the answer options, which is a bigger build than a single figure.
+answered with the new click-to-plot format (added to the engine 20 Jul). **Ratios Q4 is now live** as `r3-6` — the graph was rendered at 400 dpi and rebuilt from it (line through the origin; P(0.25, 1), Q(1, 4), R(2, 8), S(3, 12)). **Ratios Q1 is now live too** as `r3-7` (21 Jul 2026): the packet page was rendered and each of the four option graphs read off gridline-by-gridline and rebuilt as inline SVG — **A** `y = ½x` through (2,1),(4,2),(6,3) is the key; the distractors are **B** `k = 2`, **C** `k = ⅓`, **D** `k = 3` (B and D are the reciprocal trap). Single-select mc-group, exactly one correct, exam-flagged; the four graphs shuffle per load so position carries no signal.

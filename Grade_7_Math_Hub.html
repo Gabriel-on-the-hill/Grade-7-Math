@@ -64,6 +64,14 @@ input.field:focus{outline:none;border-color:var(--green)}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem;box-shadow:var(--shadow)}
 .stat .n{font-size:1.6rem;font-weight:700;line-height:1;color:var(--green)}
 .stat .l{font-size:.76rem;color:var(--muted);margin-top:.3rem}
+.habit{display:flex;align-items:center;gap:.5rem;margin-top:.75rem;font-size:.86rem;color:var(--muted)}
+.habit .habit-dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--gold);flex:0 0 auto}
+.habit .habit-txt b{color:var(--green);font-weight:700}
+.habit .habit-best{margin-left:.4rem;font-size:.78rem;opacity:.7}
+.cue{display:flex;align-items:center;gap:.8rem;margin-top:.75rem;background:var(--green-soft);border:1px solid #C5D8CB;border-radius:12px;padding:.6rem .9rem;font-size:.86rem;color:var(--green)}
+.cue .cue-txt{flex:1}
+.cue .cue-x{flex:0 0 auto;background:var(--green);color:#fff;border:none;border-radius:8px;padding:.35rem .75rem;font-size:.8rem;font-weight:600;cursor:pointer}
+.cue .cue-x:hover{background:var(--green-700)}
 .topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.9rem}
 .tcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:1rem 1.05rem;box-shadow:var(--shadow);
        display:flex;flex-direction:column;gap:.55rem;position:relative;transition:.15s}
@@ -237,6 +245,8 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     <div id="teacher-as" style="display:none;background:#E7F0EA;border:1px solid #C5D8CB;border-left:5px solid #14532D;border-radius:12px;padding:.7rem 1rem;margin-bottom:1rem;font-size:.9rem;color:#14532D"></div>
     <div id="subject-tabs" class="subject-tabs"></div>
     <div class="stats" id="stat-tiles"></div>
+    <div id="habit-line"></div>
+    <div id="cue-prompt"></div>
     <div id="hw-banner"></div>
     <div id="hw-sets"></div>
     <div id="due-review"></div>
@@ -765,6 +775,58 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
   window.__hubReview={streak:reviewStreak,due:reviewDue,list:dueReviewList,rungs:REVIEW_RUNGS,
     skillStreak:skillStreak,skillDue:skillDue,dueSkills:dueSkills};
 
+  // ---- habit consistency (MO-6): a quiet "sessions in a row" line ----------------------------
+  // Deliberately NOT the per-topic reviewStreak: that one is accuracy-earned and resets on a wrong
+  // answer, which would punish exactly the student MO-6 is trying to keep coming back. This streak
+  // is about SHOWING UP. It advances at most once per calendar day, only when the student actually
+  // practised that day (truth floor — no streak nobody earned), forgives a single missed day, and
+  // is display-only: it is stored on its own field and never read by any mastery calculation (MO-7).
+  function habitDay(ts){var dt=new Date(ts);
+    return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');}
+  function habitDaysBetween(a,b){var pa=a.split('-').map(Number),pb=b.split('-').map(Number);
+    return Math.round((Date.UTC(pb[0],pb[1]-1,pb[2])-Date.UTC(pa[0],pa[1]-1,pa[2]))/86400000);}
+  function practisedOn(topics,dk){return Object.keys(topics||{}).some(function(id){
+    var lp=(topics[id]&&topics[id].lastPracticed)||0;return !!lp&&habitDay(lp)===dk;});}
+  // Advance (and persist) the streak if the student practised today and today is not yet counted.
+  function bumpHabit(name,nowTs){
+    nowTs=nowTs||Date.now();
+    var d=getData();var s=d.students&&d.students[name];if(!s)return{streak:0,day:'',best:0};
+    var topics=s.topics||{};var hb=s.habit||{streak:0,day:'',best:0};
+    var today=habitDay(nowTs);
+    if(!practisedOn(topics,today))return hb;          // no advance without real practice today
+    if(hb.day===today)return hb;                      // at most one advance per calendar day
+    if(!hb.day){hb.streak=1;}
+    else{var gap=habitDaysBetween(hb.day,today);
+      if(gap<=0){/* clock skew: leave as is */}
+      else if(gap<=2){hb.streak=(hb.streak||0)+1;}    // one missed day is forgiven (MO-6)
+      else{hb.streak=1;}}                             // two+ missed days: begin again, gently
+    hb.day=today;hb.best=Math.max(hb.best||0,hb.streak);
+    s.habit=hb;jset(K('data'),d);
+    return hb;
+  }
+  function renderHabit(name,topics){
+    var el=document.getElementById('habit-line');if(!el)return;
+    var hb=bumpHabit(name);
+    if(!hb||!hb.streak){el.innerHTML='';return;}
+    var word=hb.streak===1?'session':'sessions';
+    var best=(hb.best>hb.streak)?('<span class="habit-best">best '+hb.best+'</span>'):'';
+    el.innerHTML='<div class="habit"><span class="habit-dot" aria-hidden="true"></span>'+
+      '<span class="habit-txt"><b>'+hb.streak+'</b> '+word+' in a row</span>'+best+'</div>';
+  }
+  // One-time, dismissible "same time, same place" cue at first sign-in (MO-6).
+  function renderCue(name){
+    var el=document.getElementById('cue-prompt');if(!el)return;
+    var d=getData();var s=d.students&&d.students[name];
+    if(!s||(s.habit&&s.habit.cueSeen)){el.innerHTML='';return;}
+    el.innerHTML='<div class="cue"><span class="cue-txt">Tip: practising at the <b>same time and place</b> each day is what turns it into a habit &mdash; even ten focused minutes counts.</span>'+
+      '<button class="cue-x" type="button" aria-label="Dismiss tip">Got it</button></div>';
+    el.querySelector('.cue-x').onclick=function(){
+      var dd=getData();dd.students=dd.students||{};dd.students[name]=dd.students[name]||{topics:{}};
+      dd.students[name].habit=dd.students[name].habit||{streak:0,day:'',best:0};
+      dd.students[name].habit.cueSeen=1;jset(K('data'),dd);el.innerHTML='';};
+  }
+  window.__hubHabit={bump:bumpHabit,day:habitDay,between:habitDaysBetween,practisedOn:practisedOn};
+
   // ---- view switching ----
   function show(id){['view-signin','view-app','view-teacher'].forEach(function(v){document.getElementById(v).classList.toggle('hidden',v!==id);});window.scrollTo(0,0);}
 
@@ -854,6 +916,8 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     renderTeacherAs(cur);
     renderHomeworkSets(cur, subj, topics);
     renderDueReview(topics, subj);
+    renderHabit(cur, topics);
+    renderCue(cur);
 
     var html='';
     subj.units.forEach(function(u){

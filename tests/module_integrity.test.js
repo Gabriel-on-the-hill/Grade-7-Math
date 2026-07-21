@@ -21,6 +21,14 @@
  *     Number_System_Connections shipped 6 teach cards and 0 worked examples — rules stated, then
  *     straight to practice, in the largest module in the hub.
  *
+ *  6. EVERY SINGLE-SELECT mc-group HAS EXACTLY ONE CORRECT OPTION (§5 six formats).
+ *     Found 21 Jul 2026: three "Select all" items (Geometry 2-2, 3-4, Ratios r6-7) were authored as
+ *     .mc-group — the single-select format — with TWO correct options. The engine completes an
+ *     mc-group on the first correct click, so "select all that apply" could be satisfied by one pick
+ *     and the second correct answer never had to be found. Two of them even carried data-multi="1",
+ *     an attribute no JavaScript reads. A select-all must use .ms-group (which grades every option),
+ *     so a single-select group with 0 or 2+ correct answers is a mis-authored item.
+ *
  * Run:  node tests/module_integrity.test.js
  */
 const fs = require('fs');
@@ -105,6 +113,20 @@ for (const f of MODULES) {
     // 3. no hints on capstones
     if ((chipExam || flagExam) && cardHints.length) {
       bad.push(qid + ': exam capstone carries ' + cardHints.length + ' hint(s) — banned (§8)');
+    }
+
+    // 6. every single-select mc-group has exactly ONE correct option; select-all uses .ms-group.
+    for (const mg of body.match(/<div class="mc-group[^>]*>[\s\S]*?<\/div>/g) || []) {
+      const opts = mg.match(/<button\b[^>]*\bmc-option\b[^>]*>/g) || [];  // tolerate extra classes
+      const nCorrect = opts.filter(b => {
+        const k = (b.match(/data-k="([^"]*)"/) || [])[1] || '';
+        if (k.startsWith('k1:')) { const d = dec(k); return d.slice(d.indexOf('|') + 1) === '1'; }
+        return /data-correct="true"/.test(b);
+      }).length;
+      if (nCorrect !== 1) {
+        bad.push(qid + ': mc-group has ' + nCorrect + ' correct option(s) — a single-select group '
+                 + 'needs exactly 1; use .ms-group for select-all');
+      }
     }
 
     // 1. no hint may contain an answer key from its own step.
