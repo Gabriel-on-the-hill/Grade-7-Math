@@ -616,7 +616,52 @@ footer{border-top:1px solid var(--line);margin-top:2.6rem;padding:1.4rem 0;color
     return {changed:changed,pushTopics:pushTopics};
   }
   function reviewMapFor(n,tid){var d=getData();var to=d.students&&d.students[n]&&d.students[n].topics&&d.students[n].topics[tid];var m={};((to&&to.responses)||[]).forEach(function(r){if(r.reviewed)m[String(r.ts)]=r.reviewed;});return m;}
-  function runSync(after){syncPull(function(doc){var res=applyCloud(doc);var seen={};(res.pushTopics||[]).forEach(function(p){var k=p.n+'|'+p.tid;if(seen[k])return;seen[k]=1;if(!topicMeta(p.tid))return;/* never re-push a topic this hub doesn't own */
+  /* ===== sync health (26 Jul 2026, ported from Grade 8) =====
+     A student whose PIN the cloud does not recognise fails SILENTLY in both directions: syncPush is
+     mode:'no-cors' so the backend's `err: auth` is unreadable, and an unauthenticated pull returns
+     the same empty doc as "you have no cloud data yet". There is no error to catch anywhere, which
+     is how this ran unnoticed on Grade 8 for a week. The one reliable tell is indirect: authenticating
+     AS a student requires a stored PIN, so an authenticated pull ALWAYS brings that student's own pin
+     row back. A signed-in student holding a local PIN who gets none is not being authenticated, and
+     none of their work is reaching anyone. Report it.
+
+     It also repairs the commoner half outright: the hub publishes a PIN only on the CREATE branch of
+     sign-in, never on ENTER, so a PIN that predates that push was never known to the cloud and every
+     write the student ever made was refused. A first claim is open by design, so publishing it here
+     fixes that with no teacher involvement. If a DIFFERENT pin is stored the backend refuses this —
+     correctly, only the teacher may overwrite someone's PIN — and the banner stays up. */
+  function setSyncWarning(msg){
+    var el=document.getElementById('sync-warn');
+    if(!msg){ if(el)el.remove(); return; }
+    if(!el){
+      el=document.createElement('div'); el.id='sync-warn'; el.setAttribute('role','alert');
+      el.style.cssText='background:#FEF3C7;border:1px solid #F59E0B;border-left:5px solid #B45309;'+
+        'color:#7C2D12;padding:.65rem .9rem;margin:.6rem auto;max-width:900px;border-radius:8px;'+
+        'font-size:.9rem;line-height:1.45';
+      document.body.insertBefore(el,document.body.firstChild);
+    }
+    el.innerHTML=msg;
+  }
+  var _pinClaimed=false;
+  function syncHealth(doc){
+    var me=current(); if(!me){setSyncWarning('');return;}
+    var mine=pinFor(me); if(!mine){setSyncWarning('');return;}
+    if(!sheetURL()){setSyncWarning('');return;}
+    if(doc&&doc.pins&&doc.pins[me]){setSyncWarning('');return;}
+    if(!doc)return;              // offline is not a lockout
+    /* Claim once per load, under the timestamp this PIN ALREADY carries. markPinTs() would be wrong:
+       it stamps Date.now(), and applyCloud only adopts a cloud PIN whose ts beats the local one — so
+       re-stamping every poll would make a teacher reset permanently older, and silently ineffective. */
+    if(!_pinClaimed){_pinClaimed=true;
+      var pts=jget(K('pints'),{}); if(!pts[me]){pts[me]=Date.now();jset(K('pints'),pts);}
+      syncPush('pin',me,'',{v:mine,ts:pts[me]});
+    }
+    setSyncWarning('<strong>Your work is saving on this device, but it is not reaching your teacher.</strong> '+
+      'Keep working &mdash; nothing is being lost here. If this message is still showing next time '+
+      'you sign in, ask Mr Gabriel to reset your PIN.');
+  }
+
+  function runSync(after){syncPull(function(doc){var res=applyCloud(doc);try{syncHealth(doc);}catch(e){}var seen={};(res.pushTopics||[]).forEach(function(p){var k=p.n+'|'+p.tid;if(seen[k])return;seen[k]=1;if(!topicMeta(p.tid))return;/* never re-push a topic this hub doesn't own */
     /* ...and never re-push a student this hub does not have on its roster. localStorage is shared
      * across every hub on one device (STORE_PREFIX 'g7.'), so a tutor's browser holds every grade's
      * students in one g7.data. Without this, a hub republishes another grade's student under its own

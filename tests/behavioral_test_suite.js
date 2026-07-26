@@ -24,6 +24,23 @@ function load(file,seed,rnd,qs){   // qs: query string, e.g. '?review=numberline
       w.confirm=()=>true;w.scrollTo=()=>{};}});
   dom.window.dispatchEvent(new dom.window.Event('load'));return dom;
 }
+// ---- MODULES: never invent an identity; adopt pre-sign-in work (26 Jul 2026) ----
+/* Modules filed unsigned work under 'Guest' until 26 Jul 2026. That record is invisible to the
+   dashboard, which lists roster names, and every cloud write it makes is refused for having no PIN:
+   it looked saved and reached nobody. Work is still KEPT — losing a deep-linked session is too high
+   a price for a clean roster — but it is parked in a local-only slot and adopted on sign-in. */
+(function(){
+  const w=load('Number_System_Connections.html').window;
+  const d=JSON.parse(w.localStorage.getItem('g7.data')||'{"students":{}}');
+  ok(!d.students.Guest,'module: never creates a record under an invented name');
+})();
+(function(){
+  const local={students:{__local:{topics:{'number-system':{title:'NS',tree:{'1-1':{steps:{0:true}}},totalSteps:20,sectionTotals:{},lastPracticed:7,attempts:4,correct:3,struggles:[],skillStats:{},exam:{attempts:0,correct:0},responses:[]}}}}};
+  const w=load('Number_System_Connections.html',{'g7.data':JSON.stringify(local),'g7.current':'Fareedah'}).window;
+  const d=JSON.parse(w.localStorage.getItem('g7.data'));
+  ok(!!(d.students.Fareedah&&d.students.Fareedah.topics['number-system']),'module: pre-sign-in work is adopted under the real name');
+  ok(!d.students.__local,'module: the local-only slot is cleared once adopted');
+})();
 // ---- HUB: cold boot -> no gate, no list, typed-name sign-in (case-insensitive) ----
 (function(){
   const dom=load('Grade_7_Math_Hub.html');const d=dom.window.document,w=dom.window;
