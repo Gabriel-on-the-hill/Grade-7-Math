@@ -24,6 +24,30 @@ function load(file,seed,rnd,qs){   // qs: query string, e.g. '?review=numberline
       w.confirm=()=>true;w.scrollTo=()=>{};}});
   dom.window.dispatchEvent(new dom.window.Event('load'));return dom;
 }
+// ---- HUB: PIN deadlock escape (26 Jul 2026) ----
+/* A student whose PIN the teacher changes cannot authenticate, so their device can never be told
+   about the change over the sync channel. The backend auth flag is what breaks that loop. */
+(function(){
+  const w=load('Grade_7_Math_Hub.html',{'g7.current':'Fareedah','g7.pins':JSON.stringify({Fareedah:'staleP1N'}),
+    'g7.sheetURL':'https://x.test/exec','g7.pints':JSON.stringify({Fareedah:1})}).window;
+  const locked={auth:false,pins:{},topics:{},assign:{},reviews:{},hwplan:{},hwstate:{}};
+  w.__hubHealth.check(locked);
+  ok(JSON.parse(w.localStorage.getItem('g7.pins')).Fareedah==='staleP1N',
+     'lockout: the first unauthenticated pull does NOT discard the PIN — it may just be unclaimed');
+  w.__hubHealth.check(locked);
+  ok(!JSON.parse(w.localStorage.getItem('g7.pins')).Fareedah,
+     'lockout: once the claim has demonstrably failed, the wrong PIN is dropped');
+  ok(w.localStorage.getItem('g7.current')===null,'lockout: the student is signed out to re-enter their PIN');
+})();
+(function(){
+  const w=load('Grade_7_Math_Hub.html',{'g7.current':'Fareedah','g7.pins':JSON.stringify({Fareedah:'staleP1N'}),
+    'g7.sheetURL':'https://x.test/exec','g7.pints':JSON.stringify({Fareedah:1})}).window;
+  const oldDoc={pins:{},topics:{},assign:{},reviews:{},hwplan:{},hwstate:{}};
+  w.__hubHealth.check(oldDoc); w.__hubHealth.check(oldDoc);
+  ok(JSON.parse(w.localStorage.getItem('g7.pins')).Fareedah==='staleP1N',
+     'lockout: with no auth flag from an older backend, the PIN is never discarded');
+  ok(w.localStorage.getItem('g7.current')==='Fareedah','lockout: and the student stays signed in');
+})();
 // ---- MODULES: never invent an identity; adopt pre-sign-in work (26 Jul 2026) ----
 /* Modules filed unsigned work under 'Guest' until 26 Jul 2026. That record is invisible to the
    dashboard, which lists roster names, and every cloud write it makes is refused for having no PIN:
