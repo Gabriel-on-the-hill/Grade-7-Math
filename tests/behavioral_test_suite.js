@@ -24,6 +24,20 @@ function load(file,seed,rnd,qs){   // qs: query string, e.g. '?review=numberline
       w.confirm=()=>true;w.scrollTo=()=>{};}});
   dom.window.dispatchEvent(new dom.window.Event('load'));return dom;
 }
+// ---- HUB: a non-roster name cannot stay signed in (27 Jul 2026) ----
+/* Both hubs share one browser origin and differ only by key prefix, so a Grade 8 student signed in
+   here is routine. The roster prune cleared their PIN but never the signed-in NAME, so their
+   dashboard kept rendering on a hub they are not enrolled in. Signing out must NOT delete their
+   record: it is the legacy copy the Grade 8 migration recovers from. */
+(function(){
+  const seed={"g7.current":"Divine","g7.device":"Divine",
+    "g7.data":JSON.stringify({students:{Divine:{topics:{"expressions-equations-inequalities":{title:"EEI",tree:{"1-1":{steps:{0:true}}},totalSteps:9,sectionTotals:{},lastPracticed:5,attempts:3,correct:3,struggles:[],skillStats:{},exam:{attempts:0,correct:0},responses:[]}}}}})};
+  const w=load("Grade_7_Math_Hub.html",seed).window;
+  ok(w.localStorage.getItem("g7.current")===null,"roster: a name not on this hub roster is signed out");
+  const d=JSON.parse(w.localStorage.getItem("g7.data"));
+  ok(!!(d.students.Divine&&d.students.Divine.topics["expressions-equations-inequalities"]),
+     "roster: signing them out does NOT delete their record — it is another grade's recovery source");
+})();
 // ---- HUB: PIN deadlock escape (26 Jul 2026) ----
 /* A student whose PIN the teacher changes cannot authenticate, so their device can never be told
    about the change over the sync channel. The backend auth flag is what breaks that loop. */
