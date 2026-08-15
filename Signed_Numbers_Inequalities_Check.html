@@ -142,6 +142,7 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
 .g7-test .check-btn,.g7-test .mc-feedback,.g7-test .hint-btn,.g7-test .hint-content{display:none}
 .g7-test .mc-option.sel,.g7-test .ms-option.sel{border-color:var(--brand);background:#EAF3EC;font-weight:600}
 .g7-test .step.locked{opacity:1}
+.g7-review-mode .submitbar,.g7-review-mode .resultbox{display:flex}
 .submitbar{position:sticky;bottom:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
   gap:1rem;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-top:3px solid var(--brand);
   border-radius:10px;padding:.85rem 1.1rem;margin:1.6rem 0 1rem;box-shadow:0 -2px 14px rgba(15,61,34,.10)}
@@ -931,8 +932,13 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
   var G7_TEST_MODE=true;         // the whole layer is inert when false -- this file is then a normal module
   var _g7grading=false;          // true only during the submit replay
 
-  function g7testCards(){return Array.prototype.slice.call(document.querySelectorAll('.qcard[data-qid]'));}
-  function g7testSteps(){return Array.prototype.slice.call(document.querySelectorAll('.qcard .step'));}
+  /* Scope: when the module is opened as homework (?q=<qid>,...) the engine MOVES the set into
+     #g7-homework-panel and hides the rest of the lesson. Counting every card in the document would
+     then tell her she has "answered 3 of 14" on a three-question set, and Submit would walk cards
+     she was never shown. Scope to the panel whenever one exists. */
+  function g7testRoot(){return document.getElementById('g7-homework-panel')||document;}
+  function g7testCards(){return Array.prototype.slice.call(g7testRoot().querySelectorAll('.qcard[data-qid]'));}
+  function g7testSteps(){return Array.prototype.slice.call(g7testRoot().querySelectorAll('.qcard .step'));}
 
   function g7stepAnswered(st){
     var g=st.querySelector('.mc-group,.ms-group');
@@ -1016,8 +1022,8 @@ footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;b
       _g7grading=false;
 
       /* One attempt: nothing stays editable after submit. */
-      document.querySelectorAll('.qcard input,.qcard textarea,.qcard button').forEach(function(el){el.disabled=true;});
-      document.querySelectorAll('.mc-group,.ms-group').forEach(function(g){g.classList.add('answered');});
+      g7testRoot().querySelectorAll('.qcard input,.qcard textarea,.qcard button').forEach(function(el){el.disabled=true;});
+      g7testRoot().querySelectorAll('.mc-group,.ms-group').forEach(function(g){g.classList.add('answered');});
       document.documentElement.classList.remove('g7-test');
       if(document.body)document.body.classList.remove('g7-test');
       G7_TEST_MODE=false;
