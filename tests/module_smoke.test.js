@@ -72,12 +72,44 @@ async function check(file) {
   const done = () => Number(d.getElementById('op-done').textContent);
 
   const before = done();
-  inp.value = '__nonsense__999';
+  const key = dec(inp.getAttribute('data-answer') || '');
+
+  // ---- deferred-feedback ("test") modules -------------------------------------------------------
+  // A module may withhold every verdict until one Submit (window.__modTestMode). Driving the Check
+  // button at such a module asserts nothing — the button is inert by design — so the generic path
+  // below would report a false failure. Drive its real path instead, and guard the two things that
+  // are actually load-bearing there: nothing grades early, and Submit still reaches the engine.
+  if (w.__modTestMode && w.__modTestMode.on && w.__modTestMode.on()) {
+    inp.value = key;
+    btn.click();                                   // must be inert
+    ok(done() === before && !step.classList.contains('completed'),
+       qid + ': no verdict before Submit (the Check button is inert)');
+    ok(fb.textContent.trim() === '',
+       qid + ': no feedback text is painted before Submit');
+
+    w.confirm = () => true;                        // jsdom has no confirm(); Submit asks twice at most
+    w.__modTestMode.submit();
+
+    ok(done() > before, qid + ': Submit grades the correct answer ("' + key + '") through the engine');
+    ok(inp.disabled === true, qid + ': one attempt — inputs are disabled after Submit');
+    ok(w.__modTestMode.on() === false, qid + ': test mode ends at Submit (results are revealed)');
+    return out;
+  }
+
+  // ---- ordinary modules -------------------------------------------------------------------------
+  // The wrong answer must be a VALID NUMBER that happens to be wrong. jsdom sanitises
+  // <input type="number">, so assigning '__nonsense__999' left value === '' — checkInput returns
+  // null on an empty box, nothing was graded, and this assertion tested nothing. It passed anyway
+  // because `fb.className !== ''` is true the moment the span ships with class "feedback". Two
+  // vacuous halves covering for each other; both are fixed here.
+  const wrongVal = String((parseFloat(key) || 0) - 7.77);
+  inp.value = wrongVal;
+  ok(inp.value !== '', qid + ': the wrong answer survives input sanitising (' + inp.value + ')');
   btn.click();
-  ok(fb.textContent.trim().length > 0 || fb.className !== '', qid + ': a wrong answer produces feedback');
+  ok(/\b(correct|wrong)\b/.test(fb.className) || fb.textContent.trim().length > 0,
+     qid + ': a wrong answer produces feedback');
   ok(done() === before, qid + ': a wrong answer does not advance progress');
 
-  const key = dec(inp.getAttribute('data-answer') || '');
   inp.value = key;
   btn.click();
   ok(done() > before, qid + ': the correct answer ("' + key + '") advances progress');
