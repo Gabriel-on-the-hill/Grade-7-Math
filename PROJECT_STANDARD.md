@@ -224,6 +224,75 @@ Do not fork the engine per grade/subject; improve in one place and re-propagate 
   parsed as XML, each of the three lifted/converted items driven through the engine (one-correct-completes, wrong-does-not).
   Hub + module edits done via `python` replace-scripts asserting a single match each (§7.5); `*.v*bak` snapshots kept.
 
+- **2026-08-30** — **Geometry: four load-bearing figures in the teach cards (`CL-4` dual-coding close).**
+  A review of `Geometry_Connections.html` against the curriculum and the pedagogical priorities. **Hint integrity is
+  clean and needs no work:** 10 hints across 30 cards, every one on a Guided/Practice card, every one strategy-only,
+  **zero on the 10 exam capstones**; answers ship base64-encoded, question text is copy-blocked, MC options shuffle,
+  MC explanations stay CSS-gated until answered, and `?review=<skill>` clears cards (`g7revReset`) instead of
+  re-filling them. `module_integrity` guards all of it. The v1.4.2 fix has held.
+  *The real gap was elsewhere.* Geometry is the most visual domain in the curriculum, and **three of its six teach
+  cards shipped text-only** — §1 scale drawings, §2 triangle conditions, §6 area/surface area/volume — while §3, §4
+  and §5 carried their SVG. That is exactly the `CL-4` defect fixed for 7.EE §5 on 18 Jul, and the omission was
+  sharper here: 7.G.4 explicitly requires an *informal derivation* of the circumference-area relationship, and the
+  wedge argument was stated in prose with no picture of the wedges.
+  *Added four figures, all inside teach cards:* (1) §1 — the drawing beside the real room, the real room tiled 4x4 so
+  **area x16 against length x4** is seen rather than asserted; (2) §2 — sides `4, 5, 12` laid flat with the gap they
+  cannot close, above `4, 5, 8` closing into a triangle; (3) §4 — the circle cut into eight wedges and re-laid as a
+  near-rectangle of height `r` and width `1/2 C`, which is the derivation the standard names; (4) §6 — the `8 x 5 x 3`
+  box **unfolded into its net** with every face's area printed, so `SA = 2(lw + lh + wh)` is six faces counted rather
+  than a formula memorised (and it is the reasoning MCAP Q28 at `6-4` actually demands).
+  **No items were added** (`AS-4` restraint — representation, not more drill). Verified byte-for-byte that the 30
+  `data-qid`s, all `data-answer`s, the 10 `data-exam` flags, the step count, the 10 hints and `G7_SKILLS` are
+  **identical to the pre-change file**, so `totalSteps` is unchanged and **every student's stored progress, mastery
+  bar and section scores carry over untouched**. Teach cards are stripped by review mode (`CL-5`), so retrieval
+  practice is unaffected. Verified: `node --check`, structure + qid-uniqueness + `getElementById` audits, all nine
+  real SVGs parse as well-formed XML, each new figure rendered to PNG and inspected (two right-edge text overflows
+  found and fixed), and every guard in `tests/` green — `module_integrity` (196 cards / 32 teach cards / 75 hints,
+  unchanged), `exam_coverage`, `mcap_provenance`, `math_formatting`, `store_prefix`, `a11y`. Snapshot kept at
+  `Geometry_Connections.html.v12bak`; edit made by a python replace-script asserting a single match each (§7.5).
+  **Not yet pushed — the live site is stale until it is.**
+
+- **2026-09-04** — **Phone pass: the three things that broke the hub on a student's own device.**
+  The student works from a phone, not a computer (26 Aug), so the engine was audited at phone width.
+  No renderer was available in this environment, so this was a static CSS/markup audit, not a rendered
+  one — **the three fixes below still want one look on a real handset before the next class.**
+  *What was already right:* every file carries `width=device-width` and a mobile breakpoint; there is
+  **no drag-and-drop anywhere in the engine** (no `draggable`, `dragstart`, `mousedown` or `mousemove`
+  in any module — the tile items are click-to-place), so every interaction is touch-native; the plot
+  format carries `max-width:100%;height:auto;touch-action:manipulation`; and all nine Geometry figures,
+  including the four added 30 Aug, carry `max-width:100%`.
+  *Three defects fixed:*
+  1. **Number System overflowed the viewport.** Two number-line SVGs (`viewBox 0 0 660 90` at `width=640`,
+     and `0 0 720 72` at `width=700`) shipped with no `max-width` — roughly twice a phone's width, so the
+     page picked up horizontal scroll. A third number line 12 lines later already had it, so this was an
+     oversight against the file's own convention, not a convention. It matters because the two-negatives
+     drill (`4-5`, `4-4`, `5-1`, `6-6`) lives in this module.
+  2. **Modals could not be scrolled on a phone.** `.modal-bg` is `position:fixed;inset:0` + `place-items:center`
+     with no overflow, and `.modal` had no `max-height` — so any modal taller than the viewport had its lower
+     half, buttons included, permanently unreachable. Fixed by capping `.modal` at `calc(100dvh - 2rem)`
+     (with a `100vh` fallback declared first) and giving it `overflow-y:auto`, plus `overflow:auto` on the
+     backdrop. Capping the modal below the viewport also avoids the centred-overflow trap, so no `safe`
+     keyword is needed. **This is the likeliest reading of 26 Aug**, where she could not get into Settings
+     and the session was spent "scrolling through content" on a device that was not a computer.
+  3. **Every answer box zoomed the page on iOS.** `.ans-input` was `.92rem` (15px) in all six modules, and
+     Number System's two `table.gtable td .ans-input` overrides were 14px and 13px; the hub's `input.field`
+     — the name and PIN boxes — was 15px. Safari auto-zooms on focus below 16px, so every tap on an answer
+     field zoomed the page and had to be pinched back out. All raised to `1rem`; widths untouched.
+  *Deliberately not changed:* `.btn` computes to ~35px tall, under the 44px touch-target guideline. Raising it
+  moves layout in every module and wants a rendered check first — logged, not done.
+  Verified: `node --check` on every inline script in all seven files, structure + qid-uniqueness +
+  `getElementById` audits (the three unresolved ids per module are dynamically created and are byte-identical
+  to the pre-change files), diffed each file against its snapshot to confirm only the intended lines moved,
+  and every guard in `tests/` green — `a11y`, `exam_coverage`, `homework_deeplink` (63), `homework_engine` (18),
+  `homework_publish` (19), `math_formatting`, `mcap_provenance`, `module_integrity`, `module_smoke` (7 modules),
+  `plot_format`, `starter_kit`, `store_prefix` — plus the behavioural suite at **218 passed, 0 failed**.
+  `backend_contract` fails for want of the sibling Grade 8 checkout, which is not mounted in this environment;
+  it is environmental and D5 forbids fixing it by copying the `.gs` here.
+  Snapshots kept (`Grade_7_Math_Hub.html.v7bak`, `Number_System_Connections.html.v12bak`,
+  `Geometry_Connections.html.v13bak`, and `.v12bak`/`.v1bak` for the rest); every edit made by a python
+  replace-script asserting a single match each (§7.5).
+  **Not yet pushed — and note the 30 Aug entry says the same, so the live site is stale by both changes.**
+
 ## 11. Deployment & publishing rules
 - A git repo → GitHub Pages, branch `main`, root; `index.html` redirects to `Grade_7_Math_Hub.html`. Repo: `github.com/Gabriel-on-the-hill/Grade-7-Math` (this folder is the repo).
 - **Publish only** the web app + docs: `index.html`, the hub, the module HTML files, `README`-style docs, this standard, `Starter_Kit/`.

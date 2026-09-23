@@ -175,7 +175,7 @@ Legend: ✅ covered · ◐ partial · ❌ absent
 | 7.G.1 | 7.GR.A.1 | Scale drawings: actual lengths and areas; reproduce at a different scale | ✅ | §1 `1-1`…`1-4`, including redraw-at-a-new-scale; areas scale by the square of the factor |
 | 7.G.2 | ⚠️ **Math 8** | Construct triangles from three measures; unique / more than one / none | ✅ | §2 `2-1`…`2-4`, triangle inequality and the AAA case |
 | 7.G.3 | 7.GR.A.2 | 2-D figures from slicing 3-D figures | ✅ | §3 prism, pyramid, cylinder; capstone is **real MCAP Q20** |
-| 7.G.4 | 7.GR.B.3 | Area and circumference of a circle; informal derivation of their relationship | ✅ | §4, including the wedge-rearrangement argument for `A = ½ × C × r` |
+| 7.G.4 | 7.GR.B.3 | Area and circumference of a circle; informal derivation of their relationship | ✅ | §4, including the wedge-rearrangement argument for `A = ½ × C × r`, **now drawn** (wedges cut and re-laid, added 30 Aug 2026) |
 | 7.G.5 | ⚠️ **Math 8** | Supplementary / complementary / vertical / adjacent angles → **write and solve equations** | ✅ | §5 `5-1`…`5-4`, every one as an equation |
 | 7.G.6 | 7.GR.B.4 | Area, volume, surface area of composite 2-D and 3-D objects | ✅ | §6; capstone is **real MCAP Q28** (L-shaped prism, figure rebuilt from the rendered page); modelling capstone `7-4` is **real MCAP Q18** (ceramic-tile count, unit conversion) |
 
