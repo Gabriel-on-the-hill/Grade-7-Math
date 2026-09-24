@@ -18,19 +18,18 @@ The house rules for **how we teach** are in the root [AGENTS.md](../AGENTS.md), 
 - *"Flow builds up. No advanced concept before its prerequisite"* — mastery gating (root rule 2;
   `M5`/`CD-2`).
 - *"Hints sparingly — and strategy-only … must never finish the computation or contain the final
-  answer"* — **never lower the bar** (root rule 2; `FS-2`), and the v1.4.2 hint-integrity release
-  shows you already treat a give-away hint as a mastery-tracking corruption (`M1`). Hold that line.
+  answer"* — **never lower the bar** (root rule 2; `FS-2`). A give-away hint is a mastery-tracking
+  corruption (`M1`); the standard's hint-integrity notes cover it. Hold that line.
 - *"Low stress, high rigor"* — warmth is the tone, not a lowered standard (root rule 5).
 
 If a change would soften a standard to make a lesson feel easier, that is the one move the whole
 system exists to prevent.
 
-## The gap this hub has closed: spacing
+## Spacing: how this hub brings topics back
 
-This hub used to track mastery per topic (`attempts`, `correct`, `skillStats`, `struggles`,
-`lastPracticed`) and then **never bring a topic back** — the bar went green and the topic was quietly
-forgotten (root rule 3; `MR-1`, the largest effect in the learning literature). That is now closed, in
-three parts:
+Tracking mastery per topic (`attempts`, `correct`, `skillStats`, `struggles`, `lastPracticed`) is not
+enough on its own: a bar that goes green with nothing bringing the topic back means it is quietly
+forgotten (root rule 3; `MR-1`, the largest effect in the learning literature). Three parts handle it:
 
 1. **The hub surfaces "Due for review"** on a `1 → 3 → 7 → 21 → 42` day ladder over `lastPracticed`,
    most-overdue first, never listing an unstarted topic, and always separate from the (monotonic)
@@ -63,14 +62,12 @@ and their state in a tutor-facing `LEDGER.md` inside it — never in anything th
 Grade 8 (`../Grade 8`) shares this engine and prefix. A fix here is **not** a fix there — change
 both, check both.
 
-**They are one engine again (16 Jul 2026).** Grade 8 had run ahead: it grew the v1.5 cloud-sync layer
-while this hub stayed local-only. That layer is now ported back here — same merge rules, same
-last-write-wins on `lastPracticed`, same auth — so neither grade is "the newer one." Both file to
+**They share one engine, cloud sync included** — same merge rules, same last-write-wins on
+`lastPracticed`, same auth. Neither grade is "the newer one." Both file to
 **one shared Apps Script deployment**, namespaced by hub id (`grade7` / `grade8`); do not deploy a
 second backend. See [HUB_Google_Sheet_Setup.md](HUB_Google_Sheet_Setup.md) and
 [PROJECT_STANDARD.md](PROJECT_STANDARD.md) §4.
 
-Drift is the standing risk here, and it is expensive: the parent/child direction has already inverted
-once (spaced review was built in Grade 8, sync in Grade 8, both ported back). When you touch the
-engine, prefer changing `Module_Template.html` and porting by **extracting** its blocks into the
+Drift between the two is the standing risk, and it is expensive. When you touch the
+engine, change `Module_Template.html` and port by **extracting** its blocks into the
 stamped copies rather than retyping — a hand-edited copy is how a `schedulePush` goes missing.
